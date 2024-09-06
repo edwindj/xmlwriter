@@ -59,9 +59,9 @@
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p><code>list_to_xml_node</code> is a much faster implementation of <code>xml2::as_xml_document.list()</code> method.
-It writes the xml directly to a string and then reads it back into an <code>xml2::xml_node</code>.
-Note that it returns the root node of the document, not the document itself.
-It therefore can be used to create fragments or single nodes.</p>
+It writes the xml directly to a string buffer and then reads it back into an <code>xml2::xml_document</code>.
+It can be used to create fragments or single nodes, but <code><a href="xml_fragment.html">xml_fragment()</a></code>
+provides a more convenient interface.</p>
 <p>The function can be used in tandem with <code>xml2::as_list()</code> to convert R data structures.</p>
     </div>
     <div class="section level2">
@@ -115,7 +115,7 @@ It therefore can be used to create fragments or single nodes.</p>
 <span class="r-in"><span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">unclass</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="list_as_xml_string.html">list_as_xml_string</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "&lt;study id='1'&gt;&lt;person&gt;&lt;name&gt;John Doe&lt;/name&gt;&lt;age&gt;30&lt;/age&gt;&lt;/person&gt;&lt;person&gt;&lt;name&gt;Jane Doe&lt;/name&gt;&lt;age&gt;25&lt;/age&gt;&lt;/person&gt;This is a text node&lt;/study&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "&lt;study id=\"1\"&gt;&lt;person&gt;&lt;name&gt;John Doe&lt;/name&gt;&lt;age&gt;30&lt;/age&gt;&lt;/person&gt;&lt;person&gt;&lt;name&gt;Jane Doe&lt;/name&gt;&lt;age&gt;25&lt;/age&gt;&lt;/person&gt;This is a text node&lt;/study&gt;"</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
