@@ -106,9 +106,9 @@ public:
       if (name.at(0) == '.'){
         name = name.substr(1);
       }
-      _ss << " " << name << "='";
+      _ss << " " << name << "=\"";
       write_encoded(attr);
-      _ss << "'";
+      _ss << "\"";
     }
   }
 

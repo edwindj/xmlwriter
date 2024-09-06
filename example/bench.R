@@ -31,3 +31,31 @@ microbenchmark(
   create_xml_doc3(doc_list),
   times = 1
 )
+
+
+lcpp <- data_to_list_cpp()
+
+data_to_list_R <- function(x, row="row"){
+  m <- as.matrix(x)
+  storage.mode(m) <- "character"
+
+  l <- m |>
+    apply(1, lapply, as.list) |>
+    setNames(rep(row, nrow(x)))
+
+  l
+}
+
+microbenchmark(
+  cpp = dataframe_xml_list(iris, "obs"),
+  R = data_to_list_R(iris, "obs"),
+  times = 100
+)
+
+lr <- data_to_list_R(iris[1:5], "obs")
+
+lr |> list_as_xml_string()
+
+class(lr) <- "xml_fragment"
+
+lr |> as_xml_document()

@@ -11,26 +11,28 @@ status](https://www.r-pkg.org/badges/version/xmlwriter)](https://CRAN.R-project.
 <!-- badges: end -->
 
 `xmlwriter` is an R package that provides a simple interface for
-creating XML documents and fragments from R. It has a feed-forward API
-that allows you to write xml in the same order as it appears in an xml
-document or fragment. Its main goal is to provide a simple and fast way
-to create xml documents and fragments.
+creating XML documents and fragments from R. It provides a simple
+elegant syntax for creating `xml_fragment`s and contains a feed-forward
+API that allows you to write xml in the same order as the xml elements
+appear in an xml document or fragment. The main goal of `xmlwriter` is
+to provide a simple and fast way to create xml documents and fragments.
 
-`xmlwriter` can be used as a companion to R package
-[`xml2`](https://cran.r-project.org/package=xml2), which is a wonderful
-package optimized for parsing, querying and manipulating XML documents.
-`xml2` provides several ways for creating xml documents, but it is not
-optimized for generating and writing xml.
+`xmlwriter` can be used as a companion to R packages
+[`XML`](https://cran.r-project.org/package=XML) or
+[`xml2`](https://cran.r-project.org/package=xml2) which are both
+wonderful packages optimized for parsing, querying and manipulating XML
+documents. Both `XML` and `xml2` provide several ways for creating xml
+documents, but they are not optimized for generating and writing xml.
 
-Creating xml documents with `xml2` can be a bit cumbersome, because it
-mostly forces the author to manipulate the xml document tree adding
-nodes and attributes. It *does* provide a way to create xml documents
-from R data structures using nested lists. This is a very powerful
-feature, but not optimized for speed and readability.
+Creating xml documents with `XML` and `xml2` can be a bit cumbersome,
+because it mostly forces the author to manipulate the xml document tree
+by adding nodes and attributes. `xml2` *does* provide a way to create
+xml documents from R data structures using nested lists which is a
+powerful feature, but currently not optimized for speed or readability.
 
-`xmlwriter` provides a more natural interface for creating xml
-documents, that mimicks the way xml is written in a text editor. It has
-two different ways to create xml documents:
+`xmlwriter` provides an intuitive interface for creating xml documents,
+that mimicks the way xml is written in a text editor. It has two
+different ways to create xml documents:
 
 - a light weight R syntax using `xml_fragment` and `.elem` functions,
   creating an `xml_fragment`, that can be easily translated into a xml
@@ -73,7 +75,8 @@ fragment <- xml_fragment(
 )
 
 print(fragment)
-#> <persoon id='1'><name>John Doe</name><age>30</age><address><street>123 Main St</street><city>Anytown</city><state>CA</state><zip>12345</zip></address></persoon>
+#> {xml_fragment}
+#> <persoon id="1"><name>John Doe</name><age>30</age><address><street>123 Main St</street><city>Anytown</city><state>CA</st...
 ```
 
 ``` r
@@ -91,6 +94,28 @@ fragment |> as_xml_nodeset()
 #> [1] <persoon id="1">\n  <name>John Doe</name>\n  <age>30</age>\n  <address>\n ...
 ```
 
+`xml_fragment` also provides a `.data` function that can be used to
+convert a data.frame to xml:
+
+``` r
+data <- data.frame(
+  name = c("John Doe", "Jane Doe"),
+  age = c(30, 25),
+  stringsAsFactors = FALSE
+)
+
+doc <- xml_fragment(
+  homeless = .elem(
+    .attr = c(year = "1900"),
+    data = .data(data, row_tag = "person")
+  )
+)
+
+doc
+#> {xml_fragment}
+#> <homeless year="1900"><data><person><name>John Doe</name><age>30</age></person><person><name>Jane Doe</name><age>25</age...
+```
+
 ### Using `xmlbuilder` object
 
 ``` r
@@ -98,31 +123,40 @@ library(xmlwriter)
 
 b <- xmlbuilder(allow_fragments = FALSE)
 b$comment("This is an xml comment")
-b$start("person", id = "1")
-  b$element("name", "John Doe")
-  b$element("age", 30)
-  b$start("address")
-    b$element("street", "123 Main St")
-    b$element("city", "Anytown")
-    b$element("state", "CA")
-    b$element("zip", 12345)
-  b$end()
-b$start("person", id = "1")
-  b$element("name", "John Doe")
-  b$element("age", 30)
-  b$start("address")
-    b$element("street", "123 Main St")
-    b$element("city", "Anytown")
-    b$element("state", "CA")
-    b$element("zip", 12345)
+b$start("homeless")
+  b$start("person", id = "1")
+    b$element("name", "John Doe")
+    b$element("age", 30)
+    b$start("address")
+      b$element("street", "123 Main St")
+      b$element("city", "Anytown")
+      b$element("state", "CA")
+      b$element("zip", 12345)
+    b$end()
+  b$start("person", id = "1")
+    b$element("name", "John Doe")
+    b$element("age", 30)
+    b$start("address")
+      b$element("street", "123 Main St")
+      b$element("city", "Anytown")
+      b$element("state", "CA")
+      b$element("zip", 12345)
+    b$end()
   b$end()
 b$end()
 
 # includes a xml prolog and comment
-b$to_xml_string()
+b
+#> {xmlbuilder}
 #> Warning in xmlbuilder_to_string(xb$x): There are still open tags. Closing them
 #> now.
-#> [1] "<?xml version='1.0' encoding='UTF-8'?><!--This is an xml comment--><person id='1'><name>John Doe</name><age>30</age><address><street>123 Main St</street><city>Anytown</city><state>CA</state><zip>12345</zip></address><person id='1'><name>John Doe</name><age>30</age><address><street>123 Main St</street><city>Anytown</city><state>CA</state><zip>12345</zip></address></person></person>"
+#> <?xml version='1.0' encoding='UTF-8'?><!--This is an xml comment--><homeless><person id="1"><name>John Doe</name><age>30</age><address><street>123 Main St</street><city>Anytown</city><state>CA</state><zip>12345</zip></address><person id="1"><name>John Doe</name><age>30</age><address><street>123 Main St</street><city>Anytown</city><state>CA</state><zip>12345</zip></address></person></person></homeless>
+```
+
+``` r
+
+as.character(b)
+#> [1] "<?xml version='1.0' encoding='UTF-8'?><!--This is an xml comment--><homeless><person id=\"1\"><name>John Doe</name><age>30</age><address><street>123 Main St</street><city>Anytown</city><state>CA</state><zip>12345</zip></address><person id=\"1\"><name>John Doe</name><age>30</age><address><street>123 Main St</street><city>Anytown</city><state>CA</state><zip>12345</zip></address></person></person></homeless>"
 ```
 
 ``` r
@@ -130,11 +164,8 @@ b$to_xml_string()
 # only contains the actual nodes
 xml2::as_xml_document(b)
 #> {xml_document}
-#> <person id="1">
-#> [1] <name>John Doe</name>
-#> [2] <age>30</age>
-#> [3] <address>\n  <street>123 Main St</street>\n  <city>Anytown</city>\n  <sta ...
-#> [4] <person id="1">\n  <name>John Doe</name>\n  <age>30</age>\n  <address>\n  ...
+#> <homeless>
+#> [1] <person id="1">\n  <name>John Doe</name>\n  <age>30</age>\n  <address>\n  ...
 ```
 
 # Performance
@@ -166,9 +197,9 @@ microbenchmark(
 #> xml2::as_xml_document(doc_list2), : less accurate nanosecond times to avoid
 #> potential integer overflows
 #> Unit: milliseconds
-#>       expr        min         lq      mean     median         uq        max
-#>       xml2 2417.94798 2440.25551 2456.7871 2453.37936 2469.68826 2515.33959
-#>  xmlwriter   35.26927   37.12788   38.6148   37.64495   40.21095   42.90047
+#>       expr       min         lq       mean     median         uq       max
+#>       xml2 2403.9226 2438.80058 2461.07102 2450.85067 2500.64465 2525.6305
+#>  xmlwriter   35.4807   37.08573   38.62547   37.34393   41.08995   44.7497
 #>  neval
 #>     10
 #>     10

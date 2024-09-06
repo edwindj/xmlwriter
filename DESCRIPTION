@@ -4,7 +4,7 @@ Version: 0.1.0.9000
 Authors@R: 
     person("Edwin", "de Jonge", , "edwindjonge@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-6580-4718"))
-Description: Provides several simple and fast interfaces for generating XML fragments and documents. It can be used in companion with 'xml2' to generate XML documents. The fast generator is built using the 'Rcpp' package. 
+Description: Provides several simple and fast interfaces for generating XML fragments and documents. It can be used in companion with R packages 'XML' or 'xml2' to generate XML documents. The fast generator is built using the 'Rcpp' package. 
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)

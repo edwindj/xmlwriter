@@ -1,4 +1,3 @@
-#' Create an element with attributes
 #' @rdname xml_fragment
 #' @export
 .elem <- function(..., .attr = character()){
@@ -12,10 +11,40 @@
   n
 }
 
-#' Create an XML fragment
+
+#' @rdname xml_fragment
+#' @export
+#' @param row_tag the name of the row tag
+#' @param df data frame that will be stored as set of xml elements
+.data <- function(df, row_tag = "obs"){
+    m <- as.matrix(df)
+    storage.mode(m) <- "character"
+
+    l <- m |>
+      apply(1, lapply, as.list) |>
+      setNames(rep(row_tag, nrow(df)))
+
+    l
+}
+
+#' simply create an XML fragment
 #'
-#' Create an xml fragment that can be converted fast into to an `xml2::xml_document`
-#' or `character` string
+#' Create an xml fragment using readable R syntax, that can be used to create
+#' an `xml2::xml_document` or as a building block for more complex XML documents.
+#'
+#' An `xml_fragment` is built using
+#' - named `.elem` elements, which can be nested
+#' - `.attr` attributes, which is set on the root element, or on the `.elem` where
+#' it is specified
+#' - unnamed elements, which are added as text nodes.
+#' - `.data` function that can be used to convert a data.frame to an xml fragment
+#'
+#' An `xml_doc` is a special case of an `xml_fragment` that contains exactly one
+#' root element, and errors when this is not the case.
+#'
+#' A resulting `xml_fragment` object can be converted to an `xml2::xml_document` with
+#' [xml2::as_xml_document()] or to a character string with [as.character()]. Both
+#' methods are fast using a performant c++ implementation.
 #' @export
 #' @param ... nest named elements and characters to include in the fragment (see example)
 #' @param .attr attributes to be set on the root element
@@ -100,9 +129,15 @@ as.character.xml_doc <- function(x, use_prolog=TRUE,...){
 
 
 #' @export
-print.xml_fragment <- function(x, ...){
-  cat(x |>
-    list_as_xml_string(), ...)
+print.xml_fragment <- function(x, ..., max_characters = 120){
+  cat("{",paste(class(x), collapse = ","),"}\n", sep="")
+  s <- list_as_xml_string(x)
+  if (nchar(s) <= max_characters) {
+    cat(s)
+  } else {
+    s <- substr(x, 1, max_characters)
+    cat(s, "...", sep="")
+  }
 }
 
 .text <- function(text){

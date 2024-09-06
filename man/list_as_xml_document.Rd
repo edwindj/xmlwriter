@@ -19,9 +19,9 @@ an \code{xml2::xml_document}
 }
 \details{
 \code{list_to_xml_node} is a much faster implementation of \code{xml2::as_xml_document.list()} method.
-It writes the xml directly to a string and then reads it back into an \code{xml2::xml_node}.
-Note that it returns the root node of the document, not the document itself.
-It therefore can be used to create fragments or single nodes.
+It writes the xml directly to a string buffer and then reads it back into an \code{xml2::xml_document}.
+It can be used to create fragments or single nodes, but \code{\link[=xml_fragment]{xml_fragment()}}
+provides a more convenient interface.
 
 The function can be used in tandem with \code{\link[xml2:as_list]{xml2::as_list()}} to convert R data structures.
 }

@@ -3,9 +3,9 @@
 #' `list_as_xml_document` is fast and efficient way to convert a list to an `xml2::xml_node`.
 #'
 #' `list_to_xml_node` is a much faster implementation of `xml2::as_xml_document.list()` method.
-#' It writes the xml directly to a string and then reads it back into an `xml2::xml_node`.
-#' Note that it returns the root node of the document, not the document itself.
-#' It therefore can be used to create fragments or single nodes.
+#' It writes the xml directly to a string buffer and then reads it back into an `xml2::xml_document`.
+#' It can be used to create fragments or single nodes, but [xml_fragment()]
+#' provides a more convenient interface.
 #'
 #' The function can be used in tandem with [xml2::as_list()] to convert R data structures.
 #' @family xml2

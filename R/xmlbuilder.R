@@ -79,8 +79,20 @@ xmlbuilder <- function(allow_fragments = TRUE, use_prolog = !allow_fragments){
 }
 
 #' @export
-print.xmlbuilder <- function(x, ...){
-  cat(x$to_xml_string(), ...)
+print.xmlbuilder <- function(x, ..., max_characters = 120){
+  cat("{xmlbuilder}\n")
+  s <- x$to_xml_string()
+  if (length(s) <= max_characters) {
+    cat(s)
+  } else {
+    s <- substr(s, 1, max_characters)
+    cat(s, "...", sep="")
+  }
+}
+
+#' @export
+as.character.xmlbuilder <- function(x, ...){
+  x$to_xml_string()
 }
 
 #' @exportS3Method xml2::as_xml_document
@@ -88,5 +100,10 @@ as_xml_document.xmlbuilder <- function(x, ...){
   if (requireNamespace("xml2", quietly = TRUE) == FALSE){
     stop("xml2 package is required to convert xmlbuilder object to xml_document")
   }
-  xml2::read_xml(x$to_xml_string(), ...)
+  s <- x$to_xml_string()
+  if (length(s) > 1){
+    warning("The xml fragment has multiple roots and cannot be converted into an xml_document.\n
+Converted the first element...", call. = FALSE)
+  }
+  xml2::read_xml(s[1])
 }

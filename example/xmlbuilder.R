@@ -9,15 +9,16 @@ b$start("root")
   b$end()
 b$end()
 
-s <- b$to_xml_string()
-print(s)
+print(b)
 
 if (require("xml2")) {
   # a builder can be converted to an xml_document using
   doc <- as_xml_document(b)
 
   # or equivalentlty
-  doc <- read_xml(s)
+  doc <-
+    b$to_xml_string() |>
+    read_xml()
 }
 
 # build some xml fragments
@@ -39,6 +40,7 @@ fms$start("person", id = "3")
 fms$end()
 
 s <- fms$to_xml_string()
+as.character(fms)
 length(s) # three fragments
 
 # print xml string of the second fragment

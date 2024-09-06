@@ -2,10 +2,12 @@
 
 S3method(as.character,xml_doc)
 S3method(as.character,xml_fragment)
+S3method(as.character,xmlbuilder)
 S3method(print,xml_fragment)
 S3method(print,xmlbuilder)
 S3method(xml2::as_xml_document,xml_fragment)
 S3method(xml2::as_xml_document,xmlbuilder)
+export(.data)
 export(.elem)
 export(as_xml_nodeset)
 export(list_as_xml_document)

@@ -2,8 +2,29 @@
 using namespace std;
 using namespace Rcpp;
 
+inline void write_encode(stringstream& ss, std::string text){
+  std::string out;
+  for (int i = 0; i < text.size(); i++){
+    char c = text[i];
+    if (c == '<'){
+      ss << "&lt;";
+    } else if (c == '>'){
+      ss << "&gt;";
+    } else if (c == '&'){
+      ss << "&amp;";
+    } else if (c == '"'){
+      ss << "&quot;";
+    } else if (c == '\''){
+      ss << "&apos;";
+    } else {
+      ss << c;
+    }
+  }
+}
+
+
 // returns true if the attributes contain names (means xml_childs...)
-bool write_attributes(std::stringstream& xml_builder, List xml){
+bool write_attributes(std::stringstream& ss, List xml){
   //Rcout << "attributes: " << endl;
   bool has_names = false;
   for(auto& name : xml.attributeNames()){
@@ -19,28 +40,29 @@ bool write_attributes(std::stringstream& xml_builder, List xml){
       name = name.substr(1);
     }
     // filter out names that are not attributes
-    xml_builder << " " << name << "='" << attr << "'";
+    ss << " " << name << "=\"" << attr << "\"";
   }
   return has_names;
 }
 
-void write_text_node(std::stringstream& xml_builder, List node){
-  xml_builder << as<std::string>(node(0));
+// assumes that the node contains a character vector...
+void write_text_node(std::stringstream& ss, List node){
+  write_encode(ss, as<std::string>(node(0)));
 }
 
-void write_childnode(std::stringstream& xml_builder, std::string tag, List xml){
+void write_childnode(std::stringstream& ss, std::string tag, List xml){
   //Rcout << "tag: <" << tag << ">" << endl;
 
   //opening tag
-  xml_builder << "<" << tag;
+  ss << "<" << tag;
 
-  bool has_names = write_attributes(xml_builder, xml);
+  bool has_names = write_attributes(ss, xml);
 
   if (xml.size() == 0){
-    xml_builder << "/>";
+    ss << "/>";
     return;
   }
-  xml_builder << ">";
+  ss << ">";
   //opening tag
 
   // we proceed with the childnodes
@@ -54,17 +76,19 @@ void write_childnode(std::stringstream& xml_builder, std::string tag, List xml){
     //Rcout << "node: " << i << endl;
     List child = xml[i];
     if (has_names && tags(i) != ""){
-      write_childnode(xml_builder, as<std::string>(tags(i)), child);
+      write_childnode(ss, as<std::string>(tags(i)), child);
     } else {
-      write_text_node(xml_builder, child);
+      write_text_node(ss, child);
     }
   }
-  xml_builder << "</" << tag << ">";
+  ss << "</" << tag << ">";
 }
+
+
 
 // [[Rcpp::export("rcpp_list_to_xml_string")]]
 std::string list_to_xml_string(List xml){
-  std::stringstream xml_builder;
+  std::stringstream ss;
 
   // expect root elements, no attributes
   CharacterVector tags;
@@ -78,12 +102,12 @@ std::string list_to_xml_string(List xml){
     if (tags.length() == 0 || tags(i) == ""){
       //text node
       auto text = as<std::string>(node(i));
-      xml_builder << text;
+      write_encode(ss, text);
       continue;
     }
-    write_childnode(xml_builder, as<std::string>(tags(i)), node);
+    write_childnode(ss, as<std::string>(tags(i)), node);
   }
-  return std::string(xml_builder.str());
+  return std::string(ss.str());
 }
 
 
@@ -100,6 +124,6 @@ s
 read_xml(s)  |> as_list() |> str()
 
 # more difficult
-l <- read_xml("<root names='test'><child dim='2'></child></root>") |> as_list()
+l <- read_xml("<root names='test'><child dim='2'></child>content</root>") |> as_list()
 rcpp_list_to_xml_string(l)
 */

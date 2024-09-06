@@ -2,11 +2,14 @@
 % Please edit documentation in R/xml_fragment.R
 \name{.elem}
 \alias{.elem}
+\alias{.data}
 \alias{xml_fragment}
 \alias{xml_doc}
-\title{Create an element with attributes}
+\title{simply create an XML fragment}
 \usage{
 .elem(..., .attr = character())
+
+.data(df, row_tag = "obs")
 
 xml_fragment(..., .attr = character())
 
@@ -16,14 +19,35 @@ xml_doc(..., .attr = character())
 \item{...}{nest named elements and characters to include in the fragment (see example)}
 
 \item{.attr}{attributes to be set on the root element}
+
+\item{df}{data frame that will be stored as set of xml elements}
+
+\item{row_tag}{the name of the row tag}
 }
 \value{
 an \code{xml_fragment}, list object that can be converted to an \code{xml2::xml_document}
 or \code{character} string
 }
 \description{
-Create an xml fragment that can be converted fast into to an \code{xml2::xml_document}
-or \code{character} string
+Create an xml fragment using readable R syntax, that can be used to create
+an \code{xml2::xml_document} or as a building block for more complex XML documents.
+}
+\details{
+An \code{xml_fragment} is built using
+\itemize{
+\item named \code{.elem} elements, which can be nested
+\item \code{.attr} attributes, which is set on the root element, or on the \code{.elem} where
+it is specified
+\item unnamed elements, which are added as text nodes.
+\item \code{.data} function that can be used to convert a data.frame to an xml fragment
+}
+
+An \code{xml_doc} is a special case of an \code{xml_fragment} that contains exactly one
+root element, and errors when this is not the case.
+
+A resulting \code{xml_fragment} object can be converted to an \code{xml2::xml_document} with
+\code{\link[xml2:as_xml_document]{xml2::as_xml_document()}} or to a character string with \code{\link[=as.character]{as.character()}}. Both
+methods are fast using a performant c++ implementation.
 }
 \examples{
 doc <- xml_fragment(
@@ -89,4 +113,18 @@ if (require("xml2")){
   as_xml_nodeset(fgmt)
 }
 
+iris_xml <- xml_doc(
+  fieldstudy = .elem(
+    .attr = c(id = "iris", doi ="10.1111/j.1469-1809.1936.tb02137.x"),
+    source = "Fisher, R. A. (1936) The use of multiple measurements in
+taxonomic problems. Annals of Eugenics, 7, Part II, 179–188.",
+    data = .data(iris, row_tag = "obs")
+  )
+)
+
+print(iris_xml, max_characters = 300)
+
+if (require("xml2")){
+  as_xml_document(iris_xml)
+}
 }

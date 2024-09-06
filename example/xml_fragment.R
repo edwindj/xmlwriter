@@ -61,3 +61,17 @@ if (require("xml2")){
   as_xml_nodeset(fgmt)
 }
 
+iris_xml <- xml_doc(
+  fieldstudy = .elem(
+    .attr = c(id = "iris", doi ="10.1111/j.1469-1809.1936.tb02137.x"),
+    source = "Fisher, R. A. (1936) The use of multiple measurements in
+taxonomic problems. Annals of Eugenics, 7, Part II, 179–188.",
+    data = .data(iris, row_tag = "obs")
+  )
+)
+
+print(iris_xml, max_characters = 300)
+
+if (require("xml2")){
+  as_xml_document(iris_xml)
+}
