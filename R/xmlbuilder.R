@@ -10,15 +10,15 @@
 #' - `$comment(comment)` creates a comment node.
 #' - `$to_xml_string()` returns the XML document or fragments(s) as a character vector.
 #'
+#' @param allow_fragments logical. Should a warning be issued if the XML document has multiple root elements?
+#' Set to `FALSE` to suppress when creating multiple xml fragments.
 #' @param use_prolog logical. Should the XML prolog be included in the output?
 #' Default is `TRUE`, which generate an UTF-8 xml prolog.
 #' Set to `FALSE` if you want to generate an xml fragment or manually prepend the prolog.
-#' @param single_root_warn logical. Should a warning be issued if the XML document has multiple root elements?
-#' Set to `FALSE` to suppress when creating multiple xml fragments.
 #' @return An object of class `xmlbuilder
 #' @example example/xmlbuilder.R
 #' @export
-xmlbuilder <- function(use_prolog = TRUE, single_root_warn = TRUE){
+xmlbuilder <- function(allow_fragments = TRUE, use_prolog = !allow_fragments){
   xb <- new.env()
 
   xb$x <- xmlbuilder_create(use_prolog)
@@ -59,7 +59,7 @@ xmlbuilder <- function(use_prolog = TRUE, single_root_warn = TRUE){
 
   xb$to_xml_string <- function(){
     s <- xmlbuilder_to_string(xb$x)
-    if (single_root_warn && length(s) > 1){
+    if (length(s) > 1 && !allow_fragments){
       warning("Multiple root elements detected. XML requires a single root element. \nReturning character vector with multiple roots.", call. = FALSE)
     }
     s

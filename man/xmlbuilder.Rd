@@ -4,15 +4,15 @@
 \alias{xmlbuilder}
 \title{Create an fast feed-forward XML builder}
 \usage{
-xmlbuilder(use_prolog = TRUE, single_root_warn = TRUE)
+xmlbuilder(allow_fragments = TRUE, use_prolog = !allow_fragments)
 }
 \arguments{
+\item{allow_fragments}{logical. Should a warning be issued if the XML document has multiple root elements?
+Set to \code{FALSE} to suppress when creating multiple xml fragments.}
+
 \item{use_prolog}{logical. Should the XML prolog be included in the output?
 Default is \code{TRUE}, which generate an UTF-8 xml prolog.
 Set to \code{FALSE} if you want to generate an xml fragment or manually prepend the prolog.}
-
-\item{single_root_warn}{logical. Should a warning be issued if the XML document has multiple root elements?
-Set to \code{FALSE} to suppress when creating multiple xml fragments.}
 }
 \value{
 An object of class `xmlbuilder
@@ -54,8 +54,8 @@ if (require("xml2")) {
   doc <- read_xml(s)
 }
 
-# build some fragments
-fms <- xmlbuilder(use_prolog = FALSE, single_root_warn = FALSE)
+# build some xml fragments
+fms <- xmlbuilder(allow_fragments = TRUE)
 
 fms$start("person", id = "1")
   fms$element("name", "John Doe")

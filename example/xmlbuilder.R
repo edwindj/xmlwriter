@@ -20,8 +20,8 @@ if (require("xml2")) {
   doc <- read_xml(s)
 }
 
-# build some fragments
-fms <- xmlbuilder(use_prolog = FALSE, single_root_warn = FALSE)
+# build some xml fragments
+fms <- xmlbuilder(allow_fragments = TRUE)
 
 fms$start("person", id = "1")
   fms$element("name", "John Doe")
