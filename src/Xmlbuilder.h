@@ -86,7 +86,7 @@ public:
       Rcpp::stop("write_attributes can only be called directly after start_tag.");
     }
 
-    if (R_NilValue == att.names()){
+    if (R_NilValue == att.attr("names")){
       return;
     }
 
