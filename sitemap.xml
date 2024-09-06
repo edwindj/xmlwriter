@@ -3,9 +3,12 @@
 <url><loc>https://edwindj.github.io/xmlwriter/LICENSE.html</loc></url>
 <url><loc>https://edwindj.github.io/xmlwriter/authors.html</loc></url>
 <url><loc>https://edwindj.github.io/xmlwriter/index.html</loc></url>
+<url><loc>https://edwindj.github.io/xmlwriter/reference/as.character.xml_fragment.html</loc></url>
+<url><loc>https://edwindj.github.io/xmlwriter/reference/as_xml_nodeset.html</loc></url>
 <url><loc>https://edwindj.github.io/xmlwriter/reference/index.html</loc></url>
-<url><loc>https://edwindj.github.io/xmlwriter/reference/list_to_xml_node.html</loc></url>
-<url><loc>https://edwindj.github.io/xmlwriter/reference/list_to_xml_string.html</loc></url>
+<url><loc>https://edwindj.github.io/xmlwriter/reference/list_as_xml_document.html</loc></url>
+<url><loc>https://edwindj.github.io/xmlwriter/reference/list_as_xml_string.html</loc></url>
+<url><loc>https://edwindj.github.io/xmlwriter/reference/xml_fragment.html</loc></url>
 <url><loc>https://edwindj.github.io/xmlwriter/reference/xmlbuilder.html</loc></url>
 </urlset>
 
