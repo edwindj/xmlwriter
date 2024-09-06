@@ -5,6 +5,9 @@
 
 <!-- badges: start -->
 
+[![CRAN
+status](https://www.r-pkg.org/badges/version/xmlwriter)](https://CRAN.R-project.org/package=xmlwriter)
+[![R-CMD-check](https://github.com/edwindj/xmlwriter/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/edwindj/xmlwriter/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 xmlwriter is a package that provides a simple interface for creating XML
@@ -88,9 +91,9 @@ microbenchmark(
 #> xmlwriter::list_to_xml_node(doc_list), : less accurate nanosecond times to
 #> avoid potential integer overflows
 #> Unit: milliseconds
-#>       expr       min         lq      mean     median         uq        max
-#>       xml2 2398.2886 2431.66125 2450.1169 2455.84160 2471.88426 2482.95073
-#>  xmlwriter   35.4142   36.93747   42.5319   40.18203   41.01558   75.67243
+#>       expr        min         lq       mean     median         uq        max
+#>       xml2 2382.49877 2435.03289 2477.99833 2450.40631 2536.51026 2613.85266
+#>  xmlwriter   35.03376   35.50756   37.73524   37.07158   40.14232   40.73707
 #>  neval
 #>     10
 #>     10

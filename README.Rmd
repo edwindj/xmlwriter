@@ -16,6 +16,8 @@ knitr::opts_chunk$set(
 # xmlwriter
 
 <!-- badges: start -->
+[![CRAN status](https://www.r-pkg.org/badges/version/xmlwriter)](https://CRAN.R-project.org/package=xmlwriter)
+[![R-CMD-check](https://github.com/edwindj/xmlwriter/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/edwindj/xmlwriter/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 xmlwriter is a package that provides a simple interface for creating XML documents 
