@@ -147,6 +147,7 @@ public:
       _ss.str("");
       _ss.clear();
     }
+
   }
 
   void text_node(std::string text){
