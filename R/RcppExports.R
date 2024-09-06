@@ -45,6 +45,10 @@ xmlbuilder_write_dataframe <- function(xb, df, row_tag = "row", dataframe_tag = 
     invisible(.Call(`_xmlwriter_xmlbuilder_write_dataframe`, xb, df, row_tag, dataframe_tag))
 }
 
+dataframe_xml_list <- function(df, row_tag) {
+    .Call(`_xmlwriter_dataframe_xml_list`, df, row_tag)
+}
+
 rcpp_list_to_xml_string <- function(xml) {
     .Call(`_xmlwriter_list_to_xml_string`, xml)
 }

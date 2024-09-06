@@ -2,7 +2,7 @@
 % Please edit documentation in R/xmlbuilder.R
 \name{xmlbuilder}
 \alias{xmlbuilder}
-\title{Create an fast feed-forward XML builder}
+\title{Create a fast feed-forward XML builder}
 \usage{
 xmlbuilder(allow_fragments = TRUE, use_prolog = !allow_fragments)
 }

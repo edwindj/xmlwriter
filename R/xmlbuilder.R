@@ -1,4 +1,4 @@
-#' Create an fast feed-forward XML builder
+#' Create a fast feed-forward XML builder
 #'
 #' This function creates an XML builder that allows you to create XML documents in a feed-forward manner.
 #' `xmlbuilder` returns an object that has methods to create XML elements, text nodes, comments, and more.

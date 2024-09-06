@@ -136,6 +136,18 @@ BEGIN_RCPP
     return R_NilValue;
 END_RCPP
 }
+// dataframe_xml_list
+List dataframe_xml_list(DataFrame df, std::string row_tag);
+RcppExport SEXP _xmlwriter_dataframe_xml_list(SEXP dfSEXP, SEXP row_tagSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< DataFrame >::type df(dfSEXP);
+    Rcpp::traits::input_parameter< std::string >::type row_tag(row_tagSEXP);
+    rcpp_result_gen = Rcpp::wrap(dataframe_xml_list(df, row_tag));
+    return rcpp_result_gen;
+END_RCPP
+}
 // list_to_xml_string
 std::string list_to_xml_string(List xml);
 RcppExport SEXP _xmlwriter_list_to_xml_string(SEXP xmlSEXP) {
@@ -160,6 +172,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_xmlwriter_xmlbuilder_write_doctype", (DL_FUNC) &_xmlwriter_xmlbuilder_write_doctype, 2},
     {"_xmlwriter_xmlbuilder_write_processing_instruction", (DL_FUNC) &_xmlwriter_xmlbuilder_write_processing_instruction, 3},
     {"_xmlwriter_xmlbuilder_write_dataframe", (DL_FUNC) &_xmlwriter_xmlbuilder_write_dataframe, 4},
+    {"_xmlwriter_dataframe_xml_list", (DL_FUNC) &_xmlwriter_dataframe_xml_list, 2},
     {"_xmlwriter_list_to_xml_string", (DL_FUNC) &_xmlwriter_list_to_xml_string, 1},
     {NULL, NULL, 0}
 };

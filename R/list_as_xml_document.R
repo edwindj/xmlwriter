@@ -1,6 +1,6 @@
 #' Convert a list to an xml node
 #'
-#' `list_to_xml_node` is fast and efficient way to convert a list to an `xml2::xml_node`.
+#' `list_as_xml_document` is fast and efficient way to convert a list to an `xml2::xml_node`.
 #'
 #' `list_to_xml_node` is a much faster implementation of `xml2::as_xml_document.list()` method.
 #' It writes the xml directly to a string and then reads it back into an `xml2::xml_node`.
@@ -12,14 +12,14 @@
 #' @param x a list as returned by [xml2::as_list()]
 #' @param ... reserved for future use
 #' @return an `xml2::xml_document`
+#' @example example/list_to_xml_string.R
 #' @export
-list_to_xml_node <- function(x, ...){
+list_as_xml_document <- function(x, ...){
   if (!requireNamespace("xml2", quietly = TRUE)) {
     stop("xml2 is required to use this function")
   }
   s <- rcpp_list_to_xml_string(x)
 
   s |>
-    xml2::read_xml() |>
-    xml2::xml_root()
+    xml2::read_xml()
 }
