@@ -25,13 +25,16 @@ and fragments from R. It has a feed-forward API that allows you to write xml
 in the same order as it appears in the document or fragment.
 
 It can be used as a companion to `xml2`, which is a wonderful package optimized for parsing,
-querying and manipulating XML documents. 
+querying and manipulating XML documents. `xml2` provides several ways in creating
+xml documents, but it is not optimized for writing and creating xml.
 
 Creating xml documents with `xml2` can be a bit cumbersome, because it forces
-the author to manipulate the xml document tree. 
-`xmlwriter` provides a more natural interface for creating xml documents.
-
-`xmlwriter` is built on top of `Rcpp` and is fast.
+the author to manipulate the xml document tree adding nodes and attributes in 
+a recursive manner.
+`xmlwriter` provides a more natural interface for creating xml documents, that
+mimicks the way xml is written in a text editor. 
+`xmlwriter` is built on top of `Rcpp` and is much faster than `xml2` when
+creating xml.
 
 
 ## Installation

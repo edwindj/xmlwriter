@@ -16,13 +16,16 @@ you to write xml in the same order as it appears in the document or
 fragment.
 
 It can be used as a companion to `xml2`, which is a wonderful package
-optimized for parsing, querying and manipulating XML documents.
+optimized for parsing, querying and manipulating XML documents. `xml2`
+provides several ways in creating xml documents, but it is not optimized
+for writing and creating xml.
 
 Creating xml documents with `xml2` can be a bit cumbersome, because it
-forces the author to manipulate the xml document tree. `xmlwriter`
-provides a more natural interface for creating xml documents.
-
-`xmlwriter` is built on top of `Rcpp` and is fast.
+forces the author to manipulate the xml document tree adding nodes and
+attributes in a recursive manner. `xmlwriter` provides a more natural
+interface for creating xml documents, that mimicks the way xml is
+written in a text editor. `xmlwriter` is built on top of `Rcpp` and is
+much faster than `xml2` when creating xml.
 
 ## Installation
 
@@ -92,8 +95,8 @@ microbenchmark(
 #> avoid potential integer overflows
 #> Unit: milliseconds
 #>       expr        min         lq       mean     median         uq        max
-#>       xml2 2382.49877 2435.03289 2477.99833 2450.40631 2536.51026 2613.85266
-#>  xmlwriter   35.03376   35.50756   37.73524   37.07158   40.14232   40.73707
+#>       xml2 2419.47716 2426.38537 2451.04395 2451.71515 2459.04568 2496.96777
+#>  xmlwriter   35.62535   36.66905   37.97071   37.20303   40.75507   41.34834
 #>  neval
 #>     10
 #>     10
