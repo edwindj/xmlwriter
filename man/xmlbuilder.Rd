@@ -28,9 +28,61 @@ This function creates an XML builder that allows you to create XML documents in 
 \item \verb{$element(tag, text, ...)} creates an element with a given tag, text, and attributes.
 \item \verb{$text(text)} creates a text node.
 \item \verb{$comment(comment)} creates a comment node.
-\item \verb{$xml_string()} returns the XML document or fragments(s) as a character vector.
+\item \verb{$to_xml_string()} returns the XML document or fragments(s) as a character vector.
 }
 }
 \examples{
-example/xmlbuilder.R
+b <-xmlbuilder()
+
+b$start("root")
+  b$element("child1", "text1", attr1 = "value1")
+  b$element("child2", "text2", attr2 = "value2")
+  b$start("child3", attr3 = "value3")
+    b$text("text3")
+    b$element("child4", "text3", attr4 = "value4")
+  b$end()
+b$end()
+
+s <- b$to_xml_string()
+print(s)
+
+if (require("xml2")) {
+  # a builder can be converted to an xml_document using
+  doc <- as_xml_document(b)
+
+  # or equivalentlty
+  doc <- read_xml(s)
+}
+
+# build some fragments
+fms <- xmlbuilder(use_prolog = FALSE, single_root_warn = FALSE)
+
+fms$start("person", id = "1")
+  fms$element("name", "John Doe")
+  fms$element("age", 30)
+fms$end()
+
+fms$start("person", id = "2")
+  fms$element("name", "Jane Doe")
+  fms$element("age", 25)
+fms$end()
+
+fms$start("person", id = "3")
+  fms$element("name", "Jim Doe")
+  fms$element("age", 35)
+fms$end()
+
+s <- fms$to_xml_string()
+length(s) # three fragments
+
+# print xml string of the second fragment
+print(s[2])
+
+if (require("xml2")){
+  # convert to xml_nodes
+  nodes <- fms$to_xml_node_list()
+  length(nodes) # three nodes
+  # show the second xml_node
+  print(nodes[[2]])
+}
 }

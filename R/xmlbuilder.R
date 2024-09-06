@@ -8,7 +8,7 @@
 #' - `$element(tag, text, ...)` creates an element with a given tag, text, and attributes.
 #' - `$text(text)` creates a text node.
 #' - `$comment(comment)` creates a comment node.
-#' - `$xml_string()` returns the XML document or fragments(s) as a character vector.
+#' - `$to_xml_string()` returns the XML document or fragments(s) as a character vector.
 #'
 #' @param use_prolog logical. Should the XML prolog be included in the output?
 #' Default is `TRUE`, which generate an UTF-8 xml prolog.
@@ -16,7 +16,7 @@
 #' @param single_root_warn logical. Should a warning be issued if the XML document has multiple root elements?
 #' Set to `FALSE` to suppress when creating multiple xml fragments.
 #' @return An object of class `xmlbuilder
-#' @examples example/xmlbuilder.R
+#' @example example/xmlbuilder.R
 #' @export
 xmlbuilder <- function(use_prolog = TRUE, single_root_warn = TRUE){
   xb <- new.env()
@@ -29,7 +29,7 @@ xmlbuilder <- function(use_prolog = TRUE, single_root_warn = TRUE){
     # invisible(xb)
   }
 
-  # alias
+  # aliases
   xb$start_element <- xb$start
 
   xb$end <- function(){
@@ -42,7 +42,7 @@ xmlbuilder <- function(use_prolog = TRUE, single_root_warn = TRUE){
 
   xb$element <- function(tag, text = NULL, ...){
     attr <- list(...)
-    text <- if(is.null(text)) "" else text
+    text <- if(is.null(text)) "" else as.character(text[1])
     xmlbuilder_write_element(xb$x, tag, text, attr)
     # invisible(xb)
   }
@@ -53,11 +53,11 @@ xmlbuilder <- function(use_prolog = TRUE, single_root_warn = TRUE){
   }
 
   xb$text <- function(text){
-    xmlbuilder_text_node(xb$x, text)
+    xmlbuilder_text_node(xb$x, paste(text, collapse = "\n"))
     # invisible(xb)
   }
 
-  xb$xml_string <- function(){
+  xb$to_xml_string <- function(){
     s <- xmlbuilder_to_string(xb$x)
     if (single_root_warn && length(s) > 1){
       warning("Multiple root elements detected. XML requires a single root element. \nReturning character vector with multiple roots.", call. = FALSE)
@@ -65,11 +65,28 @@ xmlbuilder <- function(use_prolog = TRUE, single_root_warn = TRUE){
     s
   }
 
+  xb$to_xml_node_list <- function(){
+    if (!requireNamespace("xml2", quietly = TRUE)) {
+      stop("xml2 is required to use this function")
+    }
+    s <- xb$to_xml_string()
+    lapply(s, xml2::read_xml)
+  }
+
+  xb$to_xml_node
+
   structure(xb, class="xmlbuilder")
 }
 
 #' @export
 print.xmlbuilder <- function(x, ...){
-  cat(x$xml_string(), ...)
+  cat(x$to_xml_string(), ...)
 }
 
+#' @exportS3Method xml2::as_xml_document
+as_xml_document.xmlbuilder <- function(x, ...){
+  if (requireNamespace("xml2", quietly = TRUE) == FALSE){
+    stop("xml2 package is required to convert xmlbuilder object to xml_document")
+  }
+  xml2::read_xml(x$to_xml_string(), ...)
+}
