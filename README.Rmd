@@ -24,7 +24,9 @@ knitr::opts_chunk$set(
 and fragments from R. It provides a simple elegant syntax for creating `xml_fragment`s and
 contains a feed-forward API that allows you to write xml
 in the same order as the xml elements appear in an xml document or fragment.
-The main goal of `xmlwriter` is to provide a simple and fast way to create xml documents and fragments.
+
+`xmlwriter`'s xml generation much faster, implemented in C++ using [`Rcpp`](https://cran.r-project.org/package=Rcpp). 
+Curious for the benchmarks? Check the [performance section](#performance).
 
 `xmlwriter` can be used as a companion to R packages [`XML`](https://cran.r-project.org/package=XML) or [`xml2`](https://cran.r-project.org/package=xml2) which are both wonderful packages optimized for parsing,
 querying and manipulating XML documents. Both `XML` and `xml2` provide several 

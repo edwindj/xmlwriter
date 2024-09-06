@@ -7,6 +7,6 @@ x$end()
 
 s <- x$to_xml_string()
 
-expect_equal(s, "<person id='1'><name>John Doe</name></person>", info = "single node")
+expect_equal(s, "<person id=\"1\"><name>John Doe</name></person>")
 
 x <- xmlbuilder()

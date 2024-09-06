@@ -14,8 +14,11 @@ status](https://www.r-pkg.org/badges/version/xmlwriter)](https://CRAN.R-project.
 creating XML documents and fragments from R. It provides a simple
 elegant syntax for creating `xml_fragment`s and contains a feed-forward
 API that allows you to write xml in the same order as the xml elements
-appear in an xml document or fragment. The main goal of `xmlwriter` is
-to provide a simple and fast way to create xml documents and fragments.
+appear in an xml document or fragment.
+
+`xmlwriter`’s xml generation much faster, implemented in C++ using
+[`Rcpp`](https://cran.r-project.org/package=Rcpp). Curious for the
+benchmarks? Check the [performance section](#performance).
 
 `xmlwriter` can be used as a companion to R packages
 [`XML`](https://cran.r-project.org/package=XML) or
@@ -197,9 +200,9 @@ microbenchmark(
 #> xml2::as_xml_document(doc_list2), : less accurate nanosecond times to avoid
 #> potential integer overflows
 #> Unit: milliseconds
-#>       expr       min         lq       mean     median         uq       max
-#>       xml2 2403.9226 2438.80058 2461.07102 2450.85067 2500.64465 2525.6305
-#>  xmlwriter   35.4807   37.08573   38.62547   37.34393   41.08995   44.7497
+#>       expr        min         lq       mean     median         uq        max
+#>       xml2 2432.55185 2437.63544 2464.48461 2466.84827 2487.13782 2493.52357
+#>  xmlwriter   35.73605   36.08443   38.22463   37.52226   40.27807   42.31573
 #>  neval
 #>     10
 #>     10
