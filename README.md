@@ -136,14 +136,15 @@ b$start("homeless")
       b$element("state", "CA")
       b$element("zip", 12345)
     b$end()
-  b$start("person", id = "1")
-    b$element("name", "John Doe")
-    b$element("age", 30)
+  b$end()
+  b$start("person", id = "2")
+    b$element("name", "Jane Doe")
+    b$element("age", 25)
     b$start("address")
-      b$element("street", "123 Main St")
+      b$element("street", "321 Main St")
       b$element("city", "Anytown")
       b$element("state", "CA")
-      b$element("zip", 12345)
+      b$element("zip", 54321)
     b$end()
   b$end()
 b$end()
@@ -151,15 +152,13 @@ b$end()
 # includes a xml prolog and comment
 b
 #> {xmlbuilder}
-#> Warning in xmlbuilder_to_string(xb$x): There are still open tags. Closing them
-#> now.
-#> <?xml version='1.0' encoding='UTF-8'?><!--This is an xml comment--><homeless><person id="1"><name>John Doe</name><age>30</age><address><street>123 Main St</street><city>Anytown</city><state>CA</state><zip>12345</zip></address><person id="1"><name>John Doe</name><age>30</age><address><street>123 Main St</street><city>Anytown</city><state>CA</state><zip>12345</zip></address></person></person></homeless>
+#> <?xml version='1.0' encoding='UTF-8'?><!--This is an xml comment--><homeless><person id="1"><name>John Doe</name><age>30</age><address><street>123 Main St</street><city>Anytown</city><state>CA</state><zip>12345</zip></address></person><person id="2"><name>Jane Doe</name><age>25</age><address><street>321 Main St</street><city>Anytown</city><state>CA</state><zip>54321</zip></address></person></homeless>
 ```
 
 ``` r
 
 as.character(b)
-#> [1] "<?xml version='1.0' encoding='UTF-8'?><!--This is an xml comment--><homeless><person id=\"1\"><name>John Doe</name><age>30</age><address><street>123 Main St</street><city>Anytown</city><state>CA</state><zip>12345</zip></address><person id=\"1\"><name>John Doe</name><age>30</age><address><street>123 Main St</street><city>Anytown</city><state>CA</state><zip>12345</zip></address></person></person></homeless>"
+#> [1] "<?xml version='1.0' encoding='UTF-8'?><!--This is an xml comment--><homeless><person id=\"1\"><name>John Doe</name><age>30</age><address><street>123 Main St</street><city>Anytown</city><state>CA</state><zip>12345</zip></address></person><person id=\"2\"><name>Jane Doe</name><age>25</age><address><street>321 Main St</street><city>Anytown</city><state>CA</state><zip>54321</zip></address></person></homeless>"
 ```
 
 ``` r
@@ -169,6 +168,7 @@ xml2::as_xml_document(b)
 #> {xml_document}
 #> <homeless>
 #> [1] <person id="1">\n  <name>John Doe</name>\n  <age>30</age>\n  <address>\n  ...
+#> [2] <person id="2">\n  <name>Jane Doe</name>\n  <age>25</age>\n  <address>\n  ...
 ```
 
 # Performance
@@ -201,8 +201,8 @@ microbenchmark(
 #> potential integer overflows
 #> Unit: milliseconds
 #>       expr        min         lq       mean     median         uq        max
-#>       xml2 2432.55185 2437.63544 2464.48461 2466.84827 2487.13782 2493.52357
-#>  xmlwriter   35.73605   36.08443   38.22463   37.52226   40.27807   42.31573
+#>       xml2 2405.42474 2447.60631 2452.00149 2457.41245 2463.62407 2484.37081
+#>  xmlwriter   35.66405   37.21066   38.20086   37.47166   40.82083   41.16441
 #>  neval
 #>     10
 #>     10
