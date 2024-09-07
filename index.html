@@ -140,14 +140,15 @@
 <span>      <span class="va">b</span><span class="op">$</span><span class="fu">element</span><span class="op">(</span><span class="st">"state"</span>, <span class="st">"CA"</span><span class="op">)</span></span>
 <span>      <span class="va">b</span><span class="op">$</span><span class="fu">element</span><span class="op">(</span><span class="st">"zip"</span>, <span class="fl">12345</span><span class="op">)</span></span>
 <span>    <span class="va">b</span><span class="op">$</span><span class="fu">end</span><span class="op">(</span><span class="op">)</span></span>
-<span>  <span class="va">b</span><span class="op">$</span><span class="fu">start</span><span class="op">(</span><span class="st">"person"</span>, id <span class="op">=</span> <span class="st">"1"</span><span class="op">)</span></span>
-<span>    <span class="va">b</span><span class="op">$</span><span class="fu">element</span><span class="op">(</span><span class="st">"name"</span>, <span class="st">"John Doe"</span><span class="op">)</span></span>
-<span>    <span class="va">b</span><span class="op">$</span><span class="fu">element</span><span class="op">(</span><span class="st">"age"</span>, <span class="fl">30</span><span class="op">)</span></span>
+<span>  <span class="va">b</span><span class="op">$</span><span class="fu">end</span><span class="op">(</span><span class="op">)</span></span>
+<span>  <span class="va">b</span><span class="op">$</span><span class="fu">start</span><span class="op">(</span><span class="st">"person"</span>, id <span class="op">=</span> <span class="st">"2"</span><span class="op">)</span></span>
+<span>    <span class="va">b</span><span class="op">$</span><span class="fu">element</span><span class="op">(</span><span class="st">"name"</span>, <span class="st">"Jane Doe"</span><span class="op">)</span></span>
+<span>    <span class="va">b</span><span class="op">$</span><span class="fu">element</span><span class="op">(</span><span class="st">"age"</span>, <span class="fl">25</span><span class="op">)</span></span>
 <span>    <span class="va">b</span><span class="op">$</span><span class="fu">start</span><span class="op">(</span><span class="st">"address"</span><span class="op">)</span></span>
-<span>      <span class="va">b</span><span class="op">$</span><span class="fu">element</span><span class="op">(</span><span class="st">"street"</span>, <span class="st">"123 Main St"</span><span class="op">)</span></span>
+<span>      <span class="va">b</span><span class="op">$</span><span class="fu">element</span><span class="op">(</span><span class="st">"street"</span>, <span class="st">"321 Main St"</span><span class="op">)</span></span>
 <span>      <span class="va">b</span><span class="op">$</span><span class="fu">element</span><span class="op">(</span><span class="st">"city"</span>, <span class="st">"Anytown"</span><span class="op">)</span></span>
 <span>      <span class="va">b</span><span class="op">$</span><span class="fu">element</span><span class="op">(</span><span class="st">"state"</span>, <span class="st">"CA"</span><span class="op">)</span></span>
-<span>      <span class="va">b</span><span class="op">$</span><span class="fu">element</span><span class="op">(</span><span class="st">"zip"</span>, <span class="fl">12345</span><span class="op">)</span></span>
+<span>      <span class="va">b</span><span class="op">$</span><span class="fu">element</span><span class="op">(</span><span class="st">"zip"</span>, <span class="fl">54321</span><span class="op">)</span></span>
 <span>    <span class="va">b</span><span class="op">$</span><span class="fu">end</span><span class="op">(</span><span class="op">)</span></span>
 <span>  <span class="va">b</span><span class="op">$</span><span class="fu">end</span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">b</span><span class="op">$</span><span class="fu">end</span><span class="op">(</span><span class="op">)</span></span>
@@ -155,20 +156,19 @@
 <span><span class="co"># includes a xml prolog and comment</span></span>
 <span><span class="va">b</span></span>
 <span><span class="co">#&gt; {xmlbuilder}</span></span>
-<span><span class="co">#&gt; Warning in xmlbuilder_to_string(xb$x): There are still open tags. Closing them</span></span>
-<span><span class="co">#&gt; now.</span></span>
-<span><span class="co">#&gt; &lt;?xml version='1.0' encoding='UTF-8'?&gt;&lt;!--This is an xml comment--&gt;&lt;homeless&gt;&lt;person id="1"&gt;&lt;name&gt;John Doe&lt;/name&gt;&lt;age&gt;30&lt;/age&gt;&lt;address&gt;&lt;street&gt;123 Main St&lt;/street&gt;&lt;city&gt;Anytown&lt;/city&gt;&lt;state&gt;CA&lt;/state&gt;&lt;zip&gt;12345&lt;/zip&gt;&lt;/address&gt;&lt;person id="1"&gt;&lt;name&gt;John Doe&lt;/name&gt;&lt;age&gt;30&lt;/age&gt;&lt;address&gt;&lt;street&gt;123 Main St&lt;/street&gt;&lt;city&gt;Anytown&lt;/city&gt;&lt;state&gt;CA&lt;/state&gt;&lt;zip&gt;12345&lt;/zip&gt;&lt;/address&gt;&lt;/person&gt;&lt;/person&gt;&lt;/homeless&gt;</span></span></code></pre></div>
+<span><span class="co">#&gt; &lt;?xml version='1.0' encoding='UTF-8'?&gt;&lt;!--This is an xml comment--&gt;&lt;homeless&gt;&lt;person id="1"&gt;&lt;name&gt;John Doe&lt;/name&gt;&lt;age&gt;30&lt;/age&gt;&lt;address&gt;&lt;street&gt;123 Main St&lt;/street&gt;&lt;city&gt;Anytown&lt;/city&gt;&lt;state&gt;CA&lt;/state&gt;&lt;zip&gt;12345&lt;/zip&gt;&lt;/address&gt;&lt;/person&gt;&lt;person id="2"&gt;&lt;name&gt;Jane Doe&lt;/name&gt;&lt;age&gt;25&lt;/age&gt;&lt;address&gt;&lt;street&gt;321 Main St&lt;/street&gt;&lt;city&gt;Anytown&lt;/city&gt;&lt;state&gt;CA&lt;/state&gt;&lt;zip&gt;54321&lt;/zip&gt;&lt;/address&gt;&lt;/person&gt;&lt;/homeless&gt;</span></span></code></pre></div>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "&lt;?xml version='1.0' encoding='UTF-8'?&gt;&lt;!--This is an xml comment--&gt;&lt;homeless&gt;&lt;person id=\"1\"&gt;&lt;name&gt;John Doe&lt;/name&gt;&lt;age&gt;30&lt;/age&gt;&lt;address&gt;&lt;street&gt;123 Main St&lt;/street&gt;&lt;city&gt;Anytown&lt;/city&gt;&lt;state&gt;CA&lt;/state&gt;&lt;zip&gt;12345&lt;/zip&gt;&lt;/address&gt;&lt;person id=\"1\"&gt;&lt;name&gt;John Doe&lt;/name&gt;&lt;age&gt;30&lt;/age&gt;&lt;address&gt;&lt;street&gt;123 Main St&lt;/street&gt;&lt;city&gt;Anytown&lt;/city&gt;&lt;state&gt;CA&lt;/state&gt;&lt;zip&gt;12345&lt;/zip&gt;&lt;/address&gt;&lt;/person&gt;&lt;/person&gt;&lt;/homeless&gt;"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "&lt;?xml version='1.0' encoding='UTF-8'?&gt;&lt;!--This is an xml comment--&gt;&lt;homeless&gt;&lt;person id=\"1\"&gt;&lt;name&gt;John Doe&lt;/name&gt;&lt;age&gt;30&lt;/age&gt;&lt;address&gt;&lt;street&gt;123 Main St&lt;/street&gt;&lt;city&gt;Anytown&lt;/city&gt;&lt;state&gt;CA&lt;/state&gt;&lt;zip&gt;12345&lt;/zip&gt;&lt;/address&gt;&lt;/person&gt;&lt;person id=\"2\"&gt;&lt;name&gt;Jane Doe&lt;/name&gt;&lt;age&gt;25&lt;/age&gt;&lt;address&gt;&lt;street&gt;321 Main St&lt;/street&gt;&lt;city&gt;Anytown&lt;/city&gt;&lt;state&gt;CA&lt;/state&gt;&lt;zip&gt;54321&lt;/zip&gt;&lt;/address&gt;&lt;/person&gt;&lt;/homeless&gt;"</span></span></code></pre></div>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co"># only contains the actual nodes</span></span>
 <span><span class="fu">xml2</span><span class="fu">::</span><span class="fu"><a href="http://xml2.r-lib.org/reference/as_xml_document.html" class="external-link">as_xml_document</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span></span>
 <span><span class="co">#&gt; {xml_document}</span></span>
 <span><span class="co">#&gt; &lt;homeless&gt;</span></span>
-<span><span class="co">#&gt; [1] &lt;person id="1"&gt;\n  &lt;name&gt;John Doe&lt;/name&gt;\n  &lt;age&gt;30&lt;/age&gt;\n  &lt;address&gt;\n  ...</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] &lt;person id="1"&gt;\n  &lt;name&gt;John Doe&lt;/name&gt;\n  &lt;age&gt;30&lt;/age&gt;\n  &lt;address&gt;\n  ...</span></span>
+<span><span class="co">#&gt; [2] &lt;person id="2"&gt;\n  &lt;name&gt;Jane Doe&lt;/name&gt;\n  &lt;age&gt;25&lt;/age&gt;\n  &lt;address&gt;\n  ...</span></span></code></pre></div>
 </div>
 </div>
 </div>
@@ -201,8 +201,8 @@
 <span><span class="co">#&gt; potential integer overflows</span></span>
 <span><span class="co">#&gt; Unit: milliseconds</span></span>
 <span><span class="co">#&gt;       expr        min         lq       mean     median         uq        max</span></span>
-<span><span class="co">#&gt;       xml2 2432.55185 2437.63544 2464.48461 2466.84827 2487.13782 2493.52357</span></span>
-<span><span class="co">#&gt;  xmlwriter   35.73605   36.08443   38.22463   37.52226   40.27807   42.31573</span></span>
+<span><span class="co">#&gt;       xml2 2405.42474 2447.60631 2452.00149 2457.41245 2463.62407 2484.37081</span></span>
+<span><span class="co">#&gt;  xmlwriter   35.66405   37.21066   38.20086   37.47166   40.82083   41.16441</span></span>
 <span><span class="co">#&gt;  neval</span></span>
 <span><span class="co">#&gt;     10</span></span>
 <span><span class="co">#&gt;     10</span></span></code></pre></div>
