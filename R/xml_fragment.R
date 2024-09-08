@@ -150,7 +150,7 @@ print.xml_fragment <- function(x, ..., max_characters = 120){
   } else {
     cat("{",paste(class(x), collapse = ","),"}\n", sep = "")
   }
-  s <- sapply(s, shorten_character, max_characters = max_characters)
+  s <- sapply(s, shorten_character, max_characters = max_characters, USE.NAMES = FALSE)
   print(s)
   if (length(s) > 3) {
     cat("...\n")
