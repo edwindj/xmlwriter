@@ -88,8 +88,8 @@ void write_childnode(std::stringstream& ss, std::string tag, List xml){
 //TODO return a charactervector with multiple items when parsing fragments
 
 // [[Rcpp::export("rcpp_list_to_xml_string")]]
-std::string list_to_xml_string(List xml){
-  std::stringstream ss;
+std::vector<std::string> list_to_xml_string(List xml){
+  std::vector<std::string> out;
 
   // expect root elements, no attributes
   CharacterVector tags;
@@ -99,6 +99,7 @@ std::string list_to_xml_string(List xml){
 
   //iterate through the children (probably only 1 child)
   for(int i = 0; i < xml.size(); i++){
+    std::stringstream ss;
     List node = xml[i];
     if (tags.length() == 0 || tags(i) == ""){
       //text node
@@ -107,8 +108,10 @@ std::string list_to_xml_string(List xml){
       continue;
     }
     write_childnode(ss, as<std::string>(tags(i)), node);
+    out.push_back(ss.str());
   }
-  return std::string(ss.str());
+
+  return out;
 }
 
 

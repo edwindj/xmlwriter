@@ -4,6 +4,10 @@
   n <- list(...)
   is_list <- sapply(n, is.list)
   n[!is_list] <- lapply(n[!is_list], .text)
+  no_name <- which(names(n) == "" & is_list)
+  if (length(no_name)) {
+    stop("unnamed elements are not allowed in xml fragments")
+  }
 
   .attr <- lapply(.attr, as.character)
   # TODO improve on the attributes, replace names with ".names" etc.
@@ -127,21 +131,44 @@ as.character.xml_doc <- function(x, use_prolog=TRUE,...){
   }
 }
 
+shorten_character <- function(x, max_characters = 120){
+  if (nchar(x) <= max_characters) {
+    x
+  } else {
+    paste0(substr(x, 1, max_characters), "...")
+  }
+}
 
 #' @export
 print.xml_fragment <- function(x, ..., max_characters = 120){
-  cat("{",paste(class(x), collapse = ","),"}\n", sep="")
   s <- list_as_xml_string(x)
-  if (nchar(s) <= max_characters) {
-    cat(s)
+  if (length(s) > 1){
+    l <- length(s)
+    cat("{",paste(class(x), collapse=","), " (" ,length(s),")}\n", sep="")
+    s <- head(s, 3)
+
   } else {
-    s <- substr(x, 1, max_characters)
-    cat(s, "...", sep="")
+    cat("{",paste(class(x), collapse = ","),"}\n", sep = "")
+  }
+  s <- sapply(s, shorten_character, max_characters = max_characters)
+  print(s)
+  if (length(s) > 3) {
+    cat("...\n")
   }
 }
 
 .text <- function(text){
   list(as.character(text))
+}
+
+c.xml_fragment <- function(...){
+  l <- list(...)
+  # keep the class
+  cls <- sapply(l, class)
+  l <- lapply(l, unclass)
+  l <- do.call("c", l)
+  class(l) <- cls[1]
+  l
 }
 
 #

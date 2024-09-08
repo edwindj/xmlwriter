@@ -56,7 +56,7 @@ fragment <- xml_fragment(
 
 expect_equal(
   as.character(fragment),
-  "<person><name>John Doe</name><age>30</age><address><street>123 Main St</street><city>Springfield</city></address>This is a text node</person><person><name>Jane Doe</name><age>25</age><address><street>123 Main St</street><city>Springfield</city></address>This is a text node</person>"
+  c("<person><name>John Doe</name><age>30</age><address><street>123 Main St</street><city>Springfield</city></address>This is a text node</person>","<person><name>Jane Doe</name><age>25</age><address><street>123 Main St</street><city>Springfield</city></address>This is a text node</person>")
 )
 
 expect_error(

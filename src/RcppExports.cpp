@@ -149,7 +149,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // list_to_xml_string
-std::string list_to_xml_string(List xml);
+std::vector<std::string> list_to_xml_string(List xml);
 RcppExport SEXP _xmlwriter_list_to_xml_string(SEXP xmlSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
