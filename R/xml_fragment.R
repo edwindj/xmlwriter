@@ -26,7 +26,7 @@
 
     l <- m |>
       apply(1, lapply, as.list) |>
-      setNames(rep(row_tag, nrow(df)))
+      stats::setNames(rep(row_tag, nrow(df)))
 
     l
 }
@@ -145,7 +145,7 @@ print.xml_fragment <- function(x, ..., max_characters = 120){
   if (length(s) > 1){
     l <- length(s)
     cat("{",paste(class(x), collapse=","), " (" ,length(s),")}\n", sep="")
-    s <- head(s, 3)
+    s <- utils::head(s, 3)
 
   } else {
     cat("{",paste(class(x), collapse = ","),"}\n", sep = "")
@@ -161,6 +161,7 @@ print.xml_fragment <- function(x, ..., max_characters = 120){
   list(as.character(text))
 }
 
+#' @export
 c.xml_fragment <- function(...){
   l <- list(...)
   # keep the class
