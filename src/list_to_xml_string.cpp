@@ -50,8 +50,12 @@ void write_text_node(std::stringstream& ss, List node){
   write_encode(ss, as<std::string>(node(0)));
 }
 
-void write_childnode(std::stringstream& ss, std::string tag, List xml){
+void write_childnode(std::stringstream& ss, std::string tag, List xml, string indent = ""){
   //Rcout << "tag: <" << tag << ">" << endl;
+
+  if (indent != ""){
+    ss << "\n" << indent;
+  }
 
   //opening tag
   ss << "<" << tag;
@@ -72,14 +76,19 @@ void write_childnode(std::stringstream& ss, std::string tag, List xml){
     tags = xml.attr("names");
   }
 
+  int count = xml.size();
   for(int i = 0; i < xml.size(); i++){
     //Rcout << "node: " << i << endl;
     List child = xml[i];
     if (has_names && tags(i) != ""){
-      write_childnode(ss, as<std::string>(tags(i)), child);
+      write_childnode(ss, as<std::string>(tags(i)), child, indent + "  ");
     } else {
+      count -= 1;
       write_text_node(ss, child);
     }
+  }
+  if (count > 0){
+    ss << "\n" << indent;
   }
   ss << "</" << tag << ">";
 }
