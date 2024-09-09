@@ -27,6 +27,7 @@ This function creates an XML builder that allows you to create XML documents in 
 \item \verb{$end()} (or \verb{$end_element}) ends the current element.
 \item \verb{$element(tag, text, ...)} creates an element with a given tag, text, and attributes.
 \item \verb{$text(text)} creates a text node.
+\item \verb{$fragment(..., .attr)} writes an xml fragment to the.
 \item \verb{$comment(comment)} creates a comment node.
 \item \verb{$to_xml_string()} returns the XML document or fragments(s) as a character vector.
 }
@@ -40,8 +41,8 @@ b$start("root")
   b$start("child3", attr3 = "value3")
     b$text("text3")
     b$element("child4", "text3", attr4 = "value4")
-  b$end()
-b$end()
+  b$end("child3")
+b$end("root")
 
 print(b)
 
@@ -61,17 +62,17 @@ fms <- xmlbuilder(allow_fragments = TRUE)
 fms$start("person", id = "1")
   fms$element("name", "John Doe")
   fms$element("age", 30)
-fms$end()
+fms$end("person")
 
 fms$start("person", id = "2")
   fms$element("name", "Jane Doe")
   fms$element("age", 25)
-fms$end()
+fms$end("person")
 
 fms$start("person", id = "3")
   fms$element("name", "Jim Doe")
   fms$element("age", 35)
-fms$end()
+fms$end("person")
 
 s <- fms$to_xml_string()
 as.character(fms)
@@ -87,4 +88,21 @@ if (require("xml2")){
   # show the second xml_node
   print(nodes[[2]])
 }
+
+# use fragments
+xb <- xmlbuilder()
+
+xb$start("study")
+xb$fragment(
+  person = .tags(
+    name = "John Doe",
+    age = 30
+  ),
+  person = .tags(
+    name = "Jane Doe",
+    age = 25
+  )
+)
+xb$end("study")
+xb
 }

@@ -13,12 +13,16 @@ xmlbuilder_start_element <- function(xb, tag, att) {
     invisible(.Call(`_xmlwriter_xmlbuilder_start_element`, xb, tag, att))
 }
 
+xmlbuilder_write_raw_xml <- function(xb, raw_xml) {
+    invisible(.Call(`_xmlwriter_xmlbuilder_write_raw_xml`, xb, raw_xml))
+}
+
 xmlbuilder_write_element <- function(xb, tag, text, att) {
     invisible(.Call(`_xmlwriter_xmlbuilder_write_element`, xb, tag, text, att))
 }
 
-xmlbuilder_end_element <- function(xb) {
-    invisible(.Call(`_xmlwriter_xmlbuilder_end_element`, xb))
+xmlbuilder_end_element <- function(xb, tag) {
+    invisible(.Call(`_xmlwriter_xmlbuilder_end_element`, xb, tag))
 }
 
 xmlbuilder_text_node <- function(xb, text) {

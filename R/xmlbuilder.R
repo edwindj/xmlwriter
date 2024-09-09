@@ -7,6 +7,7 @@
 #' - `$end()` (or `$end_element`) ends the current element.
 #' - `$element(tag, text, ...)` creates an element with a given tag, text, and attributes.
 #' - `$text(text)` creates a text node.
+#' - `$fragment(..., .attr)` writes an xml fragment to the.
 #' - `$comment(comment)` creates a comment node.
 #' - `$to_xml_string()` returns the XML document or fragments(s) as a character vector.
 #'
@@ -32,8 +33,8 @@ xmlbuilder <- function(allow_fragments = TRUE, use_prolog = !allow_fragments){
   # aliases
   xb$start_element <- xb$start
 
-  xb$end <- function(){
-    xmlbuilder_end_element(xb$x)
+  xb$end <- function(tag){
+    xmlbuilder_end_element(xb$x, tag)
     # invisible(xb)
   }
 
@@ -71,6 +72,13 @@ xmlbuilder <- function(allow_fragments = TRUE, use_prolog = !allow_fragments){
     }
     s <- xb$to_xml_string()
     lapply(s, xml2::read_xml)
+  }
+
+  xb$fragment <- function(..., .attr = NULL, .fragment = xml_fragment(..., .attr=.attr)){
+    stopifnot(inherits(.fragment, "xml_fragment"))
+    for (xml in as.character(.fragment)){
+      xmlbuilder_write_raw_xml(xb$x, xml)
+    }
   }
 
   xb$to_xml_node

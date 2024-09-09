@@ -44,6 +44,17 @@ BEGIN_RCPP
     return R_NilValue;
 END_RCPP
 }
+// xmlbuilder_write_raw_xml
+void xmlbuilder_write_raw_xml(List& xb, std::string raw_xml);
+RcppExport SEXP _xmlwriter_xmlbuilder_write_raw_xml(SEXP xbSEXP, SEXP raw_xmlSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< List& >::type xb(xbSEXP);
+    Rcpp::traits::input_parameter< std::string >::type raw_xml(raw_xmlSEXP);
+    xmlbuilder_write_raw_xml(xb, raw_xml);
+    return R_NilValue;
+END_RCPP
+}
 // xmlbuilder_write_element
 void xmlbuilder_write_element(List& xb, std::string tag, std::string text, List att);
 RcppExport SEXP _xmlwriter_xmlbuilder_write_element(SEXP xbSEXP, SEXP tagSEXP, SEXP textSEXP, SEXP attSEXP) {
@@ -58,12 +69,13 @@ BEGIN_RCPP
 END_RCPP
 }
 // xmlbuilder_end_element
-void xmlbuilder_end_element(List& xb);
-RcppExport SEXP _xmlwriter_xmlbuilder_end_element(SEXP xbSEXP) {
+void xmlbuilder_end_element(List& xb, std::string tag);
+RcppExport SEXP _xmlwriter_xmlbuilder_end_element(SEXP xbSEXP, SEXP tagSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< List& >::type xb(xbSEXP);
-    xmlbuilder_end_element(xb);
+    Rcpp::traits::input_parameter< std::string >::type tag(tagSEXP);
+    xmlbuilder_end_element(xb, tag);
     return R_NilValue;
 END_RCPP
 }
@@ -164,8 +176,9 @@ static const R_CallMethodDef CallEntries[] = {
     {"_xmlwriter_xmlbuilder_create", (DL_FUNC) &_xmlwriter_xmlbuilder_create, 1},
     {"_xmlwriter_xmlbuilder_to_string", (DL_FUNC) &_xmlwriter_xmlbuilder_to_string, 1},
     {"_xmlwriter_xmlbuilder_start_element", (DL_FUNC) &_xmlwriter_xmlbuilder_start_element, 3},
+    {"_xmlwriter_xmlbuilder_write_raw_xml", (DL_FUNC) &_xmlwriter_xmlbuilder_write_raw_xml, 2},
     {"_xmlwriter_xmlbuilder_write_element", (DL_FUNC) &_xmlwriter_xmlbuilder_write_element, 4},
-    {"_xmlwriter_xmlbuilder_end_element", (DL_FUNC) &_xmlwriter_xmlbuilder_end_element, 1},
+    {"_xmlwriter_xmlbuilder_end_element", (DL_FUNC) &_xmlwriter_xmlbuilder_end_element, 2},
     {"_xmlwriter_xmlbuilder_text_node", (DL_FUNC) &_xmlwriter_xmlbuilder_text_node, 2},
     {"_xmlwriter_xmlbuilder_write_comment", (DL_FUNC) &_xmlwriter_xmlbuilder_write_comment, 2},
     {"_xmlwriter_xmlbuilder_write_cdata", (DL_FUNC) &_xmlwriter_xmlbuilder_write_cdata, 2},

@@ -20,13 +20,13 @@ if (require("xml2")){
 #note the xml_fragment function is more powerful to create lists
 
 data <- xml_doc(
-  study = .elem(
+  study = .tags(
     .attr = c(id = "1"),
-    person = .elem(
+    person = .tags(
       name = "John Doe",
       age = "30"
     ),
-    person = .elem(
+    person = .tags(
       name = "Jane Doe",
       age = "25"
     ),

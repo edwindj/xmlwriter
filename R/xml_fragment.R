@@ -1,6 +1,6 @@
 #' @rdname xml_fragment
 #' @export
-.elem <- function(..., .attr = character()){
+.tags <- function(..., .attr = NULL){
   n <- list(...)
   is_list <- sapply(n, is.list)
   n[!is_list] <- lapply(n[!is_list], .text)
@@ -14,6 +14,8 @@
   attributes(n) <- c(attributes(n), .attr)
   n
 }
+
+.elem <- .tags
 
 
 #' @rdname xml_fragment
@@ -37,8 +39,9 @@
 #' an `xml2::xml_document` or as a building block for more complex XML documents.
 #'
 #' An `xml_fragment` is built using
-#' - named `.elem` elements, which can be nested
-#' - `.attr` attributes, which is set on the root element, or on the `.elem` where
+#' - named `.tags` elements, each name is a tag name, and the value is the contents
+#' of the tag. The contents can be a nested `.tags` object, a character string or a numeric value.
+#' - `.attr` attributes, which is set on current element, or on the `.tags` where
 #' it is specified
 #' - unnamed elements, which are added as text nodes.
 #' - `.data` function that can be used to convert a data.frame to an xml fragment
@@ -57,7 +60,7 @@
 #' or `character` string
 #' @example example/xml_fragment.R
 xml_fragment <- function(..., .attr = character()){
-  elems <- .elem(..., .attr = as.list(.attr))
+  elems <- .tags(..., .attr = as.list(.attr))
 
   class(elems) <- "xml_fragment"
   elems
@@ -140,8 +143,9 @@ shorten_character <- function(x, max_characters = 120){
 }
 
 #' @export
-print.xml_fragment <- function(x, ..., max_characters = 120){
+print.xml_fragment <- function(x, ..., max_characters = 80){
   s <- list_as_xml_string(x)
+
   if (length(s) > 1){
     l <- length(s)
     cat("{",paste(class(x), collapse=","), " (" ,length(s),")}\n", sep="")
@@ -151,8 +155,12 @@ print.xml_fragment <- function(x, ..., max_characters = 120){
     cat("{",paste(class(x), collapse = ","),"}\n", sep = "")
   }
   s <- sapply(s, shorten_character, max_characters = max_characters, USE.NAMES = FALSE)
-  print(s)
-  if (length(s) > 3) {
+  if (length(s) <= 1){
+    cat(s, "\n")
+  } else {
+    for (i in seq_along(s)){
+      cat("[",i,"]", s[i], "\n", sep="")
+    }
     cat("...\n")
   }
 }

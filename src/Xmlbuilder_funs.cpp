@@ -26,6 +26,12 @@ void xmlbuilder_start_element(List& xb, std::string tag, List att){
 }
 
 //[[Rcpp::export]]
+void xmlbuilder_write_raw_xml(List& xb, std::string raw_xml){
+  auto ptr = as<XPtr<Xmlbuilder>>(xb["ptr"]);
+  ptr->write_raw_xml(raw_xml);
+}
+
+//[[Rcpp::export]]
 void xmlbuilder_write_element(List& xb, std::string tag, std::string text, List att){
   auto ptr = as<XPtr<Xmlbuilder>>(xb["ptr"]);
   // note that att and text have different order, that is to facilitate
@@ -34,9 +40,9 @@ void xmlbuilder_write_element(List& xb, std::string tag, std::string text, List 
 }
 
 //[[Rcpp::export]]
-void xmlbuilder_end_element(List& xb){
+void xmlbuilder_end_element(List& xb, std::string tag){
   auto ptr = as<XPtr<Xmlbuilder>>(xb["ptr"]);
-  ptr->end_element();
+  ptr->end_element(tag);
 }
 
 //[[Rcpp::export]]
@@ -92,11 +98,11 @@ void xmlbuilder_write_dataframe( List& xb, DataFrame df
       std::string text = as<std::string>(clmn[i]);
       ptr->write_element(tags[j], att, text);
     }
-    ptr->end_element();
+    ptr->end_element(row_tag);
   }
 
   if (dataframe_tag.isNotNull()){
-    ptr->end_element();
+    ptr->end_element(as<std::string>(dataframe_tag));
   }
 }
 

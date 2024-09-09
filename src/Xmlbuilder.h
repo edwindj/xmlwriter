@@ -48,6 +48,11 @@ public:
     _ss << "<?" << target << " " << data << "?>";
   }
 
+  void write_raw_xml(std::string xml){
+    check_finished();
+    _ss << xml;
+  }
+
   void write_entity(std::string entity, std::string value){
     check_finished();
     _ss << "<!ENTITY " << entity << " '" << value << "'>";
@@ -57,7 +62,7 @@ public:
     start_element(tag);
     write_attributes(att);
     if (text.length() > 0){text_node(text);};
-    end_element();
+    end_element(tag);
   }
 
   inline void write_encoded(std::string text){
@@ -127,16 +132,20 @@ public:
     stack.push_back(tag);
   }
 
-  void end_element(){
+  void end_element(std::string tag){
     if (stack.size() == 0){
       Rcpp::stop("There are no open tags to close.");
+    }
+    auto stag = stack.back();
+
+    if (tag.compare(stag) != 0){
+      Rcpp::stop("Trying to close tag %s, but last opened tag was %s", tag, stag);
     }
 
     if (tag_open){
       _ss << "/>";
     } else{
-      auto tag = stack.back();
-      _ss << "</" << tag << ">";
+      _ss << "</" << stag << ">";
     }
 
     tag_open = false;
@@ -156,10 +165,17 @@ public:
 
   std::vector<std::string> get_xml_string(){
     if (stack.size() > 0){
-      Rcpp::warning("There are still open tags. Closing them now.");
-    }
-    while(stack.size() > 0){
-      end_element();
+      std::string missing_tags;
+      int i = 0;
+      for (auto tag : stack){
+        missing_tags += "\n";
+        for (int j = 0; j < i; j++){
+          missing_tags += " ";
+        }
+        missing_tags += "<" + tag + ">...";
+        i++;
+      }
+      Rcpp::warning("There are still tags to be closed: %s", missing_tags);
     }
     return out;
   }
