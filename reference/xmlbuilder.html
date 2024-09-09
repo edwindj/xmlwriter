@@ -69,6 +69,7 @@ Set to <code>FALSE</code> if you want to generate an xml fragment or manually pr
 <li><p><code>$end()</code> (or <code>$end_element</code>) ends the current element.</p></li>
 <li><p><code>$element(tag, text, ...)</code> creates an element with a given tag, text, and attributes.</p></li>
 <li><p><code>$text(text)</code> creates a text node.</p></li>
+<li><p><code>$fragment(..., .attr)</code> writes an xml fragment to the.</p></li>
 <li><p><code>$comment(comment)</code> creates a comment node.</p></li>
 <li><p><code>$to_xml_string()</code> returns the XML document or fragments(s) as a character vector.</p></li>
 </ul></div>
@@ -83,8 +84,8 @@ Set to <code>FALSE</code> if you want to generate an xml fragment or manually pr
 <span class="r-in"><span>  <span class="va">b</span><span class="op">$</span><span class="fu">start</span><span class="op">(</span><span class="st">"child3"</span>, attr3 <span class="op">=</span> <span class="st">"value3"</span><span class="op">)</span></span></span>
 <span class="r-in"><span>    <span class="va">b</span><span class="op">$</span><span class="fu">text</span><span class="op">(</span><span class="st">"text3"</span><span class="op">)</span></span></span>
 <span class="r-in"><span>    <span class="va">b</span><span class="op">$</span><span class="fu">element</span><span class="op">(</span><span class="st">"child4"</span>, <span class="st">"text3"</span>, attr4 <span class="op">=</span> <span class="st">"value4"</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  <span class="va">b</span><span class="op">$</span><span class="fu">end</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">b</span><span class="op">$</span><span class="fu">end</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">b</span><span class="op">$</span><span class="fu">end</span><span class="op">(</span><span class="st">"child3"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">b</span><span class="op">$</span><span class="fu">end</span><span class="op">(</span><span class="st">"root"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> {xmlbuilder}</span>
@@ -106,17 +107,17 @@ Set to <code>FALSE</code> if you want to generate an xml fragment or manually pr
 <span class="r-in"><span><span class="va">fms</span><span class="op">$</span><span class="fu">start</span><span class="op">(</span><span class="st">"person"</span>, id <span class="op">=</span> <span class="st">"1"</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="va">fms</span><span class="op">$</span><span class="fu">element</span><span class="op">(</span><span class="st">"name"</span>, <span class="st">"John Doe"</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="va">fms</span><span class="op">$</span><span class="fu">element</span><span class="op">(</span><span class="st">"age"</span>, <span class="fl">30</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">fms</span><span class="op">$</span><span class="fu">end</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">fms</span><span class="op">$</span><span class="fu">end</span><span class="op">(</span><span class="st">"person"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">fms</span><span class="op">$</span><span class="fu">start</span><span class="op">(</span><span class="st">"person"</span>, id <span class="op">=</span> <span class="st">"2"</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="va">fms</span><span class="op">$</span><span class="fu">element</span><span class="op">(</span><span class="st">"name"</span>, <span class="st">"Jane Doe"</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="va">fms</span><span class="op">$</span><span class="fu">element</span><span class="op">(</span><span class="st">"age"</span>, <span class="fl">25</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">fms</span><span class="op">$</span><span class="fu">end</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">fms</span><span class="op">$</span><span class="fu">end</span><span class="op">(</span><span class="st">"person"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">fms</span><span class="op">$</span><span class="fu">start</span><span class="op">(</span><span class="st">"person"</span>, id <span class="op">=</span> <span class="st">"3"</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="va">fms</span><span class="op">$</span><span class="fu">element</span><span class="op">(</span><span class="st">"name"</span>, <span class="st">"Jim Doe"</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="va">fms</span><span class="op">$</span><span class="fu">element</span><span class="op">(</span><span class="st">"age"</span>, <span class="fl">35</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">fms</span><span class="op">$</span><span class="fu">end</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">fms</span><span class="op">$</span><span class="fu">end</span><span class="op">(</span><span class="st">"person"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">s</span> <span class="op">&lt;-</span> <span class="va">fms</span><span class="op">$</span><span class="fu">to_xml_string</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">fms</span><span class="op">)</span></span></span>
@@ -141,6 +142,25 @@ Set to <code>FALSE</code> if you want to generate an xml fragment or manually pr
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;person id="2"&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] &lt;name&gt;Jane Doe&lt;/name&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [2] &lt;age&gt;25&lt;/age&gt;</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># use fragments</span></span></span>
+<span class="r-in"><span><span class="va">xb</span> <span class="op">&lt;-</span> <span class="fu">xmlbuilder</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">xb</span><span class="op">$</span><span class="fu">start</span><span class="op">(</span><span class="st">"study"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">xb</span><span class="op">$</span><span class="fu">fragment</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  person <span class="op">=</span> <span class="fu"><a href="xml_fragment.html">.tags</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    name <span class="op">=</span> <span class="st">"John Doe"</span>,</span></span>
+<span class="r-in"><span>    age <span class="op">=</span> <span class="fl">30</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span>,</span></span>
+<span class="r-in"><span>  person <span class="op">=</span> <span class="fu"><a href="xml_fragment.html">.tags</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    name <span class="op">=</span> <span class="st">"Jane Doe"</span>,</span></span>
+<span class="r-in"><span>    age <span class="op">=</span> <span class="fl">25</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">xb</span><span class="op">$</span><span class="fu">end</span><span class="op">(</span><span class="st">"study"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">xb</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> {xmlbuilder}</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;study&gt;&lt;person&gt;&lt;name&gt;John Doe&lt;/name&gt;&lt;age&gt;30&lt;/age&gt;&lt;/person&gt;&lt;person&gt;&lt;name&gt;Jane Doe&lt;/name&gt;&lt;age&gt;25&lt;/age&gt;&lt;/person&gt;&lt;/study&gt;</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
