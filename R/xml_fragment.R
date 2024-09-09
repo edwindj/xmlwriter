@@ -89,6 +89,17 @@ as_xml_document.xml_fragment <- function(x, ...){
     list_as_xml_document()
 }
 
+#' @exportS3Method xml2::as_list
+as_list.xml_fragment <- function(x, ...){
+
+  if (length(x) != 1) {
+    stop("an xml_document must contain exactly one root element.", call. = FALSE)
+  }
+
+  unclass(x)
+}
+
+
 #' Transforms an xml_fragment into an xml_nodeset
 #'
 #' Using the `xml2` package, this function transforms an `xml_fragment` into an `xml_nodeset`
