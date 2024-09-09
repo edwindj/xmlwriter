@@ -99,7 +99,11 @@ fragment <- xml_fragment(
 
 print(fragment)
 #> {xml_fragment}
-#> <person id="1"><name>John Doe</name><age>30</age><address><street>123 Main St</s...
+#> <person id="1">
+#>   <name>John Doe</name>
+#>   <age>30</age>
+#>   <address>
+#>     <street>...
 ```
 
 ``` r
@@ -137,7 +141,11 @@ doc <- xml_doc(
 
 doc
 #> {xml_doc,xml_fragment}
-#> <homeless year="1900"><data><person><name>John Doe</name><age>30</age></person><...
+#> <homeless year="1900">
+#>   <data>
+#>     <person>
+#>       <name>John Doe</name>
+#>       <...
 ```
 
 Both `xml_doc` as well as `xml_fragment` can be used to create a single
@@ -202,13 +210,16 @@ b$end("homeless")
 # includes a xml prolog and comment
 b
 #> {xmlbuilder}
-#> <?xml version='1.0' encoding='UTF-8'?><!--This is an xml comment--><homeless><person id="1"><name>John Doe</name><age>30</age><address><street>123 Main St</street><city>Anytown</city><state>CA</state><zip>12345</zip></address></person><person id="2"><name>Jane Doe</name><age>25</age><address><street>321 Main St</street><city>Anytown</city><state>CA</state><zip>54321</zip></address></person><person id="3"><name>Jim Doe</name><age>35</age></person></homeless>
+#> <?xml version='1.0' encoding='UTF-8'?><!--This is an xml comment--><homeless><person id="1"><name>John Doe</name><age>30</age><address><street>123 Main St</street><city>Anytown</city><state>CA</state><zip>12345</zip></address></person><person id="2"><name>Jane Doe</name><age>25</age><address><street>321 Main St</street><city>Anytown</city><state>CA</state><zip>54321</zip></address></person><person id="3">
+#>   <name>Jim Doe</name>
+#>   <age>35</age>
+#> </person></homeless>
 ```
 
 ``` r
 
 as.character(b)
-#> [1] "<?xml version='1.0' encoding='UTF-8'?><!--This is an xml comment--><homeless><person id=\"1\"><name>John Doe</name><age>30</age><address><street>123 Main St</street><city>Anytown</city><state>CA</state><zip>12345</zip></address></person><person id=\"2\"><name>Jane Doe</name><age>25</age><address><street>321 Main St</street><city>Anytown</city><state>CA</state><zip>54321</zip></address></person><person id=\"3\"><name>Jim Doe</name><age>35</age></person></homeless>"
+#> [1] "<?xml version='1.0' encoding='UTF-8'?><!--This is an xml comment--><homeless><person id=\"1\"><name>John Doe</name><age>30</age><address><street>123 Main St</street><city>Anytown</city><state>CA</state><zip>12345</zip></address></person><person id=\"2\"><name>Jane Doe</name><age>25</age><address><street>321 Main St</street><city>Anytown</city><state>CA</state><zip>54321</zip></address></person><person id=\"3\">\n  <name>Jim Doe</name>\n  <age>35</age>\n</person></homeless>"
 ```
 
 ``` r
@@ -246,15 +257,15 @@ doc_fragment <- structure(doc_list, class = "xml_fragment")
 microbenchmark(
   xml2      = xml2::as_xml_document(doc_list),
   xmlwriter = xml2::as_xml_document(doc_fragment),
-  times    = 10
+  times     = 10
 )
 #> Warning in microbenchmark(xml2 = xml2::as_xml_document(doc_list), xmlwriter =
 #> xml2::as_xml_document(doc_fragment), : less accurate nanosecond times to avoid
 #> potential integer overflows
 #> Unit: milliseconds
-#>       expr        min         lq      mean     median         uq        max
-#>       xml2 2392.43089 2440.05985 2445.7530 2450.02121 2465.29802 2495.90891
-#>  xmlwriter   35.37558   35.84093   36.9941   37.02107   37.38991   40.82358
+#>       expr        min         lq       mean     median         uq        max
+#>       xml2 2425.10433 2460.65370 2480.04321 2463.63883 2497.77658 2614.30243
+#>  xmlwriter   39.50994   40.04548   41.80572   40.99602   41.32874   49.77277
 #>  neval
 #>     10
 #>     10
