@@ -5,7 +5,7 @@
 \alias{.data}
 \alias{xml_fragment}
 \alias{xml_doc}
-\title{simply create an XML fragment}
+\title{Create elegantly an XML fragment}
 \usage{
 .tags(..., .attr = NULL)
 
@@ -30,7 +30,7 @@ or \code{character} string
 }
 \description{
 Create an xml fragment using readable R syntax, that can be used to create
-an \code{xml2::xml_document} or as a building block for more complex XML documents.
+a string, an \code{xml2::xml_document} or as a building block for more complex XML documents.
 }
 \details{
 An \code{xml_fragment} is built using

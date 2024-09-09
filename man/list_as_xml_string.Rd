@@ -13,16 +13,18 @@ list_as_xml_string(x, ...)
 }
 \description{
 \code{list_to_xml_string} is fast and efficient way to convert a specific list to an xml string.
+The preferred interface is to use \code{\link[=xml_fragment]{xml_fragment()}} and \code{\link[=xml_doc]{xml_doc()}} to create xml fragments.
 }
 \details{
+This function is the working horse for turning \code{\link[=xml_fragment]{xml_fragment()}}, \code{\link[=xml_doc]{xml_doc()}} and list
+object into \code{character} xml strings and \code{xml2::xml_document} objects.
+
 The input list format is identical to the format returned by \code{\link[xml2:as_list]{xml2::as_list()}} function,
-but much faster in generating an xml string from it.
+but much faster in generating an xml string from it. It writes the xml directly to a string buffer.
 
 This function allows for easy conversion of R data structures
 into xml format by creating the list structures in R and then converting them to xml.
-The function can be used in tandem with \code{\link[xml2:as_list]{xml2::as_list()}} to convert R data structures
-This function is the working horse for turning \code{\link[=xml_fragment]{xml_fragment()}}, \code{\link[=xml_doc]{xml_doc()}} and list
-object into \code{character} xml strings and \code{xml2::xml_document} objects.
+The function can be used in tandem with \code{\link[xml2:as_list]{xml2::as_list()}} to convert R data structures.
 }
 \examples{
 data <-

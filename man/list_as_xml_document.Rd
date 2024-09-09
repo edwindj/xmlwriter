@@ -16,11 +16,11 @@ an \code{xml2::xml_document}
 }
 \description{
 \code{list_as_xml_document} is fast and efficient way to convert a list to an \code{xml2::xml_node}.
+The preferred interface is to use \code{\link[=xml_fragment]{xml_fragment()}} and \code{\link[=xml_doc]{xml_doc()}} to create xml fragments.
 }
 \details{
 \code{list_to_xml_node} is a much faster implementation of \code{xml2::as_xml_document.list()} method.
 It writes the xml directly to a string buffer and then reads it back into an \code{xml2::xml_document}.
-It can be used to create fragments or single nodes, but \code{\link[=xml_fragment]{xml_fragment()}}
 provides a more convenient interface.
 
 The function can be used in tandem with \code{\link[xml2:as_list]{xml2::as_list()}} to convert R data structures.

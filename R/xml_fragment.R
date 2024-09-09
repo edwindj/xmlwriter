@@ -33,10 +33,10 @@
     l
 }
 
-#' simply create an XML fragment
+#' Create elegantly an XML fragment
 #'
 #' Create an xml fragment using readable R syntax, that can be used to create
-#' an `xml2::xml_document` or as a building block for more complex XML documents.
+#' a string, an `xml2::xml_document` or as a building block for more complex XML documents.
 #'
 #' An `xml_fragment` is built using
 #' - named `.tags` elements, each name is a tag name, and the value is the contents
