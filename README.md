@@ -237,23 +237,24 @@ library(xmlwriter)
 doc <- xml2::read_xml("./example/DataGeneric.xml")
 doc_list <- xml2::as_list(doc)
 
-# copy of the list with an extra attribute class="xml_fragment" (xmlwriter specific)
-doc_list2 <- structure(doc_list, class = "xml_fragment")
+# just copy the list and set an extra attribute class="xml_fragment"
+# making it a xml_fragment object
+doc_fragment <- structure(doc_list, class = "xml_fragment")
 
 # see how long it takes to create an xml document with xml2 and xmlwriter
 
 microbenchmark(
-  xml2 = xml2::as_xml_document(doc_list),
-  xmlwriter = xml2::as_xml_document(doc_list2),
-  times = 10
+  xml2      = xml2::as_xml_document(doc_list),
+  xmlwriter = xml2::as_xml_document(doc_fragment),
+  times    = 10
 )
 #> Warning in microbenchmark(xml2 = xml2::as_xml_document(doc_list), xmlwriter =
-#> xml2::as_xml_document(doc_list2), : less accurate nanosecond times to avoid
+#> xml2::as_xml_document(doc_fragment), : less accurate nanosecond times to avoid
 #> potential integer overflows
 #> Unit: milliseconds
-#>       expr        min         lq       mean     median         uq        max
-#>       xml2 2403.61549 2446.54741 2455.97644 2456.21154 2469.45071 2499.43655
-#>  xmlwriter   35.73486   35.99206   38.82175   39.37866   41.04297   41.96141
+#>       expr        min         lq      mean     median         uq        max
+#>       xml2 2392.43089 2440.05985 2445.7530 2450.02121 2465.29802 2495.90891
+#>  xmlwriter   35.37558   35.84093   36.9941   37.02107   37.38991   40.82358
 #>  neval
 #>     10
 #>     10

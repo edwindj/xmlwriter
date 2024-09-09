@@ -84,9 +84,6 @@ void write_childnode(std::stringstream& ss, std::string tag, List xml){
   ss << "</" << tag << ">";
 }
 
-
-//TODO return a charactervector with multiple items when parsing fragments
-
 // [[Rcpp::export("rcpp_list_to_xml_string")]]
 std::vector<std::string> list_to_xml_string(List xml){
   std::vector<std::string> out;
