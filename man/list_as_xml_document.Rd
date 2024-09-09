@@ -2,7 +2,7 @@
 % Please edit documentation in R/list_as_xml_document.R
 \name{list_as_xml_document}
 \alias{list_as_xml_document}
-\title{Convert a list to an xml node}
+\title{Convert a list to an xml_document}
 \usage{
 list_as_xml_document(x, ...)
 }
@@ -15,13 +15,12 @@ list_as_xml_document(x, ...)
 an \code{xml2::xml_document}
 }
 \description{
-\code{list_as_xml_document} is fast and efficient way to convert a list to an \code{xml2::xml_node}.
+\code{list_as_xml_document} is fast and efficient way to convert a list to an \code{xml2::xml_document}.
 The preferred interface is to use \code{\link[=xml_fragment]{xml_fragment()}} and \code{\link[=xml_doc]{xml_doc()}} to create xml fragments.
 }
 \details{
-\code{list_to_xml_node} is a much faster implementation of \code{xml2::as_xml_document.list()} method.
+\code{list_to_xml_document} is a much faster implementation of \code{xml2::as_xml_document.list()} method.
 It writes the xml directly to a string buffer and then reads it back into an \code{xml2::xml_document}.
-provides a more convenient interface.
 
 The function can be used in tandem with \code{\link[xml2:as_list]{xml2::as_list()}} to convert R data structures.
 }
