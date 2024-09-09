@@ -87,7 +87,7 @@ of `xml2::as_list`, and can be converted to an
 library(xmlwriter)
 
 fragment <- xml_fragment(
-  persoon = .tags(
+  person = .tags(
     .attr = c(id = "1"),
     name = "John Doe",
     age = 30,

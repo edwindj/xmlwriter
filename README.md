@@ -84,7 +84,7 @@ faster.
 library(xmlwriter)
 
 fragment <- xml_fragment(
-  persoon = .tags(
+  person = .tags(
     .attr = c(id = "1"),
     name = "John Doe",
     age = 30,
@@ -99,13 +99,13 @@ fragment <- xml_fragment(
 
 print(fragment)
 #> {xml_fragment}
-#> <persoon id="1"><name>John Doe</name><age>30</age><address><street>123 Main St</...
+#> <person id="1"><name>John Doe</name><age>30</age><address><street>123 Main St</s...
 ```
 
 ``` r
 fragment |> xml2::as_xml_document()
 #> {xml_document}
-#> <persoon id="1">
+#> <person id="1">
 #> [1] <name>John Doe</name>
 #> [2] <age>30</age>
 #> [3] <address>\n  <street>123 Main St</street>\n  <city>Anytown</city>\n  <sta ...
@@ -114,7 +114,7 @@ fragment |> xml2::as_xml_document()
 ``` r
 fragment |> as_xml_nodeset()
 #> {xml_nodeset (1)}
-#> [1] <persoon id="1">\n  <name>John Doe</name>\n  <age>30</age>\n  <address>\n ...
+#> [1] <person id="1">\n  <name>John Doe</name>\n  <age>30</age>\n  <address>\n  ...
 ```
 
 `xml_fragment` also provides a `.data` function that can be used to
@@ -252,8 +252,8 @@ microbenchmark(
 #> potential integer overflows
 #> Unit: milliseconds
 #>       expr        min         lq       mean     median         uq        max
-#>       xml2 2405.03089 2454.09940 2464.97629 2460.49669 2483.65971 2529.20788
-#>  xmlwriter   35.60879   35.74036   38.18791   37.24766   37.67248   47.16652
+#>       xml2 2403.61549 2446.54741 2455.97644 2456.21154 2469.45071 2499.43655
+#>  xmlwriter   35.73486   35.99206   38.82175   39.37866   41.04297   41.96141
 #>  neval
 #>     10
 #>     10
