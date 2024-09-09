@@ -100,7 +100,11 @@
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">fragment</span><span class="op">)</span></span>
 <span><span class="co">#&gt; {xml_fragment}</span></span>
-<span><span class="co">#&gt; &lt;person id="1"&gt;&lt;name&gt;John Doe&lt;/name&gt;&lt;age&gt;30&lt;/age&gt;&lt;address&gt;&lt;street&gt;123 Main St&lt;/s...</span></span></code></pre></div>
+<span><span class="co">#&gt; &lt;person id="1"&gt;</span></span>
+<span><span class="co">#&gt;   &lt;name&gt;John Doe&lt;/name&gt;</span></span>
+<span><span class="co">#&gt;   &lt;age&gt;30&lt;/age&gt;</span></span>
+<span><span class="co">#&gt;   &lt;address&gt;</span></span>
+<span><span class="co">#&gt;     &lt;street&gt;...</span></span></code></pre></div>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fragment</span> <span class="op">|&gt;</span> <span class="fu">xml2</span><span class="fu">::</span><span class="fu"><a href="http://xml2.r-lib.org/reference/as_xml_document.html" class="external-link">as_xml_document</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; {xml_document}</span></span>
@@ -130,7 +134,11 @@
 <span></span>
 <span><span class="va">doc</span></span>
 <span><span class="co">#&gt; {xml_doc,xml_fragment}</span></span>
-<span><span class="co">#&gt; &lt;homeless year="1900"&gt;&lt;data&gt;&lt;person&gt;&lt;name&gt;John Doe&lt;/name&gt;&lt;age&gt;30&lt;/age&gt;&lt;/person&gt;&lt;...</span></span></code></pre></div>
+<span><span class="co">#&gt; &lt;homeless year="1900"&gt;</span></span>
+<span><span class="co">#&gt;   &lt;data&gt;</span></span>
+<span><span class="co">#&gt;     &lt;person&gt;</span></span>
+<span><span class="co">#&gt;       &lt;name&gt;John Doe&lt;/name&gt;</span></span>
+<span><span class="co">#&gt;       &lt;...</span></span></code></pre></div>
 <p>Both <code>xml_doc</code> as well as <code>xml_fragment</code> can be used to create a single root element xml document. <code>xml_doc</code> is a <code>xml_fragment</code> that errors when there is more than one root element.</p>
 </div>
 <div class="section level3">
@@ -191,11 +199,14 @@
 <span><span class="co"># includes a xml prolog and comment</span></span>
 <span><span class="va">b</span></span>
 <span><span class="co">#&gt; {xmlbuilder}</span></span>
-<span><span class="co">#&gt; &lt;?xml version='1.0' encoding='UTF-8'?&gt;&lt;!--This is an xml comment--&gt;&lt;homeless&gt;&lt;person id="1"&gt;&lt;name&gt;John Doe&lt;/name&gt;&lt;age&gt;30&lt;/age&gt;&lt;address&gt;&lt;street&gt;123 Main St&lt;/street&gt;&lt;city&gt;Anytown&lt;/city&gt;&lt;state&gt;CA&lt;/state&gt;&lt;zip&gt;12345&lt;/zip&gt;&lt;/address&gt;&lt;/person&gt;&lt;person id="2"&gt;&lt;name&gt;Jane Doe&lt;/name&gt;&lt;age&gt;25&lt;/age&gt;&lt;address&gt;&lt;street&gt;321 Main St&lt;/street&gt;&lt;city&gt;Anytown&lt;/city&gt;&lt;state&gt;CA&lt;/state&gt;&lt;zip&gt;54321&lt;/zip&gt;&lt;/address&gt;&lt;/person&gt;&lt;person id="3"&gt;&lt;name&gt;Jim Doe&lt;/name&gt;&lt;age&gt;35&lt;/age&gt;&lt;/person&gt;&lt;/homeless&gt;</span></span></code></pre></div>
+<span><span class="co">#&gt; &lt;?xml version='1.0' encoding='UTF-8'?&gt;&lt;!--This is an xml comment--&gt;&lt;homeless&gt;&lt;person id="1"&gt;&lt;name&gt;John Doe&lt;/name&gt;&lt;age&gt;30&lt;/age&gt;&lt;address&gt;&lt;street&gt;123 Main St&lt;/street&gt;&lt;city&gt;Anytown&lt;/city&gt;&lt;state&gt;CA&lt;/state&gt;&lt;zip&gt;12345&lt;/zip&gt;&lt;/address&gt;&lt;/person&gt;&lt;person id="2"&gt;&lt;name&gt;Jane Doe&lt;/name&gt;&lt;age&gt;25&lt;/age&gt;&lt;address&gt;&lt;street&gt;321 Main St&lt;/street&gt;&lt;city&gt;Anytown&lt;/city&gt;&lt;state&gt;CA&lt;/state&gt;&lt;zip&gt;54321&lt;/zip&gt;&lt;/address&gt;&lt;/person&gt;&lt;person id="3"&gt;</span></span>
+<span><span class="co">#&gt;   &lt;name&gt;Jim Doe&lt;/name&gt;</span></span>
+<span><span class="co">#&gt;   &lt;age&gt;35&lt;/age&gt;</span></span>
+<span><span class="co">#&gt; &lt;/person&gt;&lt;/homeless&gt;</span></span></code></pre></div>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "&lt;?xml version='1.0' encoding='UTF-8'?&gt;&lt;!--This is an xml comment--&gt;&lt;homeless&gt;&lt;person id=\"1\"&gt;&lt;name&gt;John Doe&lt;/name&gt;&lt;age&gt;30&lt;/age&gt;&lt;address&gt;&lt;street&gt;123 Main St&lt;/street&gt;&lt;city&gt;Anytown&lt;/city&gt;&lt;state&gt;CA&lt;/state&gt;&lt;zip&gt;12345&lt;/zip&gt;&lt;/address&gt;&lt;/person&gt;&lt;person id=\"2\"&gt;&lt;name&gt;Jane Doe&lt;/name&gt;&lt;age&gt;25&lt;/age&gt;&lt;address&gt;&lt;street&gt;321 Main St&lt;/street&gt;&lt;city&gt;Anytown&lt;/city&gt;&lt;state&gt;CA&lt;/state&gt;&lt;zip&gt;54321&lt;/zip&gt;&lt;/address&gt;&lt;/person&gt;&lt;person id=\"3\"&gt;&lt;name&gt;Jim Doe&lt;/name&gt;&lt;age&gt;35&lt;/age&gt;&lt;/person&gt;&lt;/homeless&gt;"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "&lt;?xml version='1.0' encoding='UTF-8'?&gt;&lt;!--This is an xml comment--&gt;&lt;homeless&gt;&lt;person id=\"1\"&gt;&lt;name&gt;John Doe&lt;/name&gt;&lt;age&gt;30&lt;/age&gt;&lt;address&gt;&lt;street&gt;123 Main St&lt;/street&gt;&lt;city&gt;Anytown&lt;/city&gt;&lt;state&gt;CA&lt;/state&gt;&lt;zip&gt;12345&lt;/zip&gt;&lt;/address&gt;&lt;/person&gt;&lt;person id=\"2\"&gt;&lt;name&gt;Jane Doe&lt;/name&gt;&lt;age&gt;25&lt;/age&gt;&lt;address&gt;&lt;street&gt;321 Main St&lt;/street&gt;&lt;city&gt;Anytown&lt;/city&gt;&lt;state&gt;CA&lt;/state&gt;&lt;zip&gt;54321&lt;/zip&gt;&lt;/address&gt;&lt;/person&gt;&lt;person id=\"3\"&gt;\n  &lt;name&gt;Jim Doe&lt;/name&gt;\n  &lt;age&gt;35&lt;/age&gt;\n&lt;/person&gt;&lt;/homeless&gt;"</span></span></code></pre></div>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co"># only contains the actual nodes</span></span>
@@ -231,15 +242,15 @@
 <span><span class="fu">microbenchmark</span><span class="op">(</span></span>
 <span>  xml2      <span class="op">=</span> <span class="fu">xml2</span><span class="fu">::</span><span class="fu"><a href="http://xml2.r-lib.org/reference/as_xml_document.html" class="external-link">as_xml_document</a></span><span class="op">(</span><span class="va">doc_list</span><span class="op">)</span>,</span>
 <span>  xmlwriter <span class="op">=</span> <span class="fu">xml2</span><span class="fu">::</span><span class="fu"><a href="http://xml2.r-lib.org/reference/as_xml_document.html" class="external-link">as_xml_document</a></span><span class="op">(</span><span class="va">doc_fragment</span><span class="op">)</span>,</span>
-<span>  times    <span class="op">=</span> <span class="fl">10</span></span>
+<span>  times     <span class="op">=</span> <span class="fl">10</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning in microbenchmark(xml2 = xml2::as_xml_document(doc_list), xmlwriter =</span></span>
 <span><span class="co">#&gt; xml2::as_xml_document(doc_fragment), : less accurate nanosecond times to avoid</span></span>
 <span><span class="co">#&gt; potential integer overflows</span></span>
 <span><span class="co">#&gt; Unit: milliseconds</span></span>
-<span><span class="co">#&gt;       expr        min         lq      mean     median         uq        max</span></span>
-<span><span class="co">#&gt;       xml2 2392.43089 2440.05985 2445.7530 2450.02121 2465.29802 2495.90891</span></span>
-<span><span class="co">#&gt;  xmlwriter   35.37558   35.84093   36.9941   37.02107   37.38991   40.82358</span></span>
+<span><span class="co">#&gt;       expr        min         lq       mean     median         uq        max</span></span>
+<span><span class="co">#&gt;       xml2 2425.10433 2460.65370 2480.04321 2463.63883 2497.77658 2614.30243</span></span>
+<span><span class="co">#&gt;  xmlwriter   39.50994   40.04548   41.80572   40.99602   41.32874   49.77277</span></span>
 <span><span class="co">#&gt;  neval</span></span>
 <span><span class="co">#&gt;     10</span></span>
 <span><span class="co">#&gt;     10</span></span></code></pre></div>
