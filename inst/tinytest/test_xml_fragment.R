@@ -9,7 +9,7 @@ fragment <- xml_fragment(
 
 expect_equal(
   as.character(fragment),
-  "<person><name>John Doe</name><age>30</age></person>"
+  "<person>\n  <name>John Doe</name>\n  <age>30</age>\n</person>"
 )
 
 fragment <- xml_fragment(
@@ -22,7 +22,7 @@ fragment <- xml_fragment(
 
 expect_equal(
   as.character(fragment),
-  "<person id=\"id\" test=\"test\"><name>John Doe</name><age>30</age></person>"
+  "<person id=\"id\" test=\"test\">\n  <name>John Doe</name>\n  <age>30</age>\n</person>"
 )
 
 fragment <- xml_fragment(
@@ -36,7 +36,7 @@ fragment <- xml_fragment(
 
 expect_equal(
   as.character(fragment),
-  "<person><name>John Doe</name><age>30</age><address><street>123 Main St</street><city>Springfield</city></address>This is a text node</person>"
+  "<person>\n  <name>John Doe</name>\n  <age>30</age>\n  <address>\n    <street>123 Main St</street>\n    <city>Springfield</city>\n  </address>This is a text node\n</person>"
 )
 
 fragment <- xml_fragment(
@@ -56,7 +56,7 @@ fragment <- xml_fragment(
 
 expect_equal(
   as.character(fragment),
-  c("<person><name>John Doe</name><age>30</age><address><street>123 Main St</street><city>Springfield</city></address>This is a text node</person>","<person><name>Jane Doe</name><age>25</age><address><street>123 Main St</street><city>Springfield</city></address>This is a text node</person>")
+  c("<person>\n  <name>John Doe</name>\n  <age>30</age>\n  <address>\n    <street>123 Main St</street>\n    <city>Springfield</city>\n  </address>This is a text node\n</person>","<person>\n  <name>Jane Doe</name>\n  <age>25</age>\n  <address>\n    <street>123 Main St</street>\n    <city>Springfield</city>\n  </address>This is a text node\n</person>")
 )
 
 expect_error(
