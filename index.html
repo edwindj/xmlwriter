@@ -222,23 +222,24 @@
 <span><span class="va">doc</span> <span class="op">&lt;-</span> <span class="fu">xml2</span><span class="fu">::</span><span class="fu"><a href="http://xml2.r-lib.org/reference/read_xml.html" class="external-link">read_xml</a></span><span class="op">(</span><span class="st">"./example/DataGeneric.xml"</span><span class="op">)</span></span>
 <span><span class="va">doc_list</span> <span class="op">&lt;-</span> <span class="fu">xml2</span><span class="fu">::</span><span class="fu">as_list</span><span class="op">(</span><span class="va">doc</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># copy of the list with an extra attribute class="xml_fragment" (xmlwriter specific)</span></span>
-<span><span class="va">doc_list2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/structure.html" class="external-link">structure</a></span><span class="op">(</span><span class="va">doc_list</span>, class <span class="op">=</span> <span class="st">"xml_fragment"</span><span class="op">)</span></span>
+<span><span class="co"># just copy the list and set an extra attribute class="xml_fragment"</span></span>
+<span><span class="co"># making it a xml_fragment object</span></span>
+<span><span class="va">doc_fragment</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/structure.html" class="external-link">structure</a></span><span class="op">(</span><span class="va">doc_list</span>, class <span class="op">=</span> <span class="st">"xml_fragment"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># see how long it takes to create an xml document with xml2 and xmlwriter</span></span>
 <span></span>
 <span><span class="fu">microbenchmark</span><span class="op">(</span></span>
-<span>  xml2 <span class="op">=</span> <span class="fu">xml2</span><span class="fu">::</span><span class="fu"><a href="http://xml2.r-lib.org/reference/as_xml_document.html" class="external-link">as_xml_document</a></span><span class="op">(</span><span class="va">doc_list</span><span class="op">)</span>,</span>
-<span>  xmlwriter <span class="op">=</span> <span class="fu">xml2</span><span class="fu">::</span><span class="fu"><a href="http://xml2.r-lib.org/reference/as_xml_document.html" class="external-link">as_xml_document</a></span><span class="op">(</span><span class="va">doc_list2</span><span class="op">)</span>,</span>
-<span>  times <span class="op">=</span> <span class="fl">10</span></span>
+<span>  xml2      <span class="op">=</span> <span class="fu">xml2</span><span class="fu">::</span><span class="fu"><a href="http://xml2.r-lib.org/reference/as_xml_document.html" class="external-link">as_xml_document</a></span><span class="op">(</span><span class="va">doc_list</span><span class="op">)</span>,</span>
+<span>  xmlwriter <span class="op">=</span> <span class="fu">xml2</span><span class="fu">::</span><span class="fu"><a href="http://xml2.r-lib.org/reference/as_xml_document.html" class="external-link">as_xml_document</a></span><span class="op">(</span><span class="va">doc_fragment</span><span class="op">)</span>,</span>
+<span>  times    <span class="op">=</span> <span class="fl">10</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning in microbenchmark(xml2 = xml2::as_xml_document(doc_list), xmlwriter =</span></span>
-<span><span class="co">#&gt; xml2::as_xml_document(doc_list2), : less accurate nanosecond times to avoid</span></span>
+<span><span class="co">#&gt; xml2::as_xml_document(doc_fragment), : less accurate nanosecond times to avoid</span></span>
 <span><span class="co">#&gt; potential integer overflows</span></span>
 <span><span class="co">#&gt; Unit: milliseconds</span></span>
-<span><span class="co">#&gt;       expr        min         lq       mean     median         uq        max</span></span>
-<span><span class="co">#&gt;       xml2 2403.61549 2446.54741 2455.97644 2456.21154 2469.45071 2499.43655</span></span>
-<span><span class="co">#&gt;  xmlwriter   35.73486   35.99206   38.82175   39.37866   41.04297   41.96141</span></span>
+<span><span class="co">#&gt;       expr        min         lq      mean     median         uq        max</span></span>
+<span><span class="co">#&gt;       xml2 2392.43089 2440.05985 2445.7530 2450.02121 2465.29802 2495.90891</span></span>
+<span><span class="co">#&gt;  xmlwriter   35.37558   35.84093   36.9941   37.02107   37.38991   40.82358</span></span>
 <span><span class="co">#&gt;  neval</span></span>
 <span><span class="co">#&gt;     10</span></span>
 <span><span class="co">#&gt;     10</span></span></code></pre></div>
