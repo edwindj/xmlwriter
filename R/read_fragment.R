@@ -5,6 +5,7 @@
 #' @export
 #' @param x A string, a connection or a raw vector
 #' @param ... passed to [xml2::read_xml()]
+#' @return an object of class `xml_fragment`
 read_fragment <- function(x, ...){
   if (!requireNamespace("xml2", quietly = TRUE)) {
     stop("xml2 is required to use this function")

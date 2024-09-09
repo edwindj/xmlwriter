@@ -11,6 +11,9 @@ read_fragment(x, ...)
 
 \item{...}{passed to \code{\link[xml2:read_xml]{xml2::read_xml()}}}
 }
+\value{
+an object of class \code{xml_fragment}
+}
 \description{
 Reads a xml fragment from a string, a connection or a raw vector using
 \code{\link[xml2:read_xml]{xml2::read_xml()}}, and turns it into a \code{\link[=xml_fragment]{xml_fragment()}}.
