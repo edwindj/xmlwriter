@@ -85,7 +85,7 @@
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://edwindj.github.io/xmlwriter/">xmlwriter</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">fragment</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/xml_fragment.html">xml_fragment</a></span><span class="op">(</span></span>
-<span>  persoon <span class="op">=</span> <span class="fu"><a href="reference/xml_fragment.html">.tags</a></span><span class="op">(</span></span>
+<span>  person <span class="op">=</span> <span class="fu"><a href="reference/xml_fragment.html">.tags</a></span><span class="op">(</span></span>
 <span>    .attr <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>id <span class="op">=</span> <span class="st">"1"</span><span class="op">)</span>,</span>
 <span>    name <span class="op">=</span> <span class="st">"John Doe"</span>,</span>
 <span>    age <span class="op">=</span> <span class="fl">30</span>,</span>
@@ -100,18 +100,18 @@
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">fragment</span><span class="op">)</span></span>
 <span><span class="co">#&gt; {xml_fragment}</span></span>
-<span><span class="co">#&gt; &lt;persoon id="1"&gt;&lt;name&gt;John Doe&lt;/name&gt;&lt;age&gt;30&lt;/age&gt;&lt;address&gt;&lt;street&gt;123 Main St&lt;/...</span></span></code></pre></div>
+<span><span class="co">#&gt; &lt;person id="1"&gt;&lt;name&gt;John Doe&lt;/name&gt;&lt;age&gt;30&lt;/age&gt;&lt;address&gt;&lt;street&gt;123 Main St&lt;/s...</span></span></code></pre></div>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fragment</span> <span class="op">|&gt;</span> <span class="fu">xml2</span><span class="fu">::</span><span class="fu"><a href="http://xml2.r-lib.org/reference/as_xml_document.html" class="external-link">as_xml_document</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; {xml_document}</span></span>
-<span><span class="co">#&gt; &lt;persoon id="1"&gt;</span></span>
+<span><span class="co">#&gt; &lt;person id="1"&gt;</span></span>
 <span><span class="co">#&gt; [1] &lt;name&gt;John Doe&lt;/name&gt;</span></span>
 <span><span class="co">#&gt; [2] &lt;age&gt;30&lt;/age&gt;</span></span>
 <span><span class="co">#&gt; [3] &lt;address&gt;\n  &lt;street&gt;123 Main St&lt;/street&gt;\n  &lt;city&gt;Anytown&lt;/city&gt;\n  &lt;sta ...</span></span></code></pre></div>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fragment</span> <span class="op">|&gt;</span> <span class="fu"><a href="reference/as_xml_nodeset.html">as_xml_nodeset</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; {xml_nodeset (1)}</span></span>
-<span><span class="co">#&gt; [1] &lt;persoon id="1"&gt;\n  &lt;name&gt;John Doe&lt;/name&gt;\n  &lt;age&gt;30&lt;/age&gt;\n  &lt;address&gt;\n ...</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] &lt;person id="1"&gt;\n  &lt;name&gt;John Doe&lt;/name&gt;\n  &lt;age&gt;30&lt;/age&gt;\n  &lt;address&gt;\n  ...</span></span></code></pre></div>
 <p><code>xml_fragment</code> also provides a <code>.data</code> function that can be used to convert a data.frame to xml:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
@@ -237,8 +237,8 @@
 <span><span class="co">#&gt; potential integer overflows</span></span>
 <span><span class="co">#&gt; Unit: milliseconds</span></span>
 <span><span class="co">#&gt;       expr        min         lq       mean     median         uq        max</span></span>
-<span><span class="co">#&gt;       xml2 2405.03089 2454.09940 2464.97629 2460.49669 2483.65971 2529.20788</span></span>
-<span><span class="co">#&gt;  xmlwriter   35.60879   35.74036   38.18791   37.24766   37.67248   47.16652</span></span>
+<span><span class="co">#&gt;       xml2 2403.61549 2446.54741 2455.97644 2456.21154 2469.45071 2499.43655</span></span>
+<span><span class="co">#&gt;  xmlwriter   35.73486   35.99206   38.82175   39.37866   41.04297   41.96141</span></span>
 <span><span class="co">#&gt;  neval</span></span>
 <span><span class="co">#&gt;     10</span></span>
 <span><span class="co">#&gt;     10</span></span></code></pre></div>
