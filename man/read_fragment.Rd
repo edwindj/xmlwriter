@@ -18,3 +18,9 @@ an object of class \code{xml_fragment}
 Reads a xml fragment from a string, a connection or a raw vector using
 \code{\link[xml2:read_xml]{xml2::read_xml()}}, and turns it into a \code{\link[=xml_fragment]{xml_fragment()}}.
 }
+\seealso{
+Other fragments: 
+\code{\link{.tags}()},
+\code{\link{as_xml_nodeset}()}
+}
+\concept{fragments}

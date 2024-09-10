@@ -108,7 +108,7 @@ fragment |> as_xml_nodeset()
 `xml_fragment` implements the `xml2::write_xml` method
 
 ```{r write_xml, eval=FALSE}
-xml2::write_xml(fragment, "person.xml")
+xml2::write_xml(fragment, file="") # print to the console
 ```
 
 results in:

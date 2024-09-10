@@ -36,11 +36,13 @@ a string, an \code{xml2::xml_document} or as a building block for more complex X
 An \code{xml_fragment} is built using
 \itemize{
 \item named \code{.tags} elements, each name is a tag name, and the value is the contents
-of the tag. The contents can be a nested \code{.tags} object, a character string or a numeric value.
+of the tag, e.g. \code{name = "value"} becomes \verb{<name>value</name>}. The value
+can be a nested \code{.tags} object, a character string or a numeric value.
 \item \code{.attr} attributes, which is set on current element, or on the \code{.tags} where
 it is specified
 \item unnamed elements, which are added as text nodes.
-\item \code{.data} function that can be used to convert a data.frame to an xml fragment
+\item \code{.data} function that can be used to convert a data.frame to an xml fragment,
+in which each row is a set of xml elements.
 }
 
 An \code{xml_doc} is a special case of an \code{xml_fragment} that contains exactly one
@@ -129,3 +131,9 @@ if (require("xml2")){
   as_xml_document(iris_xml)
 }
 }
+\seealso{
+Other fragments: 
+\code{\link{as_xml_nodeset}()},
+\code{\link{read_fragment}()}
+}
+\concept{fragments}

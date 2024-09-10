@@ -125,7 +125,7 @@ fragment |> as_xml_nodeset()
 `xml_fragment` implements the `xml2::write_xml` method
 
 ``` r
-xml2::write_xml(fragment, "person.xml")
+xml2::write_xml(fragment, file="") # print to the console
 ```
 
 results in:
@@ -163,11 +163,9 @@ doc <- xml_doc(
 
 doc
 #> {xml_doc,xml_fragment}
-#> <homeless year="1900">
+#> <?xml version='1.0' encoding='UTF-8'?> <homeless year="1900">
 #>   <data>
-#>     <person>
-#>       <name>John Doe</name>
-#>       <...
+#>     <pers...
 ```
 
 Both `xml_doc` as well as `xml_fragment` can be used to create a single
@@ -285,9 +283,9 @@ microbenchmark(
 #> xml2::as_xml_document(doc_fragment), : less accurate nanosecond times to avoid
 #> potential integer overflows
 #> Unit: milliseconds
-#>       expr        min        lq       mean     median         uq        max
-#>       xml2 2397.05479 2420.5793 2448.69671 2446.58336 2464.91803 2525.49553
-#>  xmlwriter   39.39165   40.0998   42.51852   41.51248   45.25219   49.11542
+#>       expr        min         lq      mean     median         uq        max
+#>       xml2 2434.31723 2453.41351 2476.4606 2467.37471 2484.59233 2591.21763
+#>  xmlwriter   39.53019   39.68353   42.1534   41.40016   41.93578   48.24089
 #>  neval
 #>     10
 #>     10

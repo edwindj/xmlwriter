@@ -40,11 +40,13 @@
 #'
 #' An `xml_fragment` is built using
 #' - named `.tags` elements, each name is a tag name, and the value is the contents
-#' of the tag. The contents can be a nested `.tags` object, a character string or a numeric value.
+#' of the tag, e.g. `name = "value"` becomes `<name>value</name>`. The value
+#' can be a nested `.tags` object, a character string or a numeric value.
 #' - `.attr` attributes, which is set on current element, or on the `.tags` where
 #' it is specified
 #' - unnamed elements, which are added as text nodes.
-#' - `.data` function that can be used to convert a data.frame to an xml fragment
+#' - `.data` function that can be used to convert a data.frame to an xml fragment,
+#' in which each row is a set of xml elements.
 #'
 #' An `xml_doc` is a special case of an `xml_fragment` that contains exactly one
 #' root element, and errors when this is not the case.
@@ -59,6 +61,7 @@
 #' @return an `xml_fragment`, list object that can be converted to an `xml2::xml_document`
 #' or `character` string
 #' @example example/xml_fragment.R
+#' @family fragments
 xml_fragment <- function(..., .attr = character()){
   elems <- .tags(..., .attr = as.list(.attr))
 
@@ -106,6 +109,7 @@ as_list.xml_fragment <- function(x, ...){
 #' @param x an object created with [xml_fragment()]
 #' @param ... reserved for future use
 #' @export
+#' @family fragments
 as_xml_nodeset <- function(x, ...){
   if (!requireNamespace("xml2", quietly = TRUE)) {
     stop("xml2 is required to convert an xml_fragment to xml_nodeset")
@@ -155,7 +159,7 @@ shorten_character <- function(x, max_characters = 120){
 
 #' @export
 print.xml_fragment <- function(x, ..., max_characters = 80){
-  s <- list_as_xml_string(x)
+  s <- as.character(x)
 
   if (length(s) > 1){
     l <- length(s)
