@@ -22,7 +22,7 @@ xml_doc(..., .attr = character())
 
 \item{df}{data frame that will be stored as set of xml elements}
 
-\item{row_tag}{the name of the row tag}
+\item{row_tag}{the tag name that is used for each row.}
 }
 \value{
 an \code{xml_fragment}, list object that can be converted to an \code{xml2::xml_document}

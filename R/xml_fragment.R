@@ -20,7 +20,7 @@
 
 #' @rdname xml_fragment
 #' @export
-#' @param row_tag the name of the row tag
+#' @param row_tag the tag name that is used for each row.
 #' @param df data frame that will be stored as set of xml elements
 .data <- function(df, row_tag = "obs"){
     m <- as.matrix(df)
