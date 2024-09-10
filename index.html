@@ -52,7 +52,8 @@
 <p><code>xmlwriter</code> is an R package that provides a simple interface for creating XML documents and fragments from R. It provides a simple elegant syntax for creating <code>xml_fragment</code>s and furthermore contains a feed-forward API that allows you to write xml in the same order as the xml elements appear in an xml document or fragment.</p>
 <p><code>xmlwriter</code>’s xml generation from R lists is fast, implemented in C++ using <a href="https://cran.r-project.org/package=Rcpp" class="external-link"><code>Rcpp</code></a>. Curious for the benchmarks? Check the <a href="#performance">performance section</a>.</p>
 <p><code>xmlwriter</code> can be used as a companion to R packages <a href="https://cran.r-project.org/package=XML" class="external-link"><code>XML</code></a> or <a href="https://cran.r-project.org/package=xml2" class="external-link"><code>xml2</code></a> which are both wonderful packages optimized for parsing, querying and manipulating XML documents. Both <code>XML</code> and <code>xml2</code> provide several ways for creating xml documents, but they are not optimized for generating and writing xml.</p>
-<p>Creating xml documents with <code>XML</code> and <code>xml2</code> can be a bit cumbersome, because it mostly forces the author to manipulate the xml document tree by adding nodes and attributes. <code>xml2</code> <em>does</em> provide a way to create xml documents from R data structures using nested lists which is a powerful feature, but it is not optimized for speed or readability.</p>
+<p>Creating xml documents with <code>XML</code> and <code>xml2</code> can be a bit cumbersome, mostly because it<br>
+forces the author to manipulate the xml document tree by adding nodes and attributes. <code>xml2</code> <em>does</em> provide a way to create xml documents from R data structures using nested lists which is a powerful feature, but it is not optimized for speed or readability.</p>
 <p><code>xmlwriter</code> provides an intuitive interface for creating xml documents, that mimicks how xml is written in a text editor.</p>
 <p>It has two different ways to create xml documents:</p>
 <ul>
@@ -116,8 +117,22 @@
 <code class="sourceCode R"><span><span class="va">fragment</span> <span class="op">|&gt;</span> <span class="fu"><a href="reference/as_xml_nodeset.html">as_xml_nodeset</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; {xml_nodeset (1)}</span></span>
 <span><span class="co">#&gt; [1] &lt;person id="1"&gt;\n  &lt;name&gt;John Doe&lt;/name&gt;\n  &lt;age&gt;30&lt;/age&gt;\n  &lt;address&gt;\n  ...</span></span></code></pre></div>
-<p><code>xml_fragment</code> also provides a <code>.data</code> function that can be used to convert a data.frame to xml:</p>
+<p><code>xml_fragment</code> implements the <code><a href="http://xml2.r-lib.org/reference/write_xml.html" class="external-link">xml2::write_xml</a></code> method</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">xml2</span><span class="fu">::</span><span class="fu"><a href="http://xml2.r-lib.org/reference/write_xml.html" class="external-link">write_xml</a></span><span class="op">(</span><span class="va">fragment</span>, <span class="st">"person.xml"</span><span class="op">)</span></span></code></pre></div>
+<p>results in:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode xml"><code class="sourceCode xml"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>&lt;<span class="kw">person</span><span class="ot"> id=</span><span class="st">"1"</span>&gt;</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>  &lt;<span class="kw">name</span>&gt;John Doe&lt;/<span class="kw">name</span>&gt;</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>  &lt;<span class="kw">age</span>&gt;30&lt;/<span class="kw">age</span>&gt;</span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>  &lt;<span class="kw">address</span>&gt;</span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>    &lt;<span class="kw">street</span>&gt;123 Main St&lt;/<span class="kw">street</span>&gt;</span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>    &lt;<span class="kw">city</span>&gt;Anytown&lt;/<span class="kw">city</span>&gt;</span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>    &lt;<span class="kw">state</span>&gt;CA&lt;/<span class="kw">state</span>&gt;</span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a>    &lt;<span class="kw">zip</span>&gt;12345&lt;/<span class="kw">zip</span>&gt;</span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a>  &lt;/<span class="kw">address</span>&gt;</span>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a>&lt;/<span class="kw">person</span>&gt;</span></code></pre></div>
+<p><code>xml_fragment</code> provides a <code>.data</code> function that can be used to convert a data.frame to xml:</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
 <span>  name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"John Doe"</span>, <span class="st">"Jane Doe"</span><span class="op">)</span>,</span>
 <span>  age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">30</span>, <span class="fl">25</span><span class="op">)</span>,</span>
@@ -161,7 +176,7 @@
 <li>
 <code>fragment</code> to add a fragment</li>
 </ul>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://edwindj.github.io/xmlwriter/">xmlwriter</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">b</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/xmlbuilder.html">xmlbuilder</a></span><span class="op">(</span>allow_fragments <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
@@ -203,11 +218,11 @@
 <span><span class="co">#&gt;   &lt;name&gt;Jim Doe&lt;/name&gt;</span></span>
 <span><span class="co">#&gt;   &lt;age&gt;35&lt;/age&gt;</span></span>
 <span><span class="co">#&gt; &lt;/person&gt;&lt;/homeless&gt;</span></span></code></pre></div>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "&lt;?xml version='1.0' encoding='UTF-8'?&gt;&lt;!--This is an xml comment--&gt;&lt;homeless&gt;&lt;person id=\"1\"&gt;&lt;name&gt;John Doe&lt;/name&gt;&lt;age&gt;30&lt;/age&gt;&lt;address&gt;&lt;street&gt;123 Main St&lt;/street&gt;&lt;city&gt;Anytown&lt;/city&gt;&lt;state&gt;CA&lt;/state&gt;&lt;zip&gt;12345&lt;/zip&gt;&lt;/address&gt;&lt;/person&gt;&lt;person id=\"2\"&gt;&lt;name&gt;Jane Doe&lt;/name&gt;&lt;age&gt;25&lt;/age&gt;&lt;address&gt;&lt;street&gt;321 Main St&lt;/street&gt;&lt;city&gt;Anytown&lt;/city&gt;&lt;state&gt;CA&lt;/state&gt;&lt;zip&gt;54321&lt;/zip&gt;&lt;/address&gt;&lt;/person&gt;&lt;person id=\"3\"&gt;\n  &lt;name&gt;Jim Doe&lt;/name&gt;\n  &lt;age&gt;35&lt;/age&gt;\n&lt;/person&gt;&lt;/homeless&gt;"</span></span></code></pre></div>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co"># only contains the actual nodes</span></span>
 <span><span class="fu">xml2</span><span class="fu">::</span><span class="fu"><a href="http://xml2.r-lib.org/reference/as_xml_document.html" class="external-link">as_xml_document</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span></span>
@@ -223,7 +238,7 @@
 <h1 id="performance">Performance<a class="anchor" aria-label="anchor" href="#performance"></a>
 </h1>
 <p><code>xmlwriter</code> is optimized for generating xml documents and fragments from a R <code>list</code> structure that is identical to the <code>xml2::as_list</code> output.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/joshuaulrich/microbenchmark/" class="external-link">microbenchmark</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://xml2.r-lib.org/" class="external-link">xml2</a></span><span class="op">)</span></span>
@@ -248,9 +263,9 @@
 <span><span class="co">#&gt; xml2::as_xml_document(doc_fragment), : less accurate nanosecond times to avoid</span></span>
 <span><span class="co">#&gt; potential integer overflows</span></span>
 <span><span class="co">#&gt; Unit: milliseconds</span></span>
-<span><span class="co">#&gt;       expr        min         lq       mean     median         uq        max</span></span>
-<span><span class="co">#&gt;       xml2 2425.10433 2460.65370 2480.04321 2463.63883 2497.77658 2614.30243</span></span>
-<span><span class="co">#&gt;  xmlwriter   39.50994   40.04548   41.80572   40.99602   41.32874   49.77277</span></span>
+<span><span class="co">#&gt;       expr        min        lq       mean     median         uq        max</span></span>
+<span><span class="co">#&gt;       xml2 2397.05479 2420.5793 2448.69671 2446.58336 2464.91803 2525.49553</span></span>
+<span><span class="co">#&gt;  xmlwriter   39.39165   40.0998   42.51852   41.51248   45.25219   49.11542</span></span>
 <span><span class="co">#&gt;  neval</span></span>
 <span><span class="co">#&gt;     10</span></span>
 <span><span class="co">#&gt;     10</span></span></code></pre></div>
