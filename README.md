@@ -28,10 +28,11 @@ documents. Both `XML` and `xml2` provide several ways for creating xml
 documents, but they are not optimized for generating and writing xml.
 
 Creating xml documents with `XML` and `xml2` can be a bit cumbersome,
-because it mostly forces the author to manipulate the xml document tree
-by adding nodes and attributes. `xml2` *does* provide a way to create
-xml documents from R data structures using nested lists which is a
-powerful feature, but it is not optimized for speed or readability.
+mostly because it  
+forces the author to manipulate the xml document tree by adding nodes
+and attributes. `xml2` *does* provide a way to create xml documents from
+R data structures using nested lists which is a powerful feature, but it
+is not optimized for speed or readability.
 
 `xmlwriter` provides an intuitive interface for creating xml documents,
 that mimicks how xml is written in a text editor.
@@ -121,8 +122,29 @@ fragment |> as_xml_nodeset()
 #> [1] <person id="1">\n  <name>John Doe</name>\n  <age>30</age>\n  <address>\n  ...
 ```
 
-`xml_fragment` also provides a `.data` function that can be used to
-convert a data.frame to xml:
+`xml_fragment` implements the `xml2::write_xml` method
+
+``` r
+xml2::write_xml(fragment, "person.xml")
+```
+
+results in:
+
+``` xml
+<person id="1">
+  <name>John Doe</name>
+  <age>30</age>
+  <address>
+    <street>123 Main St</street>
+    <city>Anytown</city>
+    <state>CA</state>
+    <zip>12345</zip>
+  </address>
+</person>
+```
+
+`xml_fragment` provides a `.data` function that can be used to convert a
+data.frame to xml:
 
 ``` r
 data <- data.frame(
@@ -263,9 +285,9 @@ microbenchmark(
 #> xml2::as_xml_document(doc_fragment), : less accurate nanosecond times to avoid
 #> potential integer overflows
 #> Unit: milliseconds
-#>       expr        min         lq       mean     median         uq        max
-#>       xml2 2425.10433 2460.65370 2480.04321 2463.63883 2497.77658 2614.30243
-#>  xmlwriter   39.50994   40.04548   41.80572   40.99602   41.32874   49.77277
+#>       expr        min        lq       mean     median         uq        max
+#>       xml2 2397.05479 2420.5793 2448.69671 2446.58336 2464.91803 2525.49553
+#>  xmlwriter   39.39165   40.0998   42.51852   41.51248   45.25219   49.11542
 #>  neval
 #>     10
 #>     10

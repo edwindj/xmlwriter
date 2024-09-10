@@ -34,8 +34,8 @@ querying and manipulating XML documents. Both `XML` and `xml2` provide several
 ways for creating xml documents, but they are not optimized for 
 generating and writing xml.
 
-Creating xml documents with `XML` and `xml2` can be a bit cumbersome, 
-because it mostly 
+Creating xml documents with `XML` and `xml2` can be a bit cumbersome, mostly
+because it  
 forces the author to manipulate the xml document tree by adding nodes and attributes.
 `xml2` _does_ provide a way to create xml documents from R data structures using
 nested lists which is a powerful feature, but it is not optimized for 
@@ -104,7 +104,22 @@ print(fragment)
 fragment |> xml2::as_xml_document()
 fragment |> as_xml_nodeset()
 ```
-`xml_fragment` also provides a `.data` function that can be used to convert a data.frame to xml:
+
+`xml_fragment` implements the `xml2::write_xml` method
+
+```{r write_xml, eval=FALSE}
+xml2::write_xml(fragment, "person.xml")
+```
+
+results in:
+
+```{r, echo=FALSE, results='asis'}
+cat("```XML\n")
+xml2::write_xml(fragment, "")
+cat("\n```\n")
+```
+
+`xml_fragment` provides a `.data` function that can be used to convert a data.frame to xml:
 
 ```{r data}
 data <- data.frame(
