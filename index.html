@@ -119,7 +119,7 @@ forces the author to manipulate the xml document tree by adding nodes and attrib
 <span><span class="co">#&gt; [1] &lt;person id="1"&gt;\n  &lt;name&gt;John Doe&lt;/name&gt;\n  &lt;age&gt;30&lt;/age&gt;\n  &lt;address&gt;\n  ...</span></span></code></pre></div>
 <p><code>xml_fragment</code> implements the <code><a href="http://xml2.r-lib.org/reference/write_xml.html" class="external-link">xml2::write_xml</a></code> method</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">xml2</span><span class="fu">::</span><span class="fu"><a href="http://xml2.r-lib.org/reference/write_xml.html" class="external-link">write_xml</a></span><span class="op">(</span><span class="va">fragment</span>, <span class="st">"person.xml"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">xml2</span><span class="fu">::</span><span class="fu"><a href="http://xml2.r-lib.org/reference/write_xml.html" class="external-link">write_xml</a></span><span class="op">(</span><span class="va">fragment</span>, file<span class="op">=</span><span class="st">""</span><span class="op">)</span> <span class="co"># print to the console</span></span></code></pre></div>
 <p>results in:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode xml"><code class="sourceCode xml"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>&lt;<span class="kw">person</span><span class="ot"> id=</span><span class="st">"1"</span>&gt;</span>
 <span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>  &lt;<span class="kw">name</span>&gt;John Doe&lt;/<span class="kw">name</span>&gt;</span>
@@ -149,11 +149,9 @@ forces the author to manipulate the xml document tree by adding nodes and attrib
 <span></span>
 <span><span class="va">doc</span></span>
 <span><span class="co">#&gt; {xml_doc,xml_fragment}</span></span>
-<span><span class="co">#&gt; &lt;homeless year="1900"&gt;</span></span>
+<span><span class="co">#&gt; &lt;?xml version='1.0' encoding='UTF-8'?&gt; &lt;homeless year="1900"&gt;</span></span>
 <span><span class="co">#&gt;   &lt;data&gt;</span></span>
-<span><span class="co">#&gt;     &lt;person&gt;</span></span>
-<span><span class="co">#&gt;       &lt;name&gt;John Doe&lt;/name&gt;</span></span>
-<span><span class="co">#&gt;       &lt;...</span></span></code></pre></div>
+<span><span class="co">#&gt;     &lt;pers...</span></span></code></pre></div>
 <p>Both <code>xml_doc</code> as well as <code>xml_fragment</code> can be used to create a single root element xml document. <code>xml_doc</code> is a <code>xml_fragment</code> that errors when there is more than one root element.</p>
 </div>
 <div class="section level3">
@@ -263,9 +261,9 @@ forces the author to manipulate the xml document tree by adding nodes and attrib
 <span><span class="co">#&gt; xml2::as_xml_document(doc_fragment), : less accurate nanosecond times to avoid</span></span>
 <span><span class="co">#&gt; potential integer overflows</span></span>
 <span><span class="co">#&gt; Unit: milliseconds</span></span>
-<span><span class="co">#&gt;       expr        min        lq       mean     median         uq        max</span></span>
-<span><span class="co">#&gt;       xml2 2397.05479 2420.5793 2448.69671 2446.58336 2464.91803 2525.49553</span></span>
-<span><span class="co">#&gt;  xmlwriter   39.39165   40.0998   42.51852   41.51248   45.25219   49.11542</span></span>
+<span><span class="co">#&gt;       expr        min         lq      mean     median         uq        max</span></span>
+<span><span class="co">#&gt;       xml2 2434.31723 2453.41351 2476.4606 2467.37471 2484.59233 2591.21763</span></span>
+<span><span class="co">#&gt;  xmlwriter   39.53019   39.68353   42.1534   41.40016   41.93578   48.24089</span></span>
 <span><span class="co">#&gt;  neval</span></span>
 <span><span class="co">#&gt;     10</span></span>
 <span><span class="co">#&gt;     10</span></span></code></pre></div>

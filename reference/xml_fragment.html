@@ -77,16 +77,24 @@ or <code>character</code> string</p>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>An <code>xml_fragment</code> is built using</p><ul><li><p>named <code>.tags</code> elements, each name is a tag name, and the value is the contents
-of the tag. The contents can be a nested <code>.tags</code> object, a character string or a numeric value.</p></li>
+of the tag, e.g. <code>name = "value"</code> becomes <code>&lt;name&gt;value&lt;/name&gt;</code>. The value
+can be a nested <code>.tags</code> object, a character string or a numeric value.</p></li>
 <li><p><code>.attr</code> attributes, which is set on current element, or on the <code>.tags</code> where
 it is specified</p></li>
 <li><p>unnamed elements, which are added as text nodes.</p></li>
-<li><p><code>.data</code> function that can be used to convert a data.frame to an xml fragment</p></li>
+<li><p><code>.data</code> function that can be used to convert a data.frame to an xml fragment,
+in which each row is a set of xml elements.</p></li>
 </ul><p>An <code>xml_doc</code> is a special case of an <code>xml_fragment</code> that contains exactly one
 root element, and errors when this is not the case.</p>
 <p>A resulting <code>xml_fragment</code> object can be converted to an <code>xml2::xml_document</code> with
 <code><a href="http://xml2.r-lib.org/reference/as_xml_document.html" class="external-link">xml2::as_xml_document()</a></code> or to a character string with <code><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character()</a></code>. Both
 methods are fast using a performant c++ implementation.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
+    <div class="dont-index"><p>Other fragments:
+<code><a href="as_xml_nodeset.html">as_xml_nodeset</a>()</code>,
+<code><a href="read_fragment.html">read_fragment</a>()</code></p></div>
     </div>
 
     <div class="section level2">
@@ -147,11 +155,9 @@ methods are fast using a performant c++ implementation.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">doc2</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> {xml_doc,xml_fragment}</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;study&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;?xml version='1.0' encoding='UTF-8'?&gt; &lt;study&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   &lt;person id="p1"&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;name&gt;John Doe&lt;/name&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;age&gt;30&lt;/age&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;addr... </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;name&gt;John... </span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://xml2.r-lib.org/" class="external-link">"xml2"</a></span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="http://xml2.r-lib.org/reference/as_xml_document.html" class="external-link">as_xml_document</a></span><span class="op">(</span><span class="va">doc2</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
@@ -200,14 +206,13 @@ methods are fast using a performant c++ implementation.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">iris_xml</span>, max_characters <span class="op">=</span> <span class="fl">300</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> {xml_doc,xml_fragment}</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;fieldstudy id="iris" doi="10.1111/j.1469-1809.1936.tb02137.x"&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;?xml version='1.0' encoding='UTF-8'?&gt; &lt;fieldstudy id="iris" doi="10.1111/j.1469-1809.1936.tb02137.x"&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   &lt;source&gt;Fisher, R. A. (1936) The use of multiple measurements in</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> taxonomic problems. Annals of Eugenics, 7, Part II, 179–188.&lt;/source&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   &lt;data&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;obs&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       &lt;Sepal.Length&gt;5.1&lt;/Sepal.Length&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       &lt;Sepal.Width&gt;3.5&lt;/Sepal.Width&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     ... </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ... </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://xml2.r-lib.org/" class="external-link">"xml2"</a></span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="http://xml2.r-lib.org/reference/as_xml_document.html" class="external-link">as_xml_document</a></span><span class="op">(</span><span class="va">iris_xml</span><span class="op">)</span></span></span>
