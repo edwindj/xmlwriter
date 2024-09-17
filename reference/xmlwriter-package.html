@@ -45,7 +45,7 @@ contains a feed-forward API that allows you to write xml.</p>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p><code>xmlwriter</code>'s xml generation from R lists is fast, implemented in C++ using <a href="https://cran.r-project.org/package=Rcpp" class="external-link"><code>Rcpp</code></a>.</p>
-<p><code>xmlwriter</code> provides two different ways to create xml documents:</p><ul><li><p>a light weight R syntax using <code><a href="xml_fragment.html">xml_doc()</a></code>, <code><a href="xml_fragment.html">xml_fragment()</a></code> and <code><a href="xml_fragment.html">.tags()</a></code>, creating an xml fragment
+<p><code>xmlwriter</code> provides two different ways to create xml documents:</p><ul><li><p>a light weight R syntax using <code><a href="xml_fragment.html">xml_doc()</a></code>, <code><a href="xml_fragment.html">xml_fragment()</a></code> and <code><a href="xml_fragment.html">frag()</a></code>, creating an xml fragment
 that can be easily translated into a xml string or <code>xml2::xml_document</code> object</p></li>
 <li><p>a feed-forward API using <code><a href="xmlbuilder.html">xmlbuilder()</a></code> that allows you to create xml documents in a feed-forward manner.</p></li>
 </ul><p>It implements several <code>xml2</code> methods:</p><ul><li><p><code>as_xml_document.xml_fragment()</code></p></li>
@@ -65,17 +65,17 @@ that can be easily translated into a xml string or <code>xml2::xml_document</cod
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">doc</span> <span class="op">&lt;-</span> <span class="fu"><a href="xml_fragment.html">xml_fragment</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>  study <span class="op">=</span> <span class="fu"><a href="xml_fragment.html">.tags</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  study <span class="op">=</span> <span class="fu"><a href="xml_fragment.html">frag</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>    .attr <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>id<span class="op">=</span><span class="st">"1"</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>    person <span class="op">=</span> <span class="fu"><a href="xml_fragment.html">.tags</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    person <span class="op">=</span> <span class="fu"><a href="xml_fragment.html">frag</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>      .attr <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>id <span class="op">=</span> <span class="st">"p1"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>      name <span class="op">=</span> <span class="st">"John Doe"</span>,</span></span>
 <span class="r-in"><span>      age <span class="op">=</span> <span class="fl">30</span></span></span>
 <span class="r-in"><span>    <span class="op">)</span>,</span></span>
-<span class="r-in"><span>    person <span class="op">=</span> <span class="fu"><a href="xml_fragment.html">.tags</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    person <span class="op">=</span> <span class="fu"><a href="xml_fragment.html">frag</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>      name <span class="op">=</span> <span class="st">"Jane Doe"</span>,</span></span>
 <span class="r-in"><span>      age <span class="op">=</span> <span class="fl">25</span>,</span></span>
-<span class="r-in"><span>      address <span class="op">=</span> <span class="fu"><a href="xml_fragment.html">.tags</a></span><span class="op">(</span>street <span class="op">=</span> <span class="st">"123 Main St"</span>, city <span class="op">=</span> <span class="st">"Springfield"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>      address <span class="op">=</span> <span class="fu"><a href="xml_fragment.html">frag</a></span><span class="op">(</span>street <span class="op">=</span> <span class="st">"123 Main St"</span>, city <span class="op">=</span> <span class="st">"Springfield"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>      <span class="st">"This is a text node"</span></span></span>
 <span class="r-in"><span>    <span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
@@ -100,18 +100,18 @@ that can be easily translated into a xml string or <code>xml2::xml_document</cod
 <span class="r-in"><span><span class="co"># but remember that the enconsing element name must be used outside the</span></span></span>
 <span class="r-in"><span><span class="co"># function</span></span></span>
 <span class="r-in"><span><span class="va">person</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">name</span>, <span class="va">age</span>, <span class="va">id</span><span class="op">)</span><span class="op">{</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="xml_fragment.html">.tags</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="xml_fragment.html">frag</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>    <span class="co"># xml attributes can be speficied with .attr</span></span></span>
 <span class="r-in"><span>    .attr <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>id <span class="op">=</span> <span class="va">id</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>    name <span class="op">=</span> <span class="va">name</span>,</span></span>
 <span class="r-in"><span>    age <span class="op">=</span> <span class="va">age</span>,</span></span>
-<span class="r-in"><span>    address <span class="op">=</span> <span class="fu"><a href="xml_fragment.html">.tags</a></span><span class="op">(</span>street <span class="op">=</span> <span class="st">"123 Main St"</span>, city <span class="op">=</span> <span class="st">"Springfield"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    address <span class="op">=</span> <span class="fu"><a href="xml_fragment.html">frag</a></span><span class="op">(</span>street <span class="op">=</span> <span class="st">"123 Main St"</span>, city <span class="op">=</span> <span class="st">"Springfield"</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># xml_doc is a xml_fragment with the restriction of having one root element</span></span></span>
 <span class="r-in"><span><span class="va">doc2</span> <span class="op">&lt;-</span> <span class="fu"><a href="xml_fragment.html">xml_doc</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>  study <span class="op">=</span> <span class="fu"><a href="xml_fragment.html">.tags</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  study <span class="op">=</span> <span class="fu"><a href="xml_fragment.html">frag</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>    <span class="co"># you need to specify "person" as the name for each element</span></span></span>
 <span class="r-in"><span>    person <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/utils/person.html" class="external-link">person</a></span><span class="op">(</span><span class="st">"John Doe"</span>, <span class="fl">30</span>, id <span class="op">=</span> <span class="st">"p1"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>    person <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/utils/person.html" class="external-link">person</a></span><span class="op">(</span><span class="st">"Jane Doe"</span>, <span class="fl">25</span>, id <span class="op">=</span> <span class="st">"p2"</span><span class="op">)</span></span></span>
@@ -120,9 +120,10 @@ that can be easily translated into a xml string or <code>xml2::xml_document</cod
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">doc2</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> {xml_doc,xml_fragment}</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;?xml version='1.0' encoding='UTF-8'?&gt; &lt;study&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;?xml version='1.0' encoding='UTF-8'?&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  &lt;study&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   &lt;person id="p1"&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;name&gt;John... </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;name&gt;Joh... </span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://xml2.r-lib.org/" class="external-link">"xml2"</a></span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="http://xml2.r-lib.org/reference/as_xml_document.html" class="external-link">as_xml_document</a></span><span class="op">(</span><span class="va">doc2</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
@@ -161,7 +162,7 @@ that can be easily translated into a xml string or <code>xml2::xml_document</cod
 <span class="r-out co"><span class="r-pr">#&gt;</span> [2] &lt;person id="p2"&gt;\n  &lt;name&gt;Jane Doe&lt;/name&gt;\n  &lt;age&gt;25&lt;/age&gt;\n  &lt;address&gt;\n ...</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">iris_xml</span> <span class="op">&lt;-</span> <span class="fu"><a href="xml_fragment.html">xml_doc</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>  fieldstudy <span class="op">=</span> <span class="fu"><a href="xml_fragment.html">.tags</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  fieldstudy <span class="op">=</span> <span class="fu"><a href="xml_fragment.html">frag</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>    .attr <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>id <span class="op">=</span> <span class="st">"iris"</span>, doi <span class="op">=</span><span class="st">"10.1111/j.1469-1809.1936.tb02137.x"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>    source <span class="op">=</span> <span class="st">"Fisher, R. A. (1936) The use of multiple measurements in</span></span></span>
 <span class="r-in"><span><span class="st">taxonomic problems. Annals of Eugenics, 7, Part II, 179–188."</span>,</span></span>
@@ -171,13 +172,14 @@ that can be easily translated into a xml string or <code>xml2::xml_document</cod
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">iris_xml</span>, max_characters <span class="op">=</span> <span class="fl">300</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> {xml_doc,xml_fragment}</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;?xml version='1.0' encoding='UTF-8'?&gt; &lt;fieldstudy id="iris" doi="10.1111/j.1469-1809.1936.tb02137.x"&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;?xml version='1.0' encoding='UTF-8'?&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  &lt;fieldstudy id="iris" doi="10.1111/j.1469-1809.1936.tb02137.x"&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   &lt;source&gt;Fisher, R. A. (1936) The use of multiple measurements in</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> taxonomic problems. Annals of Eugenics, 7, Part II, 179–188.&lt;/source&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   &lt;data&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;obs&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       &lt;Sepal.Length&gt;5.1&lt;/Sepal.Length&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   ... </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  ... </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://xml2.r-lib.org/" class="external-link">"xml2"</a></span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="http://xml2.r-lib.org/reference/as_xml_document.html" class="external-link">as_xml_document</a></span><span class="op">(</span><span class="va">iris_xml</span><span class="op">)</span></span></span>
