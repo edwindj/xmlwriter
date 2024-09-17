@@ -1,15 +1,15 @@
 doc <- xml_fragment(
-  study = .tags(
+  study = frag(
     .attr = c(id="1"),
-    person = .tags(
+    person = frag(
       .attr = c(id = "p1"),
       name = "John Doe",
       age = 30
     ),
-    person = .tags(
+    person = frag(
       name = "Jane Doe",
       age = 25,
-      address = .tags(street = "123 Main St", city = "Springfield"),
+      address = frag(street = "123 Main St", city = "Springfield"),
       "This is a text node"
     )
   )
@@ -24,18 +24,18 @@ if (require("xml2")){
 # but remember that the enconsing element name must be used outside the
 # function
 person <- function(name, age, id){
-  .tags(
+  frag(
     # xml attributes can be speficied with .attr
     .attr = c(id = id),
     name = name,
     age = age,
-    address = .tags(street = "123 Main St", city = "Springfield")
+    address = frag(street = "123 Main St", city = "Springfield")
   )
 }
 
 # xml_doc is a xml_fragment with the restriction of having one root element
 doc2 <- xml_doc(
-  study = .tags(
+  study = frag(
     # you need to specify "person" as the name for each element
     person = person("John Doe", 30, id = "p1"),
     person = person("Jane Doe", 25, id = "p2")
@@ -62,7 +62,7 @@ if (require("xml2")){
 }
 
 iris_xml <- xml_doc(
-  fieldstudy = .tags(
+  fieldstudy = frag(
     .attr = c(id = "iris", doi ="10.1111/j.1469-1809.1936.tb02137.x"),
     source = "Fisher, R. A. (1936) The use of multiple measurements in
 taxonomic problems. Annals of Eugenics, 7, Part II, 179–188.",

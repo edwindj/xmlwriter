@@ -8,7 +8,7 @@
 #'
 #' `xmlwriter` provides two different ways to create xml documents:
 #'
-#' - a light weight R syntax using [xml_doc()], [xml_fragment()] and [.tags()], creating an xml fragment
+#' - a light weight R syntax using [xml_doc()], [xml_fragment()] and [frag()], creating an xml fragment
 #' that can be easily translated into a xml string or `xml2::xml_document` object
 #' - a feed-forward API using [xmlbuilder()] that allows you to create xml documents in a feed-forward manner.
 #'

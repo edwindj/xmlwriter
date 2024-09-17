@@ -16,16 +16,17 @@
 #' @param use_prolog logical. Should the XML prolog be included in the output?
 #' Default is `TRUE`, which generate an UTF-8 xml prolog.
 #' Set to `FALSE` if you want to generate an xml fragment or manually prepend the prolog.
+#' @param strict logical. Should the builder check for dangling nodes, default is `FALSE`.
 #' @return An object of class `xmlbuilder
 #' @example example/xmlbuilder.R
 #' @export
-xmlbuilder <- function(allow_fragments = TRUE, use_prolog = !allow_fragments){
+xmlbuilder <- function(allow_fragments = TRUE, use_prolog = !allow_fragments, strict = FALSE){
   xb <- new.env()
 
-  xb$x <- xmlbuilder_create(use_prolog)
+  xb$x <- xmlbuilder_create(use_prolog, strict = strict)
 
   xb$start <- function(tag, ...){
-    attr <- list(...)
+    attr <- list(...) |> lapply(as.character)
     xmlbuilder_start_element(xb$x, tag, attr)
     # invisible(xb)
   }
@@ -33,7 +34,7 @@ xmlbuilder <- function(allow_fragments = TRUE, use_prolog = !allow_fragments){
   # aliases
   xb$start_element <- xb$start
 
-  xb$end <- function(tag){
+  xb$end <- function(tag = ""){
     xmlbuilder_end_element(xb$x, tag)
     # invisible(xb)
   }
@@ -74,6 +75,20 @@ xmlbuilder <- function(allow_fragments = TRUE, use_prolog = !allow_fragments){
     lapply(s, xml2::read_xml)
   }
 
+  xb$get_partial_xml <- function(){
+    xmlbuilder_get_partial_xml(xb$x)
+  }
+
+  xb$append_xmlbuilder <- function(xb2){
+    xmlbuilder_append_xmlbuilder(xb$x, xb2$x)
+  }
+
+  xb$raw_xml <- function(s){
+    for (xml in as.character(s)){
+      xmlbuilder_write_raw_xml(xb$x, xml)
+    }
+  }
+
   xb$fragment <- function(..., .attr = NULL, .fragment = xml_fragment(..., .attr=.attr)){
     stopifnot(inherits(.fragment, "xml_fragment"))
     for (xml in as.character(.fragment)){
@@ -81,15 +96,13 @@ xmlbuilder <- function(allow_fragments = TRUE, use_prolog = !allow_fragments){
     }
   }
 
-  xb$to_xml_node
-
   structure(xb, class="xmlbuilder")
 }
 
 #' @export
 print.xmlbuilder <- function(x, ..., max_characters = 120){
   cat("{xmlbuilder}\n")
-  s <- x$to_xml_string()
+  s <- x$get_partial_xml()
   if (length(s) <= max_characters) {
     cat(s)
   } else {

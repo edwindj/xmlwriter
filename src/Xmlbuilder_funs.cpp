@@ -4,10 +4,27 @@
 using namespace Rcpp;
 
 //[[Rcpp::export]]
-List xmlbuilder_create(bool use_prolog = true){
-  auto ptr = XPtr<Xmlbuilder>(new Xmlbuilder(use_prolog), true);
+List xmlbuilder_create(bool use_prolog = true, bool strict = true){
+  auto ptr = XPtr<Xmlbuilder>(new Xmlbuilder(use_prolog, strict), true);
   auto x = List::create(_["ptr"] = ptr);
   return x;
+}
+
+//[[Rcpp::export]]
+std::string xmlbuilder_get_partial_xml(List& xb){
+  auto ptr = as<XPtr<Xmlbuilder>>(xb["ptr"]);
+
+  Rcout << "get_partial_xml: '";
+  auto s = ptr->get_partial_xml();
+  Rcout << s << "'\n";
+  return s;
+}
+
+//[[Rcpp::export]]
+void xmlbuilder_append_xmlbuilder(List& xb, List& xb2){
+  auto ptr = as<XPtr<Xmlbuilder>>(xb["ptr"]);
+  auto ptr2 = as<XPtr<Xmlbuilder>>(xb2["ptr"]);
+  ptr->append_xmlbuilder(*ptr2);
 }
 
 //[[Rcpp::export]]
@@ -40,7 +57,7 @@ void xmlbuilder_write_element(List& xb, std::string tag, std::string text, List 
 }
 
 //[[Rcpp::export]]
-void xmlbuilder_end_element(List& xb, std::string tag){
+void xmlbuilder_end_element(List& xb, std::string tag = ""){
   auto ptr = as<XPtr<Xmlbuilder>>(xb["ptr"]);
   ptr->end_element(tag);
 }

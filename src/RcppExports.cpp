@@ -11,14 +11,37 @@ Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
 // xmlbuilder_create
-List xmlbuilder_create(bool use_prolog);
-RcppExport SEXP _xmlwriter_xmlbuilder_create(SEXP use_prologSEXP) {
+List xmlbuilder_create(bool use_prolog, bool strict);
+RcppExport SEXP _xmlwriter_xmlbuilder_create(SEXP use_prologSEXP, SEXP strictSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< bool >::type use_prolog(use_prologSEXP);
-    rcpp_result_gen = Rcpp::wrap(xmlbuilder_create(use_prolog));
+    Rcpp::traits::input_parameter< bool >::type strict(strictSEXP);
+    rcpp_result_gen = Rcpp::wrap(xmlbuilder_create(use_prolog, strict));
     return rcpp_result_gen;
+END_RCPP
+}
+// xmlbuilder_get_partial_xml
+std::string xmlbuilder_get_partial_xml(List& xb);
+RcppExport SEXP _xmlwriter_xmlbuilder_get_partial_xml(SEXP xbSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< List& >::type xb(xbSEXP);
+    rcpp_result_gen = Rcpp::wrap(xmlbuilder_get_partial_xml(xb));
+    return rcpp_result_gen;
+END_RCPP
+}
+// xmlbuilder_append_xmlbuilder
+void xmlbuilder_append_xmlbuilder(List& xb, List& xb2);
+RcppExport SEXP _xmlwriter_xmlbuilder_append_xmlbuilder(SEXP xbSEXP, SEXP xb2SEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< List& >::type xb(xbSEXP);
+    Rcpp::traits::input_parameter< List& >::type xb2(xb2SEXP);
+    xmlbuilder_append_xmlbuilder(xb, xb2);
+    return R_NilValue;
 END_RCPP
 }
 // xmlbuilder_to_string
@@ -173,7 +196,9 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_xmlwriter_xmlbuilder_create", (DL_FUNC) &_xmlwriter_xmlbuilder_create, 1},
+    {"_xmlwriter_xmlbuilder_create", (DL_FUNC) &_xmlwriter_xmlbuilder_create, 2},
+    {"_xmlwriter_xmlbuilder_get_partial_xml", (DL_FUNC) &_xmlwriter_xmlbuilder_get_partial_xml, 1},
+    {"_xmlwriter_xmlbuilder_append_xmlbuilder", (DL_FUNC) &_xmlwriter_xmlbuilder_append_xmlbuilder, 2},
     {"_xmlwriter_xmlbuilder_to_string", (DL_FUNC) &_xmlwriter_xmlbuilder_to_string, 1},
     {"_xmlwriter_xmlbuilder_start_element", (DL_FUNC) &_xmlwriter_xmlbuilder_start_element, 3},
     {"_xmlwriter_xmlbuilder_write_raw_xml", (DL_FUNC) &_xmlwriter_xmlbuilder_write_raw_xml, 2},

@@ -1,7 +1,7 @@
 library(xmlwriter)
 
 fragment <- xml_fragment(
-  person = .tags(
+  person = frag(
     name = "John Doe",
     age = 30
   )
@@ -13,7 +13,7 @@ expect_equal(
 )
 
 fragment <- xml_fragment(
-  person = .tags(
+  person = frag(
     .attr = c(id = "id", test = "test"),
     name = "John Doe",
     age = 30
@@ -26,10 +26,10 @@ expect_equal(
 )
 
 fragment <- xml_fragment(
-  person = .tags(
+  person = frag(
     name = "John Doe",
     age = 30,
-    address = .tags(street = "123 Main St", city = "Springfield"),
+    address = frag(street = "123 Main St", city = "Springfield"),
     "This is a text node"
   )
 )
@@ -40,16 +40,16 @@ expect_equal(
 )
 
 fragment <- xml_fragment(
-  person = .tags(
+  person = frag(
     name = "John Doe",
     age = 30,
-    address = .tags(street = "123 Main St", city = "Springfield"),
+    address = frag(street = "123 Main St", city = "Springfield"),
     "This is a text node"
   ),
-  person = .tags(
+  person = frag(
     name = "Jane Doe",
     age = 25,
-    address = .tags(street = "123 Main St", city = "Springfield"),
+    address = frag(street = "123 Main St", city = "Springfield"),
     "This is a text node"
   )
 )
@@ -61,16 +61,16 @@ expect_equal(
 
 expect_error(
   doc <- xml_doc(
-    person = .tags(
+    person = frag(
       name = "John Doe",
       age = 30,
-      address = .tags(street = "123 Main St", city = "Springfield"),
+      address = frag(street = "123 Main St", city = "Springfield"),
       "This is a text node"
     ),
-    person = .tags(
+    person = frag(
       name = "Jane Doe",
       age = 25,
-      address = .tags(street = "123 Main St", city = "Springfield"),
+      address = frag(street = "123 Main St", city = "Springfield"),
       "This is a text node"
     )
   ),

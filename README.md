@@ -39,7 +39,10 @@ that mimicks how xml is written in a text editor.
 
 It has two different ways to create xml documents:
 
-- a light weight R syntax using `xml_fragment` and `.tags`, creating an
+**NOTE the api is still in flux, and might change before `xmlwriter` is
+put on CRAN**
+
+- a light weight R syntax using `xml_fragment` and `frag`, creating an
   `xml_fragment`, that can be easily translated into a xml string or
   `xml2::xml_document` object, or be used as a flexible building block
   for generating a larger xml document.
@@ -63,19 +66,18 @@ devtools::install_github("edwindj/xmlwriter")
 
 ## Example
 
-### Using `xml_fragment`, `.tags` and `.attr`:
+### Using `xml_fragment`, `frag` and `.attr`:
 
 `xml_fragment` is a function that creates an xml fragment using readable
 R syntax. It can be used to create an `character` with valid xml, a
 `xml2::xml_document` or as a building block for more complex XML
 documents. Each argument to `xml_fragment` is either:
 
-- a named `.tags` element in which case the name is used as the tag
-  name.
+- a named `frag` element in which case the name is used as the tag name.
 - an unnamed element in which case the element is added as a text node.
 - a `.attr` argument that is used to add attributes to the root element.
 
-`.tags` have the same structure as `xml_fragment`, so you can nest them
+`frag` have the same structure as `xml_fragment`, so you can nest them
 to create a complex xml document. The output of `xml_fragment` is a list
 object that is identical to the output of `xml2::as_list`, and can be
 converted to an `xml2::xml_document` or `character` string, but is much
@@ -85,11 +87,11 @@ faster.
 library(xmlwriter)
 
 fragment <- xml_fragment(
-  person = .tags(
+  person = frag(
     .attr = c(id = "1"),
     name = "John Doe",
     age = 30,
-    address = .tags(
+    address = frag(
        street = "123 Main St",
        city = "Anytown",
        state = "CA",
@@ -105,21 +107,64 @@ print(fragment)
 #>   <age>30</age>
 #>   <address>
 #>     <street>...
-```
-
-``` r
 fragment |> xml2::as_xml_document()
 #> {xml_document}
 #> <person id="1">
 #> [1] <name>John Doe</name>
 #> [2] <age>30</age>
 #> [3] <address>\n  <street>123 Main St</street>\n  <city>Anytown</city>\n  <sta ...
-```
-
-``` r
 fragment |> as_xml_nodeset()
 #> {xml_nodeset (1)}
 #> [1] <person id="1">\n  <name>John Doe</name>\n  <age>30</age>\n  <address>\n  ...
+```
+
+#### Extend with `append_frag`, `c()` and `+`
+
+`xml_fragment` can be extended with `append_frag`, `c()` and `+`
+functions.
+
+- `append_frag()` is a function that adds a `frag` to an existing
+  `xml_fragment`, with a given tag name. This allow for building up a
+  complex xml document in a bottom up manner
+
+- `c()` is a function that combines two `xml_fragment` objects into a
+  single `xml_fragment`
+
+``` r
+library(xmlwriter)
+f <- xml_fragment(node = frag("fragment", .attr = c(id="f")))
+sib <- xml_fragment(node = frag("sibling", .attr = c(id = "sib")))
+child <- xml_fragment("child")
+
+# add a sibling to f
+f + sib
+#> {xml_fragment (2)}
+#> [1]<node id="f">fragment</node>
+#> [2]<node id="sib">sibling</node>
+#> ...
+
+# same as:
+c(f, sib)
+#> {xml_fragment (2)}
+#> [1]<node id="f">fragment</node>
+#> [2]<node id="sib">sibling</node>
+#> ...
+
+sub <- xml_fragment(sub = "subsibling")
+# add a fragment with a supplied tag name
+f |> append_frag("node", sub, id = "sibling") 
+#> {xml_fragment (2)}
+#> [1]<node id="f">fragment</node>
+#> [2]<node id="sibling">
+#>   <sub>subsibling</sub>
+#> </node>
+#> ...
+
+f |> add_child("node", child, id = "child")
+#> {xml_fragment}
+#> <node>fragment
+#>   <node id="child">child</node>
+#> </node>
 ```
 
 `xml_fragment` implements the `xml2::write_xml` method
@@ -155,7 +200,7 @@ data <- data.frame(
 
 # xml_doc is a xml_fragment that contains a single root element
 doc <- xml_doc(
-  homeless = .tags(
+  homeless = frag(
     .attr = c(year = "1900"),
     data = .data(data, row_tag = "person")
   )
@@ -163,9 +208,10 @@ doc <- xml_doc(
 
 doc
 #> {xml_doc,xml_fragment}
-#> <?xml version='1.0' encoding='UTF-8'?> <homeless year="1900">
+#> <?xml version='1.0' encoding='UTF-8'?>
+#>  <homeless year="1900">
 #>   <data>
-#>     <pers...
+#>     <per...
 ```
 
 Both `xml_doc` as well as `xml_fragment` can be used to create a single
@@ -219,30 +265,29 @@ b$start("homeless")
     b$end("address")
   b$end("person")
   b$fragment(
-    person = .tags(
+    person = frag(
       .attr = c(id = "3"),
       name = "Jim Doe",
       age = 35
     )
   )
+#> writing raw xml: '<person id="3">
+#>   <name>Jim Doe</name>
+#>   <age>35</age>
+#> </person>'
+#> stream is '<?xml version='1.0' encoding='UTF-8'?><!--This is an xml comment--><homeless><person id="1"><name>John Doe</name><age>30</age><address><street>123 Main St</street><city>Anytown</city><state>CA</state><zip>12345</zip></address></person><person id="2"><name>Jane Doe</name><age>25</age><address><street>321 Main St</street><city>Anytown</city><state>CA</state><zip>54321</zip></address></person><person id="3">
+#>   <name>Jim Doe</name>
+#>   <age>35</age>
+#> </person>'
 b$end("homeless")
 
 # includes a xml prolog and comment
 b
 #> {xmlbuilder}
-#> <?xml version='1.0' encoding='UTF-8'?><!--This is an xml comment--><homeless><person id="1"><name>John Doe</name><age>30</age><address><street>123 Main St</street><city>Anytown</city><state>CA</state><zip>12345</zip></address></person><person id="2"><name>Jane Doe</name><age>25</age><address><street>321 Main St</street><city>Anytown</city><state>CA</state><zip>54321</zip></address></person><person id="3">
-#>   <name>Jim Doe</name>
-#>   <age>35</age>
-#> </person></homeless>
-```
-
-``` r
+#> get_partial_xml: ''
 
 as.character(b)
 #> [1] "<?xml version='1.0' encoding='UTF-8'?><!--This is an xml comment--><homeless><person id=\"1\"><name>John Doe</name><age>30</age><address><street>123 Main St</street><city>Anytown</city><state>CA</state><zip>12345</zip></address></person><person id=\"2\"><name>Jane Doe</name><age>25</age><address><street>321 Main St</street><city>Anytown</city><state>CA</state><zip>54321</zip></address></person><person id=\"3\">\n  <name>Jim Doe</name>\n  <age>35</age>\n</person></homeless>"
-```
-
-``` r
 
 # only contains the actual nodes
 xml2::as_xml_document(b)
@@ -283,9 +328,9 @@ microbenchmark(
 #> xml2::as_xml_document(doc_fragment), : less accurate nanosecond times to avoid
 #> potential integer overflows
 #> Unit: milliseconds
-#>       expr        min         lq      mean     median         uq        max
-#>       xml2 2434.31723 2453.41351 2476.4606 2467.37471 2484.59233 2591.21763
-#>  xmlwriter   39.53019   39.68353   42.1534   41.40016   41.93578   48.24089
+#>       expr        min         lq       mean     median         uq        max
+#>       xml2 2401.32761 2438.93764 2450.81614 2453.61292 2475.36914 2491.42342
+#>  xmlwriter   39.65032   41.14071   42.43991   41.71797   44.92842   46.39519
 #>  neval
 #>     10
 #>     10

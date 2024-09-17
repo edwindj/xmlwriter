@@ -15,7 +15,7 @@
 \item{...}{further arguments passed to or from other methods.}
 
 \item{use_prolog}{if \code{TRUE} the xml prolog with be included.
-To suppress the prolog string either remove it manually or set \code{use_prolog = FALSE}.}
+To suppress the prolog string either remove set \code{use_prolog = FALSE}.}
 }
 \description{
 This function turns an \code{xml_fragment} into a character string, using

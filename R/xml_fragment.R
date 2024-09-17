@@ -1,9 +1,14 @@
 #' @rdname xml_fragment
 #' @export
-.tags <- function(..., .attr = NULL){
+frag <- function(..., .attr = NULL){
   n <- list(...)
   is_list <- sapply(n, is.list)
+
+  # turn all none-lists into text nodes
   n[!is_list] <- lapply(n[!is_list], .text)
+  n[is_list] <- lapply(n[is_list], unclass)
+
+  # check for unnamed elements
   no_name <- which(names(n) == "" & is_list)
   if (length(no_name)) {
     stop("unnamed elements are not allowed in xml fragments")
@@ -12,11 +17,10 @@
   .attr <- lapply(.attr, as.character)
   # TODO improve on the attributes, replace names with ".names" etc.
   attributes(n) <- c(attributes(n), .attr)
-  n
+  unclass(n)
 }
 
-.elem <- .tags
-
+.tags <- frag
 
 #' @rdname xml_fragment
 #' @export
@@ -39,10 +43,10 @@
 #' a string, an `xml2::xml_document` or as a building block for more complex XML documents.
 #'
 #' An `xml_fragment` is built using
-#' - named `.tags` elements, each name is a tag name, and the value is the contents
+#' - named `frag` elements, each name is a tag name, and the value is the contents
 #' of the tag, e.g. `name = "value"` becomes `<name>value</name>`. The value
-#' can be a nested `.tags` object, a character string or a numeric value.
-#' - `.attr` attributes, which is set on current element, or on the `.tags` where
+#' can be a nested `frag` object, a character string or a numeric value.
+#' - `.attr` attributes, which is set on current element, or on the `frag` where
 #' it is specified
 #' - unnamed elements, which are added as text nodes.
 #' - `.data` function that can be used to convert a data.frame to an xml fragment,
@@ -61,9 +65,9 @@
 #' @return an `xml_fragment`, list object that can be converted to an `xml2::xml_document`
 #' or `character` string
 #' @example example/xml_fragment.R
-#' @family fragments
+#' @family xml_fragment
 xml_fragment <- function(..., .attr = character()){
-  elems <- .tags(..., .attr = as.list(.attr))
+  elems <- frag(..., .attr = as.list(.attr))
 
   class(elems) <- "xml_fragment"
   elems
@@ -75,7 +79,7 @@ xml_fragment <- function(..., .attr = character()){
 xml_doc <- function(..., .attr = character()){
   root <- xml_fragment(..., .attr = .attr)
   if (length(root) != 1) {
-    stop("xml_doc must contain exactly one root element")
+    stop("xml_doc must contain exactly one root element", call. = FALSE)
   }
   class(root) <- c("xml_doc", class(root))
   root
@@ -109,7 +113,7 @@ as_list.xml_fragment <- function(x, ...){
 #' @param x an object created with [xml_fragment()]
 #' @param ... reserved for future use
 #' @export
-#' @family fragments
+#' @family xml_fragments
 as_xml_nodeset <- function(x, ...){
   if (!requireNamespace("xml2", quietly = TRUE)) {
     stop("xml2 is required to convert an xml_fragment to xml_nodeset")
@@ -137,11 +141,11 @@ as.character.xml_fragment <- function(x, ...){
 #' @export
 #' @rdname as.character.xml_fragment
 #' @param use_prolog if `TRUE` the xml prolog with be included.
-#' To suppress the prolog string either remove it manually or set `use_prolog = FALSE`.
+#' To suppress the prolog string either remove set `use_prolog = FALSE`.
 as.character.xml_doc <- function(x, use_prolog=TRUE,...){
   if (use_prolog) {
     paste(
-      "<?xml version='1.0' encoding='UTF-8'?>",
+      "<?xml version='1.0' encoding='UTF-8'?>\n",
       list_as_xml_string(x)
     )
   } else {
@@ -187,11 +191,11 @@ print.xml_fragment <- function(x, ..., max_characters = 80){
 #' @export
 c.xml_fragment <- function(...){
   l <- list(...)
-  # keep the class
-  cls <- sapply(l, class)
+  # keep the first class
+  cls <- class(l[[1]])
   l <- lapply(l, unclass)
   l <- do.call("c", l)
-  class(l) <- cls[1]
+  class(l) <- cls
   l
 }
 

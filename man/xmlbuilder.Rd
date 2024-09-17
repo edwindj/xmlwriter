@@ -4,7 +4,11 @@
 \alias{xmlbuilder}
 \title{Create a fast feed-forward XML builder}
 \usage{
-xmlbuilder(allow_fragments = TRUE, use_prolog = !allow_fragments)
+xmlbuilder(
+  allow_fragments = TRUE,
+  use_prolog = !allow_fragments,
+  strict = FALSE
+)
 }
 \arguments{
 \item{allow_fragments}{logical. Should a warning be issued if the XML document has multiple root elements?
@@ -13,6 +17,8 @@ Set to \code{FALSE} to suppress when creating multiple xml fragments.}
 \item{use_prolog}{logical. Should the XML prolog be included in the output?
 Default is \code{TRUE}, which generate an UTF-8 xml prolog.
 Set to \code{FALSE} if you want to generate an xml fragment or manually prepend the prolog.}
+
+\item{strict}{logical. Should the builder check for dangling nodes, default is \code{FALSE}.}
 }
 \value{
 An object of class `xmlbuilder
@@ -94,11 +100,11 @@ xb <- xmlbuilder()
 
 xb$start("study")
 xb$fragment(
-  person = .tags(
+  person = frag(
     name = "John Doe",
     age = 30
   ),
-  person = .tags(
+  person = frag(
     name = "Jane Doe",
     age = 25
   )

@@ -59,11 +59,11 @@ xb <- xmlbuilder()
 
 xb$start("study")
 xb$fragment(
-  person = .tags(
+  person = frag(
     name = "John Doe",
     age = 30
   ),
-  person = .tags(
+  person = frag(
     name = "Jane Doe",
     age = 25
   )
