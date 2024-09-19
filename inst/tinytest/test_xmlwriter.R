@@ -10,5 +10,3 @@ s <- x$to_xml_string()
 
 expect_equal(s, "<person id=\"1\"><name>John Doe</name></person>")
 expect_equal(as.character(x), "<person id=\"1\"><name>John Doe</name></person>")
-
-
