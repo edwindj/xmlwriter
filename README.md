@@ -195,12 +195,10 @@ Or you can use it within an `xml_fragment`:
 ``` r
 # but you can also use it within an xml_fragment
 # xml_doc is a xml_fragment that contains a single root element
-doc <- xml_doc(
-  homeless = frag(
-    .attr = c(year = "1900"),
+doc <- xml_doc("homeless", year = "1900") / 
+  frag(
     data = data_frag(data, row_tag = "person")
   )
-)
 
 doc
 ```
@@ -483,9 +481,9 @@ microbenchmark(
 #> xml2::as_xml_document(doc_fragment), : less accurate nanosecond times to avoid
 #> potential integer overflows
 #> Unit: milliseconds
-#>       expr        min        lq       mean     median         uq        max
-#>       xml2 2413.35963 2433.4625 2448.65125 2440.10524 2467.87692 2493.06785
-#>  xmlwriter   39.45135   41.1508   42.79273   41.33269   45.09401   46.94697
+#>       expr        min         lq       mean     median         uq        max
+#>       xml2 2417.41445 2461.72635 2576.69808 2506.00630 2560.34094 2959.39587
+#>  xmlwriter   40.11411   40.96679   42.57167   41.21958   44.10046   49.76318
 #>  neval
 #>     10
 #>     10

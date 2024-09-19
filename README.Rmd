@@ -187,12 +187,10 @@ Or you can use it within an `xml_fragment`:
 ```{r, results='hide'}
 # but you can also use it within an xml_fragment
 # xml_doc is a xml_fragment that contains a single root element
-doc <- xml_doc(
-  homeless = frag(
-    .attr = c(year = "1900"),
+doc <- xml_doc("homeless", year = "1900") / 
+  frag(
     data = data_frag(data, row_tag = "person")
   )
-)
 
 doc
 ```

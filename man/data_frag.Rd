@@ -26,6 +26,7 @@ persons <- data.frame(
 )
 
 df <- data_frag(persons, row_tag = "person")
+print(df)
 
 tag("study", date = "today") / df
 }

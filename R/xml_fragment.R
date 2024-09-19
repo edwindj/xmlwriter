@@ -60,14 +60,12 @@ xml_fragment <- function(...){
   elems
 }
 
-#' Create an xml_fragment that contains exactly one element
+#' Create an xml_fragment with a root element, (kind of tag)
 #' @export
+#' @param root the name of the root element
 #' @rdname xml_fragment
-xml_doc <- function(...){
-  root <- xml_fragment(...)
-  if (length(root) != 1) {
-    stop("xml_doc must contain exactly one root element", call. = FALSE)
-  }
+xml_doc <- function(root, ..., .attr = list(...)){
+  root <- tag(root, ..., .attr = .attr)
   class(root) <- c("xml_doc", class(root))
   root
 }

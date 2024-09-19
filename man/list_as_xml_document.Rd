@@ -46,9 +46,8 @@ if (require("xml2")){
 
 #note the xml_fragment function is more powerful to create lists
 
-data <- xml_doc(
-  study = frag(
-    .attr = c(id = "1"),
+data <- xml_doc("study", id = "1") /
+  frag(
     person = frag(
       name = "John Doe",
       age = "30"
@@ -58,8 +57,7 @@ data <- xml_doc(
       age = "25"
     ),
     "This is a text node"
-  )
-) |> unclass()
+)
 
 list_as_xml_string(data)
 }

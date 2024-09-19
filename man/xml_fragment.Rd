@@ -10,12 +10,14 @@ frag(..., .attr = NULL)
 
 xml_fragment(...)
 
-xml_doc(...)
+xml_doc(root, ..., .attr = list(...))
 }
 \arguments{
 \item{...}{nest named elements and characters to include in the fragment (see example)}
 
 \item{.attr}{a list of attributes to add to the parent of the fragment}
+
+\item{root}{the name of the root element}
 }
 \value{
 an \code{xml_fragment}, list object that can be converted to an \code{xml2::xml_document}
@@ -69,38 +71,34 @@ if (require("xml2")){
   as_xml_document(doc)
 }
 
-# you can also create a function to generate xml elements,
-# but remember that the enconsing element name must be used outside the
-# function
-person <- function(name, age, id){
-  frag(
-    # xml attributes can be speficied with .attr
-    .attr = c(id = id),
+# you can create a function to generate an xml fragment:
+person_frag <- function(name, age, id){
+  tag("person", id = id) / frag(
     name = name,
-    age = age,
-    address = frag(street = "123 Main St", city = "Springfield")
+    age  = age,
+    address = frag(
+      street = "123 Main St",
+      city = "Springfield"
+    )
   )
 }
 
 # xml_doc is a xml_fragment with the restriction of having one root element
-doc2 <- xml_doc(
-  study = frag(
-    # you need to specify "person" as the name for each element
-    person = person("John Doe", 30, id = "p1"),
-    person = person("Jane Doe", 25, id = "p2")
-  )
+doc2 <- xml_doc("study") / (
+  person_frag("John Doe", 30, "p1") +
+  person_frag("Jane Doe", 25, "p2")
 )
 
 print(doc2)
+
 if (require("xml2")){
   as_xml_document(doc2)
 }
 
 # a fragment can have multiple root elements
-fgmt <- xml_fragment(
-  person = person("John Doe", 30, id = "p1"),
-  person = person("Jane Doe", 25, id = "p2")
-)
+fgmt <- person_frag("John Doe", 30, id = "p1") +
+  person_frag("Jane Doe", 25, id = "p2")
+
 
 print(fgmt)
 
@@ -110,14 +108,12 @@ if (require("xml2")){
   as_xml_nodeset(fgmt)
 }
 
-iris_xml <- xml_doc(
-  fieldstudy = frag(
-    .attr = c(id = "iris", doi ="10.1111/j.1469-1809.1936.tb02137.x"),
+iris_xml <- xml_doc("fieldstudy", id = "iris", doi ="10.1111/j.1469-1809.1936.tb02137.x") /
+  frag(
     source = "Fisher, R. A. (1936) The use of multiple measurements in
 taxonomic problems. Annals of Eugenics, 7, Part II, 179–188.",
     data = data_frag(iris, row_tag = "obs")
   )
-)
 
 print(iris_xml, max_characters = 300)
 
