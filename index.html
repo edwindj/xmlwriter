@@ -99,7 +99,7 @@ forces the author to manipulate the XML document tree, obscuring the XML structu
 </ul>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># a frag can contain multiple elements</span></span>
-<span><span class="fu"><a href="reference/xml_fragment.html">frag</a></span><span class="op">(</span></span>
+<span><span class="fu"><a href="reference/frag.html">frag</a></span><span class="op">(</span></span>
 <span>  name <span class="op">=</span> <span class="st">"John Doe"</span>,</span>
 <span>  age <span class="op">=</span> <span class="fl">30</span></span>
 <span><span class="op">)</span></span>
@@ -109,8 +109,8 @@ forces the author to manipulate the XML document tree, obscuring the XML structu
 <span><span class="co">#&gt; ...</span></span>
 <span></span>
 <span><span class="co"># and can nest frags</span></span>
-<span><span class="fu"><a href="reference/xml_fragment.html">frag</a></span><span class="op">(</span></span>
-<span>  person <span class="op">=</span> <span class="fu"><a href="reference/xml_fragment.html">frag</a></span><span class="op">(</span></span>
+<span><span class="fu"><a href="reference/frag.html">frag</a></span><span class="op">(</span></span>
+<span>  person <span class="op">=</span> <span class="fu"><a href="reference/frag.html">frag</a></span><span class="op">(</span></span>
 <span>    <span class="co"># attributes on person are specified using .attr</span></span>
 <span>    .attr <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>id <span class="op">=</span> <span class="fl">1</span>, state <span class="op">=</span> <span class="st">"CA"</span><span class="op">)</span>,</span>
 <span>    name <span class="op">=</span> <span class="st">"John Doe"</span>,</span>
@@ -126,11 +126,11 @@ forces the author to manipulate the XML document tree, obscuring the XML structu
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># xml_fragment is more strict version of a frag</span></span>
 <span><span class="va">fragment</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/xml_fragment.html">xml_fragment</a></span><span class="op">(</span></span>
-<span>  person <span class="op">=</span> <span class="fu"><a href="reference/xml_fragment.html">frag</a></span><span class="op">(</span></span>
+<span>  person <span class="op">=</span> <span class="fu"><a href="reference/frag.html">frag</a></span><span class="op">(</span></span>
 <span>    .attr <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>id <span class="op">=</span> <span class="fl">1</span>, state<span class="op">=</span><span class="st">"CA"</span><span class="op">)</span>,</span>
 <span>    name <span class="op">=</span> <span class="st">"John Doe"</span>,</span>
 <span>    age <span class="op">=</span> <span class="fl">30</span>,</span>
-<span>    address <span class="op">=</span> <span class="fu"><a href="reference/xml_fragment.html">frag</a></span><span class="op">(</span></span>
+<span>    address <span class="op">=</span> <span class="fu"><a href="reference/frag.html">frag</a></span><span class="op">(</span></span>
 <span>      street <span class="op">=</span> <span class="st">"123 Main St"</span>,</span>
 <span>      city <span class="op">=</span> <span class="st">"Anytown"</span>,</span>
 <span>      state <span class="op">=</span> <span class="st">"CA"</span>,</span>
@@ -175,7 +175,7 @@ forces the author to manipulate the XML document tree, obscuring the XML structu
 <code class="sourceCode R"><span><span class="co"># but you can also use it within an xml_fragment</span></span>
 <span><span class="co"># xml_doc is a xml_fragment that contains a single root element</span></span>
 <span><span class="va">doc</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/xml_fragment.html">xml_doc</a></span><span class="op">(</span><span class="st">"homeless"</span>, year <span class="op">=</span> <span class="st">"1900"</span><span class="op">)</span> <span class="op">/</span> </span>
-<span>  <span class="fu"><a href="reference/xml_fragment.html">frag</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="reference/frag.html">frag</a></span><span class="op">(</span></span>
 <span>    data <span class="op">=</span> <span class="fu"><a href="reference/data_frag.html">data_frag</a></span><span class="op">(</span><span class="va">data</span>, row_tag <span class="op">=</span> <span class="st">"person"</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
 <span></span>
@@ -215,7 +215,7 @@ forces the author to manipulate the XML document tree, obscuring the XML structu
 <span><span class="co">#&gt; ...</span></span>
 <span></span>
 <span><span class="va">john</span> <span class="op">+</span> <span class="fu"><a href="reference/xml_fragment.html">xml_fragment</a></span><span class="op">(</span></span>
-<span>  person <span class="op">=</span> <span class="fu"><a href="reference/xml_fragment.html">frag</a></span><span class="op">(</span></span>
+<span>  person <span class="op">=</span> <span class="fu"><a href="reference/frag.html">frag</a></span><span class="op">(</span></span>
 <span>    .attr <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>id <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>,</span>
 <span>    <span class="st">"Jane"</span></span>
 <span>  <span class="op">)</span></span>
@@ -241,7 +241,7 @@ forces the author to manipulate the XML document tree, obscuring the XML structu
 <span><span class="co">#&gt;   &lt;name&gt;John Doe&lt;/name&gt;</span></span>
 <span><span class="co">#&gt; &lt;/person&gt;</span></span>
 <span></span>
-<span><span class="fu"><a href="reference/tag.html">tag</a></span><span class="op">(</span><span class="st">"person"</span>, id <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="reference/xml_fragment.html">frag</a></span><span class="op">(</span></span>
+<span><span class="fu"><a href="reference/tag.html">tag</a></span><span class="op">(</span><span class="st">"person"</span>, id <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="reference/frag.html">frag</a></span><span class="op">(</span></span>
 <span>  name <span class="op">=</span> <span class="st">"John Doe"</span>,</span>
 <span>  age <span class="op">=</span> <span class="fl">30</span></span>
 <span><span class="op">)</span></span>
@@ -270,11 +270,11 @@ forces the author to manipulate the XML document tree, obscuring the XML structu
 <code class="sourceCode R"><span><span class="co"># needlessly complex, but shows flexible construction of XML</span></span>
 <span><span class="va">fragment</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="fu"><a href="reference/tag.html">tag</a></span><span class="op">(</span><span class="st">"person"</span>, id <span class="op">=</span> <span class="st">"1"</span><span class="op">)</span> <span class="op">/</span> <span class="co"># adds child nodes to person</span></span>
-<span>    <span class="op">(</span> <span class="fu"><a href="reference/xml_fragment.html">frag</a></span><span class="op">(</span></span>
+<span>    <span class="op">(</span> <span class="fu"><a href="reference/frag.html">frag</a></span><span class="op">(</span></span>
 <span>        name <span class="op">=</span> <span class="st">"John Doe"</span>,</span>
 <span>        age <span class="op">=</span> <span class="fl">30</span></span>
 <span>      <span class="op">)</span> <span class="op">+</span>  <span class="co"># add an extra child node to person, with subnodes</span></span>
-<span>      <span class="fu"><a href="reference/tag.html">tag</a></span><span class="op">(</span><span class="st">"address"</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="reference/xml_fragment.html">frag</a></span><span class="op">(</span></span>
+<span>      <span class="fu"><a href="reference/tag.html">tag</a></span><span class="op">(</span><span class="st">"address"</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="reference/frag.html">frag</a></span><span class="op">(</span></span>
 <span>          street <span class="op">=</span> <span class="st">"123 Main St"</span>,</span>
 <span>          city <span class="op">=</span> <span class="st">"Anytown"</span>,</span>
 <span>          state <span class="op">=</span> <span class="st">"CA"</span>,</span>
@@ -378,7 +378,7 @@ forces the author to manipulate the XML document tree, obscuring the XML structu
 <span>    <span class="va">b</span><span class="op">$</span><span class="fu">end</span><span class="op">(</span><span class="st">"address"</span><span class="op">)</span></span>
 <span>  <span class="va">b</span><span class="op">$</span><span class="fu">end</span><span class="op">(</span><span class="st">"person"</span><span class="op">)</span></span>
 <span>  <span class="va">b</span><span class="op">$</span><span class="fu">fragment</span><span class="op">(</span></span>
-<span>    person <span class="op">=</span> <span class="fu"><a href="reference/xml_fragment.html">frag</a></span><span class="op">(</span></span>
+<span>    person <span class="op">=</span> <span class="fu"><a href="reference/frag.html">frag</a></span><span class="op">(</span></span>
 <span>      .attr <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>id <span class="op">=</span> <span class="st">"3"</span><span class="op">)</span>,</span>
 <span>      name <span class="op">=</span> <span class="st">"Jim Doe"</span>,</span>
 <span>      age <span class="op">=</span> <span class="fl">35</span></span>
