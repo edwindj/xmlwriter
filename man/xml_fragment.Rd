@@ -2,17 +2,12 @@
 % Please edit documentation in R/xml_fragment.R
 \name{xml_fragment}
 \alias{xml_fragment}
-\alias{xml_doc}
 \title{Create an XML fragment}
 \usage{
 xml_fragment(...)
-
-xml_doc(root, ..., .attr = list(...))
 }
 \arguments{
 \item{...}{nest named elements and characters to include in the fragment (see example)}
-
-\item{root}{the name of the root element}
 }
 \value{
 an \code{xml_fragment}, list object that can be converted to an \code{xml2::xml_document}

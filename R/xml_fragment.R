@@ -23,7 +23,6 @@
 #' methods are fast using a performant c++ implementation.
 #' @export
 #' @param ... nest named elements and characters to include in the fragment (see example)
-#' @rdname xml_fragment
 #' @return an `xml_fragment`, list object that can be converted to an `xml2::xml_document`
 #' or `character` string
 #' @example example/xml_fragment.R
@@ -38,7 +37,9 @@ xml_fragment <- function(...){
 #' Create an xml_fragment with a root element, (kind of tag)
 #' @export
 #' @param root the name of the root element
-#' @rdname xml_fragment
+#' @inheritParams tag
+#' @return an `xml_fragment` with the root element
+#' @example example/tag.R
 xml_doc <- function(root, ..., .attr = list(...)){
   root <- tag(root, ..., .attr = .attr)
   class(root) <- c("xml_doc", class(root))
