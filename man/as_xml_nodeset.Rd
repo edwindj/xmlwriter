@@ -18,6 +18,7 @@ Using the \code{xml2} package, this function transforms an \code{xml_fragment} i
 Other xml_fragment: 
 \code{\link{add_child_fragment}()},
 \code{\link{data_frag}()},
-\code{\link{frag}()}
+\code{\link{frag}()},
+\code{\link{xml_fragment}()}
 }
 \concept{xml_fragment}

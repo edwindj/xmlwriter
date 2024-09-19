@@ -34,6 +34,7 @@ tag("study", date = "today") / df
 Other xml_fragment: 
 \code{\link{add_child_fragment}()},
 \code{\link{as_xml_nodeset}()},
-\code{\link{frag}()}
+\code{\link{frag}()},
+\code{\link{xml_fragment}()}
 }
 \concept{xml_fragment}

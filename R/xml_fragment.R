@@ -1,37 +1,10 @@
-#' @rdname xml_fragment
-#' @param .attr a list of attributes to add to the parent of the fragment
-#' @export
-frag <- function(..., .attr = NULL){
-  n <- list(...)
-  is_list <- sapply(n, is.list)
-
-  # turn all none-lists into text nodes
-  if (length(n) > 0){
-    no_name <- if (is.null(names(n))) {TRUE} else {names(n) == ""}
-
-    n[is_list] <- lapply(n[is_list], unclass)
-    n[!is_list] <- lapply(n[!is_list], .text)
-    n[(!is_list) & no_name] <- lapply(n[(!is_list) & no_name], as.character)
-
-    # check for unnamed elements
-    if (any(no_name & is_list)) {
-      stop("unnamed elements are not allowed in xml fragments")
-    }
-  }
-
-  .attr <- lapply(.attr, as.character)
-  # TODO improve on the attributes, replace names with ".names" etc.
-  attributes(n) <- c(attributes(n), .attr)
-  class(n) <- "xml_fragment"
-  n
-}
-
-#' Create elegantly an XML fragment
+#' Create an XML fragment
 #'
-#' Create an xml fragment using readable R syntax, that can be used to create
+#' Create an XML fragment using readable R syntax, that can be used to create
 #' a string, an `xml2::xml_document` or as a building block for more complex XML documents.
 #'
-#' An `xml_fragment` is built using
+#' An `xml_fragment` is built using:
+#'
 #' - named `frag` elements, each name is a tag name, and the value is the contents
 #' of the tag, e.g. `name = "value"` becomes `<name>value</name>`. The value
 #' can be a nested `frag` object, a character string or a numeric value.

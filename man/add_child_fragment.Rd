@@ -23,6 +23,7 @@ is added as a text node. This functionality is equivalent with the \code{/} oper
 Other xml_fragment: 
 \code{\link{as_xml_nodeset}()},
 \code{\link{data_frag}()},
-\code{\link{frag}()}
+\code{\link{frag}()},
+\code{\link{xml_fragment}()}
 }
 \concept{xml_fragment}

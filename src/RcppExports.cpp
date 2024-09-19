@@ -183,6 +183,18 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// rcpp_frag
+List rcpp_frag(List elements, List attr);
+RcppExport SEXP _xmlwriter_rcpp_frag(SEXP elementsSEXP, SEXP attrSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< List >::type elements(elementsSEXP);
+    Rcpp::traits::input_parameter< List >::type attr(attrSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_frag(elements, attr));
+    return rcpp_result_gen;
+END_RCPP
+}
 // list_to_xml_string
 std::vector<std::string> list_to_xml_string(List xml);
 RcppExport SEXP _xmlwriter_list_to_xml_string(SEXP xmlSEXP) {
@@ -211,6 +223,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_xmlwriter_xmlbuilder_write_processing_instruction", (DL_FUNC) &_xmlwriter_xmlbuilder_write_processing_instruction, 3},
     {"_xmlwriter_xmlbuilder_write_dataframe", (DL_FUNC) &_xmlwriter_xmlbuilder_write_dataframe, 4},
     {"_xmlwriter_dataframe_xml_list", (DL_FUNC) &_xmlwriter_dataframe_xml_list, 2},
+    {"_xmlwriter_rcpp_frag", (DL_FUNC) &_xmlwriter_rcpp_frag, 2},
     {"_xmlwriter_list_to_xml_string", (DL_FUNC) &_xmlwriter_list_to_xml_string, 1},
     {NULL, NULL, 0}
 };

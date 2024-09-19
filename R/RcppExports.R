@@ -61,6 +61,10 @@ dataframe_xml_list <- function(df, row_tag) {
     .Call(`_xmlwriter_dataframe_xml_list`, df, row_tag)
 }
 
+rcpp_frag <- function(elements, attr) {
+    .Call(`_xmlwriter_rcpp_frag`, elements, attr)
+}
+
 rcpp_list_to_xml_string <- function(xml) {
     .Call(`_xmlwriter_list_to_xml_string`, xml)
 }
