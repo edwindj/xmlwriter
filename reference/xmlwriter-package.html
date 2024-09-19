@@ -45,7 +45,7 @@ contains a feed-forward API that allows you to write xml.</p>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p><code>xmlwriter</code>'s xml generation from R lists is fast, implemented in C++ using <a href="https://cran.r-project.org/package=Rcpp" class="external-link"><code>Rcpp</code></a>.</p>
-<p><code>xmlwriter</code> provides two different ways to create xml documents:</p><ul><li><p>a light weight R syntax using <code><a href="xml_fragment.html">xml_doc()</a></code>, <code><a href="xml_fragment.html">xml_fragment()</a></code> and <code><a href="frag.html">frag()</a></code>, creating an xml fragment
+<p><code>xmlwriter</code> provides two different ways to create xml documents:</p><ul><li><p>a light weight R syntax using <code><a href="xml_doc.html">xml_doc()</a></code>, <code><a href="xml_fragment.html">xml_fragment()</a></code> and <code><a href="frag.html">frag()</a></code>, creating an xml fragment
 that can be easily translated into a xml string or <code>xml2::xml_document</code> object</p></li>
 <li><p>a feed-forward API using <code><a href="xmlbuilder.html">xmlbuilder()</a></code> that allows you to create xml documents in a feed-forward manner.</p></li>
 </ul><p>It implements several <code>xml2</code> methods:</p><ul><li><p><code>as_xml_document.xml_fragment()</code></p></li>
@@ -109,7 +109,7 @@ that can be easily translated into a xml string or <code>xml2::xml_document</cod
 <span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># xml_doc is a xml_fragment with the restriction of having one root element</span></span></span>
-<span class="r-in"><span><span class="va">doc2</span> <span class="op">&lt;-</span> <span class="fu"><a href="xml_fragment.html">xml_doc</a></span><span class="op">(</span><span class="st">"study"</span><span class="op">)</span> <span class="op">/</span> <span class="op">(</span></span></span>
+<span class="r-in"><span><span class="va">doc2</span> <span class="op">&lt;-</span> <span class="fu"><a href="xml_doc.html">xml_doc</a></span><span class="op">(</span><span class="st">"study"</span><span class="op">)</span> <span class="op">/</span> <span class="op">(</span></span></span>
 <span class="r-in"><span>  <span class="fu">person_frag</span><span class="op">(</span><span class="st">"John Doe"</span>, <span class="fl">30</span>, <span class="st">"p1"</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>  <span class="fu">person_frag</span><span class="op">(</span><span class="st">"Jane Doe"</span>, <span class="fl">25</span>, <span class="st">"p2"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
@@ -157,7 +157,7 @@ that can be easily translated into a xml string or <code>xml2::xml_document</cod
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] &lt;person id="p1"&gt;\n  &lt;name&gt;John Doe&lt;/name&gt;\n  &lt;age&gt;30&lt;/age&gt;\n  &lt;address&gt;\n ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [2] &lt;person id="p2"&gt;\n  &lt;name&gt;Jane Doe&lt;/name&gt;\n  &lt;age&gt;25&lt;/age&gt;\n  &lt;address&gt;\n ...</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">iris_xml</span> <span class="op">&lt;-</span> <span class="fu"><a href="xml_fragment.html">xml_doc</a></span><span class="op">(</span><span class="st">"fieldstudy"</span>, id <span class="op">=</span> <span class="st">"iris"</span>, doi <span class="op">=</span><span class="st">"10.1111/j.1469-1809.1936.tb02137.x"</span><span class="op">)</span> <span class="op">/</span></span></span>
+<span class="r-in"><span><span class="va">iris_xml</span> <span class="op">&lt;-</span> <span class="fu"><a href="xml_doc.html">xml_doc</a></span><span class="op">(</span><span class="st">"fieldstudy"</span>, id <span class="op">=</span> <span class="st">"iris"</span>, doi <span class="op">=</span><span class="st">"10.1111/j.1469-1809.1936.tb02137.x"</span><span class="op">)</span> <span class="op">/</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="frag.html">frag</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>    source <span class="op">=</span> <span class="st">"Fisher, R. A. (1936) The use of multiple measurements in</span></span></span>
 <span class="r-in"><span><span class="st">taxonomic problems. Annals of Eugenics, 7, Part II, 179–188."</span>,</span></span>
