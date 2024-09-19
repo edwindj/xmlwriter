@@ -100,9 +100,8 @@ It writes the xml directly to a string buffer and then reads it back into an <co
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#note the xml_fragment function is more powerful to create lists</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="xml_fragment.html">xml_doc</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>  study <span class="op">=</span> <span class="fu"><a href="xml_fragment.html">frag</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>    .attr <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>id <span class="op">=</span> <span class="st">"1"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="xml_fragment.html">xml_doc</a></span><span class="op">(</span><span class="st">"study"</span>, id <span class="op">=</span> <span class="st">"1"</span><span class="op">)</span> <span class="op">/</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="xml_fragment.html">frag</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>    person <span class="op">=</span> <span class="fu"><a href="xml_fragment.html">frag</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>      name <span class="op">=</span> <span class="st">"John Doe"</span>,</span></span>
 <span class="r-in"><span>      age <span class="op">=</span> <span class="st">"30"</span></span></span>
@@ -112,8 +111,7 @@ It writes the xml directly to a string buffer and then reads it back into an <co
 <span class="r-in"><span>      age <span class="op">=</span> <span class="st">"25"</span></span></span>
 <span class="r-in"><span>    <span class="op">)</span>,</span></span>
 <span class="r-in"><span>    <span class="st">"This is a text node"</span></span></span>
-<span class="r-in"><span>  <span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">unclass</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="list_as_xml_string.html">list_as_xml_string</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "&lt;study id=\"1\"&gt;\n  &lt;person&gt;\n    &lt;name&gt;John Doe&lt;/name&gt;\n    &lt;age&gt;30&lt;/age&gt;\n  &lt;/person&gt;\n  &lt;person&gt;\n    &lt;name&gt;Jane Doe&lt;/name&gt;\n    &lt;age&gt;25&lt;/age&gt;\n  &lt;/person&gt;This is a text node\n&lt;/study&gt;"</span>

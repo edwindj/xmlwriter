@@ -174,12 +174,10 @@ forces the author to manipulate the XML document tree, obscuring the XML structu
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># but you can also use it within an xml_fragment</span></span>
 <span><span class="co"># xml_doc is a xml_fragment that contains a single root element</span></span>
-<span><span class="va">doc</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/xml_fragment.html">xml_doc</a></span><span class="op">(</span></span>
-<span>  homeless <span class="op">=</span> <span class="fu"><a href="reference/xml_fragment.html">frag</a></span><span class="op">(</span></span>
-<span>    .attr <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>year <span class="op">=</span> <span class="st">"1900"</span><span class="op">)</span>,</span>
+<span><span class="va">doc</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/xml_fragment.html">xml_doc</a></span><span class="op">(</span><span class="st">"homeless"</span>, year <span class="op">=</span> <span class="st">"1900"</span><span class="op">)</span> <span class="op">/</span> </span>
+<span>  <span class="fu"><a href="reference/xml_fragment.html">frag</a></span><span class="op">(</span></span>
 <span>    data <span class="op">=</span> <span class="fu"><a href="reference/data_frag.html">data_frag</a></span><span class="op">(</span><span class="va">data</span>, row_tag <span class="op">=</span> <span class="st">"person"</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
-<span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">doc</span></span></code></pre></div>
 <div class="sourceCode" id="cb9"><pre class="sourceCode xml"><code class="sourceCode xml"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">&lt;?xml</span><span class="ot"> version=</span><span class="st">'1.0'</span><span class="ot"> encoding=</span><span class="st">'UTF-8'</span><span class="fu">?&gt;</span></span>
@@ -443,9 +441,9 @@ forces the author to manipulate the XML document tree, obscuring the XML structu
 <span><span class="co">#&gt; xml2::as_xml_document(doc_fragment), : less accurate nanosecond times to avoid</span></span>
 <span><span class="co">#&gt; potential integer overflows</span></span>
 <span><span class="co">#&gt; Unit: milliseconds</span></span>
-<span><span class="co">#&gt;       expr        min        lq       mean     median         uq        max</span></span>
-<span><span class="co">#&gt;       xml2 2413.35963 2433.4625 2448.65125 2440.10524 2467.87692 2493.06785</span></span>
-<span><span class="co">#&gt;  xmlwriter   39.45135   41.1508   42.79273   41.33269   45.09401   46.94697</span></span>
+<span><span class="co">#&gt;       expr        min         lq       mean     median         uq        max</span></span>
+<span><span class="co">#&gt;       xml2 2417.41445 2461.72635 2576.69808 2506.00630 2560.34094 2959.39587</span></span>
+<span><span class="co">#&gt;  xmlwriter   40.11411   40.96679   42.57167   41.21958   44.10046   49.76318</span></span>
 <span><span class="co">#&gt;  neval</span></span>
 <span><span class="co">#&gt;     10</span></span>
 <span><span class="co">#&gt;     10</span></span></code></pre></div>

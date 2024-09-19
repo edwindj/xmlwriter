@@ -74,6 +74,17 @@ this can be a single value or a vector of length equal to the number of rows in 
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu">data_frag</span><span class="op">(</span><span class="va">persons</span>, row_tag <span class="op">=</span> <span class="st">"person"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> {xml_fragment (2)}</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1]&lt;person&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   &lt;name&gt;John Doe&lt;/name&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   &lt;age&gt;30&lt;/age&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;/person&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2]&lt;person&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   &lt;name&gt;Jane Doe&lt;/name&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   &lt;age&gt;25&lt;/age&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;/person&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ...</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="tag.html">tag</a></span><span class="op">(</span><span class="st">"study"</span>, date <span class="op">=</span> <span class="st">"today"</span><span class="op">)</span> <span class="op">/</span> <span class="va">df</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> {xml_fragment}</span>
