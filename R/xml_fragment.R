@@ -20,7 +20,8 @@ frag <- function(..., .attr = NULL){
   .attr <- lapply(.attr, as.character)
   # TODO improve on the attributes, replace names with ".names" etc.
   attributes(n) <- c(attributes(n), .attr)
-  unclass(n)
+  class(n) <- "xml_fragment"
+  n
 }
 
 #' Create elegantly an XML fragment

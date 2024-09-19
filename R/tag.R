@@ -10,9 +10,9 @@
 #' @example example/tag.R
 tag <- function(tag, text = NULL, ..., .attr = list(...)){
   tg <- if (is.null(text)){
-    list(frag(.attr = .attr))
+    list(frag(.attr = .attr) |> unclass())
   } else {
-    list(frag(text, .attr = .attr))
+    list(frag(text, .attr = .attr) |> unclass())
   }
 
   names(tg) <- tag

@@ -1,5 +1,8 @@
 ---
 output: github_document
+editor_options: 
+  markdown: 
+    wrap: 72
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -16,50 +19,63 @@ knitr::opts_chunk$set(
 # xmlwriter
 
 <!-- badges: start -->
-[![CRAN status](https://www.r-pkg.org/badges/version/xmlwriter)](https://CRAN.R-project.org/package=xmlwriter)
+
+[![CRAN
+status](https://www.r-pkg.org/badges/version/xmlwriter)](https://CRAN.R-project.org/package=xmlwriter)
 [![R-CMD-check](https://github.com/edwindj/xmlwriter/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/edwindj/xmlwriter/actions/workflows/R-CMD-check.yaml)
+
 <!-- badges: end -->
 
-`xmlwriter` is an R package that provides a simple interface for creating XML documents 
-and fragments from R. It provides a simple elegant syntax for creating `xml_fragment`s and furthermore
-contains a feed-forward API that allows you to write xml
-in the same order as the xml elements appear in an xml document or fragment.
+`xmlwriter` is an R package that provides a simple interface for
+creating XML documents and fragments from R. It provides a simple
+elegant syntax for creating `xml_fragment`s. Furthermore it contains a
+feed-forward API that allows you to write xml in the same order as the
+xml elements appear in an xml document or fragment.
 
-`xmlwriter`'s xml generation from R lists is fast, 
-implemented in C++ using [`Rcpp`](https://cran.r-project.org/package=Rcpp). 
-Curious for the benchmarks? Check the [performance section](#performance).
+`xmlwriter`'s xml generation from R lists is fast, implemented in C++
+using [`Rcpp`](https://cran.r-project.org/package=Rcpp). Curious for the
+benchmarks? Check the [performance section](#performance).
 
-`xmlwriter` can be used as a companion to R packages [`XML`](https://cran.r-project.org/package=XML) or [`xml2`](https://cran.r-project.org/package=xml2) which are both wonderful packages optimized for parsing,
-querying and manipulating XML documents. Both `XML` and `xml2` provide several 
-ways for creating xml documents, but they are not optimized for 
-generating and writing xml.
+`xmlwriter` can be used as a companion to R packages
+[`XML`](https://cran.r-project.org/package=XML) or
+[`xml2`](https://cran.r-project.org/package=xml2) which are both
+wonderful packages optimized for parsing, querying and manipulating XML
+documents. Both `XML` and `xml2` provide several ways for creating xml
+documents, but they are not optimized for generating and writing xml.
 
-Creating xml documents with `XML` and `xml2` can be a bit cumbersome, mostly
-because it  
-forces the author to manipulate the xml document tree by adding nodes and attributes.
-`xml2` _does_ provide a way to create xml documents from R data structures using
-nested lists which is a powerful feature, but it is not optimized for 
-speed or readability.
+Creating xml documents with `XML` and `xml2` can be a bit cumbersome,
+mostly because it\
+forces the author to manipulate the xml document tree, obscuring the xml
+structure of the document, and making it hard to read the code. `xml2`
+*does* provide a way to create xml documents from R data structures
+using nested lists which is a powerful feature, but it is not optimized
+for speed or readability.
 
-`xmlwriter` provides an intuitive interface for creating xml documents, 
+`xmlwriter` provides an intuitive interface for creating xml documents,
 that mimicks how xml is written in a text editor.
 
 It has two different ways to create xml documents:
 
-**NOTE the api is still in flux, and might change before `xmlwriter` is put on CRAN**
+**NOTE the api is still in flux, and might change before `xmlwriter` is
+put on CRAN**
 
-- a light weight R syntax using `xml_fragment` and `frag`, creating 
-an `xml_fragment`, that can be easily translated into a xml string or 
-`xml2::xml_document` object, or be used as a flexible building block for generating
-a larger xml document.
-- an `xmlbuilder` object that allows you to create xml documents in a 
-feed-forward manner, with `start` and `end` methods, giving you more control on the xml document structure, including xml comment, prolog etc.
+-   a light weight R syntax using `xml_fragment`, `tag`, `frag` and
+    `data_frag`, creating an `xml_fragment`, that can be easily
+    translated into a `character` or `xml2::xml_document` object, or be
+    used as a flexible building block for generating a larger xml
+    document.
+-   an `xmlbuilder` object that allows you to create xml documents in a
+    feed-forward manner, with `start` and `end` methods, giving you more
+    control on the xml document structure, including xml comment, prolog
+    etc.
 
 ## Installation
 
-`xmlwriter` is not yet available on CRAN, feedback is welcome before submitting to CRAN.
+`xmlwriter` is not yet available on CRAN, feedback is welcome before
+submitting to CRAN.
 
-You can install the development version of `xmlwriter` from [GitHub](https://github.com/) with:
+You can install the development version of `xmlwriter` from
+[GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
@@ -70,59 +86,76 @@ devtools::install_github("edwindj/xmlwriter")
 
 ### Using `xml_fragment`, `tag`, `frag` and `.attr`:
 
-`xml_fragment` is a function that creates an xml fragment using readable R syntax.
-It can be used to create an `character` with valid xml, a `xml2::xml_document` 
-or as a building block for more complex XML documents.
-Each argument to `xml_fragment` is either:
+`xml_fragment`s allow to write XML using readable R syntax.
 
-- a named `frag` element in which case the name is used as the tag name.
-- an unnamed element in which case the element is added as a text node.
-- a `.attr` argument that is used to add attributes to the root element.
+They can be used to create an `character` with valid xml, a
+`xml2::xml_document` or as a building block for more complex XML
+documents. An `xml_fragment` is a list object that is identical to the
+output of `xml2::as_list`, and can be converted to a `character` or an
+`xml2::xml_document` object but is much faster (see performance).
 
-`tag` is a function that creates an `xml_fragment` element 
-with a given tag name, text, and attributes.
+`tag` is a function that creates a simple `xml_fragment` element with a
+given tag name, text, and attributes.
 
-`frag` haas the same structure as `xml_fragment`, so you can nest them in `xml_fragment` 
-and `frag` to 
-create a complex xml document.
-
-The output of `xml_fragment` is a list object that is identical to the output
-of `xml2::as_list`, and can be converted to an 
-`xml2::xml_document` or `character` string, but is much faster (see performance)
-
-```{r fragment}
+```{r}
 library(xmlwriter)
 
+# a tag is a simple xml_fragment
+tag("person", "John Doe", id = 1)
+```
+
+`frag` allows for specifying nested tags, and attributes, creating more
+complex xml fragments.
+
+Each argument to `frag` is either:
+
+-   a named `frag` element in which case the name is used as the tag
+    name.
+-   an unnamed element in which case the element is added as a text
+    node.
+-   a `.attr` argument that is used to add attributes to the parent
+    element.
+
+```{r}
+# a frag can contain multiple tags
+frag(
+  name = "John Doe",
+  age = 30
+)
+
+# or can nest tags
+frag(
+  person = frag(
+    # attributes are specified using .attr
+    .attr = c(id = 1),
+    name = "John Doe",
+    age = 30
+  )
+)
+```
+
+The `xml_fragment` function is a restricted version of `frag` that only
+allows named elements.
+
+The output of `xml_fragment` is a
+
+```{r}
+# xml_fragment is more strict version of a frag
 fragment <- xml_fragment(
   person = frag(
-    .attr = c(id = "1"),
+    .attr = c(id = 1),
     name = "John Doe",
     age = 30,
     address = frag(
-       street = "123 Main St",
-       city = "Anytown",
-       state = "CA",
-       zip = 12345
+      street = "123 Main St",
+      city = "Anytown",
+      state = "CA",
+      zip = 12345
     )
   )
 )
 
-print(fragment)
-
-fragment <- 
-  tag("person", id = "1") /
-    ( tag("name", "John Doe") +
-      tag("age", 30) +
-      tag("address") /
-        frag(
-          street = "123 Main St",
-          city = "Anytown",
-          state = "CA",
-          zip = 12345
-     )
-  )
 ```
-
 
 ```{r, eval=FALSE}
 cat(as.character(fragment))
@@ -134,27 +167,8 @@ cat(as.character(fragment))
 cat("\n```\n")
 ```
 
-
-```{r}
-fragment |> xml2::as_xml_document()
-fragment |> as_xml_nodeset()
-```
-
-`xml_fragment` implements the `xml2::write_xml` method
-
-```{r write_xml, eval=FALSE}
-xml2::write_xml(fragment, file="") # print to the console
-```
-
-results in:
-
-```{r, echo=FALSE, results='asis'}
-cat("```XML\n")
-xml2::write_xml(fragment, "")
-cat("\n```\n")
-```
-
-`xml_fragment` provides a `data_frag` function that can be used to convert a data.frame to xml:
+`data_frag` is function that can be used to convert a data.frame to an
+`xml_fragment`:
 
 ```{r data}
 data <- data.frame(
@@ -178,89 +192,131 @@ doc <- xml_doc(
 
 doc
 ```
-Both `xml_doc` as well as `xml_fragment` can be used to create a single root element xml document.
-`xml_doc` is a `xml_fragment` that errors when there is more than one root element.
 
-#### Combine fragments with `+` (or `append`, `c()`) and `/` (or `add_child_fragment`)
+#### Combine fragments with `+`, `append` or `c()`)
 
-`xml_fragment`, `tag`, `frag` and `data_frag` can be combined with:
-
-- the `+` operator, which is equivalent to the `append()` and `c()` function: it
-creates sibling xmlnodes. 
-- the `/` operator, which is equivalent to the `add_child_fragment` function which
-creates a child xmlnodes of the last xmlnode in the xml_fragment.
-
-
+`xml_fragment`s such as `tag`, `frag` and `data_frag` can be combined
+with the `+` operator, which is equivalent to the `append()` and `c()`
+function: it creates sibling xmlnodes.
 
 ```{r}
 library(xmlwriter)
-john <- xml_fragment(
-  person = frag(
-    .attr = c(id="1"),
-    name="John Doe"
-    )
-  )
-jane <- xml_fragment(
-  person = frag(
-    name="Jane Doe",
-    .attr = c(id = "2")
-    )
-  )
+john <- tag("person", "John", id = 1)
+jane <- tag("person", "Jane", id = 2)
 
-# add a sibling to john
 john + jane
-# same as:
-c(john, jane)
-# same as:
-append(john, jane)
 
-jim <- 
-  tag("person", id=3) / (
-    tag("name", "Jim Doe") +
-    tag("age", 25)
-  )
-jim
+john + tag("person", "Jane", id = 2)
 
-# same as
-jim <- tag("person", id = 3) |> 
-  add_child_fragment(
-    name = "Jim Doe",
-    age = 25
-  )
-jim
-
-# same as 
-jim <- xml_fragment(
+john + xml_fragment(
   person = frag(
-    .attr = c(id = 3),
-    name = "Jim Doe",
-    age = 25
-    )
+    .attr = c(id = 2),
+    "Jane"
   )
-jim
-
-john + jim
-
+)
 ```
 
+#### Add child fragments with '/' or `add_child_fragment()`
+
+-   the `/` operator, which is equivalent to the `add_child_fragment`
+    function which creates a child xmlnodes of the last xmlnode in an
+    `xml_fragment`.
+
+```{r}
+tag("person", id = 1) / (
+  tag("name", "John Doe") +
+  tag("age", 30)
+)
+
+tag("person", id = 1) / frag(
+  name = "John Doe",
+  age = 30
+)
+
+tag("person", id = 1) |> 
+  add_child_fragment(
+    name = "John Doe",
+    age = 30
+  )
+```
+
+#### flexible xml creation...
+
+Using the `+` and `/` operators, one can create complex xml documents in
+a very flexible manner.
+
+```{r}
+fragment <- 
+  tag("person", id = "1") /
+    ( tag("name", "John Doe") +
+      tag("age", 30) +
+      tag("address") /
+        frag(
+          street = "123 Main St",
+          city = "Anytown",
+          state = "CA",
+          zip = 12345
+     )
+  )
+
+fragment
+```
+
+#### `xml2` compatibility
+
+`xml_writer` does not have a hard dependency on `xml2`, but the output
+of xml_writer can be converted to a `xml2::xml_document` object. An
+`xml_fragment` is identical to the output of `xml2::as_list`, so it can
+be converted to a `xml2::xml_document` object.
+
+`xml_fragment` supports the following `xml2` methods:
+
+-   `xml2::as_xml_document`, calls the `xml2::read_xml` method
+-   `xml2::as_list`, removes the `xml_fragment` class
+-   `xml2::write_xml`, writes the xml to a file or console
+
+One can also use the `as_xml_nodeset` function to convert the
+`xml_fragment` to a `xml2::xml_nodeset` object.
+
+```{r}
+fragment |> xml2::as_xml_document()
+fragment |> as_xml_nodeset()
+```
+
+`xml_fragment` implements the `xml2::write_xml` method
+
+```{r write_xml, eval=FALSE}
+xml2::write_xml(fragment, file="") # print to the console
+```
+
+results in:
+
+```{r, echo=FALSE, results='asis'}
+cat("```XML\n")
+xml2::write_xml(fragment, "")
+cat("\n```\n")
+```
 
 ### Using an `xmlbuilder` object
 
-`xmlbuilder` is an object that allows you to create xml documents in a feed-forward manner.
+`xmlbuilder` is an object that allows you to create xml documents in a
+feed-forward manner.
 
-With `xml_fragment` one creates the xml document structure as one R list and 
-then converts it to a xml string or `xml2::xml_document`, with `xmlbuilder` one
-incremently builds the xml document, without having the whole list structure in memory.
-It also provides more functions for the output xml document, like adding a prolog or comment.
+With `xml_fragment` one creates the xml document structure as one
+(large) R list and then converts it to a xml string or
+`xml2::xml_document`, with `xmlbuilder` one incremently builds the xml
+document, without having the whole list structure in memory. It also
+provides more functions for the output xml document, like adding a
+prolog or comment.
 
 It provides the following methods:
 
-- `start` to start a new element
-- `end` to end the current element
-- `element` to add an element with a value
-- `comment` to add a comment
-- `prolog` to add a prolog
-- `fragment` to add a fragment
+-   `start` to start a new element
+-   `end` to end the current element
+-   `element` to add an element with a value
+-   `comment` to add a comment
+-   `prolog` to add a prolog
+-   `fragment` to add a fragment
 
 ```{r xmlbuilder}
 library(xmlwriter)
@@ -306,11 +362,10 @@ as.character(b)
 xml2::as_xml_document(b)
 ```
 
+# Performance {#performance}
 
-# Performance
-
-`xmlwriter` is optimized for generating xml documents and fragments from a R `list`
-structure that is identical to the `xml2::as_list` output.
+`xmlwriter` is optimized for generating xml documents and fragments from
+a R `list` structure that is identical to the `xml2::as_list` output.
 
 ```{r performance, eval=TRUE}
 library(microbenchmark)
