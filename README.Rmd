@@ -18,6 +18,8 @@ knitr::opts_chunk$set(
 
 # xmlwriter
 
+> Elegant and fast XML generation for R
+
 <!-- badges: start -->
 
 [![CRAN

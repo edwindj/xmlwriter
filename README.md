@@ -3,6 +3,8 @@
 
 # xmlwriter
 
+> Elegant and fast XML generation for R
+
 <!-- badges: start -->
 
 [![CRAN
@@ -470,8 +472,8 @@ microbenchmark(
 #> potential integer overflows
 #> Unit: milliseconds
 #>       expr        min         lq       mean     median         uq        max
-#>       xml2 2437.38452 2469.03365 2485.57684 2489.30971 2499.51900 2531.43045
-#>  xmlwriter   42.12377   42.19265   44.21955   42.92977   45.80282   50.22676
+#>       xml2 2428.82713 2456.59171 2469.18590 2469.01182 2486.39313 2493.48351
+#>  xmlwriter   39.75782   40.99073   42.14187   41.57066   42.07543   45.95977
 #>  neval
 #>     10
 #>     10
