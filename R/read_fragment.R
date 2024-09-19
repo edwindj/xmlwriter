@@ -12,11 +12,13 @@ read_fragment <- function(x, ...){
     stop("xml2 is required to use this function")
   }
 
-  fragment <-
-    xml2::read_xml(x, ...) |>
-    xml2::as_list()
+  fragments <- lapply(x, function(s){
+     f <-
+       xml2::read_xml(s, ...) |>
+       xml2::as_list()
+     class(f) <- "xml_fragment"
+     f
+  })
 
-  class(fragment) <- "xml_fragment"
-
-  fragment
+  do.call(c, fragments)
 }

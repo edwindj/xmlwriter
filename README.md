@@ -424,20 +424,11 @@ b$start("homeless")
       age = 35
     )
   )
-#> writing raw xml: '<person id="3">
-#>   <name>Jim Doe</name>
-#>   <age>35</age>
-#> </person>'
-#> stream is '<?xml version='1.0' encoding='UTF-8'?><!--This is an xml comment--><homeless><person id="1"><name>John Doe</name><age>30</age><address><street>123 Main St</street><city>Anytown</city><state>CA</state><zip>12345</zip></address></person><person id="2"><name>Jane Doe</name><age>25</age><address><street>321 Main St</street><city>Anytown</city><state>CA</state><zip>54321</zip></address></person><person id="3">
-#>   <name>Jim Doe</name>
-#>   <age>35</age>
-#> </person>'
 b$end("homeless")
 
 # includes a xml prolog and comment
 b
 #> {xmlbuilder}
-#> get_partial_xml: ''
 
 as.character(b)
 #> [1] "<?xml version='1.0' encoding='UTF-8'?><!--This is an xml comment--><homeless><person id=\"1\"><name>John Doe</name><age>30</age><address><street>123 Main St</street><city>Anytown</city><state>CA</state><zip>12345</zip></address></person><person id=\"2\"><name>Jane Doe</name><age>25</age><address><street>321 Main St</street><city>Anytown</city><state>CA</state><zip>54321</zip></address></person><person id=\"3\">\n  <name>Jim Doe</name>\n  <age>35</age>\n</person></homeless>"
@@ -482,8 +473,8 @@ microbenchmark(
 #> potential integer overflows
 #> Unit: milliseconds
 #>       expr        min         lq       mean     median         uq        max
-#>       xml2 2417.41445 2461.72635 2576.69808 2506.00630 2560.34094 2959.39587
-#>  xmlwriter   40.11411   40.96679   42.57167   41.21958   44.10046   49.76318
+#>       xml2 2404.73241 2433.30584 2452.43190 2453.09458 2460.53107 2517.83755
+#>  xmlwriter   41.27236   41.36388   42.91722   42.04296   44.40751   46.32922
 #>  neval
 #>     10
 #>     10

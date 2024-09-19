@@ -7,12 +7,14 @@ frag <- function(..., .attr = NULL){
 
   # turn all none-lists into text nodes
   if (length(n) > 0){
-    n[!is_list] <- lapply(n[!is_list], .text)
+    no_name <- if (is.null(names(n))) {TRUE} else {names(n) == ""}
+
     n[is_list] <- lapply(n[is_list], unclass)
+    n[!is_list] <- lapply(n[!is_list], .text)
+    n[(!is_list) & no_name] <- lapply(n[(!is_list) & no_name], as.character)
 
     # check for unnamed elements
-    no_name <- which(names(n) == "" & is_list)
-    if (length(no_name)) {
+    if (any(no_name & is_list)) {
       stop("unnamed elements are not allowed in xml fragments")
     }
   }

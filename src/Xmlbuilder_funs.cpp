@@ -14,9 +14,9 @@ List xmlbuilder_create(bool use_prolog = true, bool strict = true){
 std::string xmlbuilder_get_partial_xml(List& xb){
   auto ptr = as<XPtr<Xmlbuilder>>(xb["ptr"]);
 
-  Rcout << "get_partial_xml: '";
+  // Rcout << "get_partial_xml: '";
   auto s = ptr->get_partial_xml();
-  Rcout << s << "'\n";
+  // Rcout << s << "'\n";
   return s;
 }
 

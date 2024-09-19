@@ -67,9 +67,9 @@ public:
 
   void write_raw_xml(std::string xml){
     check_finished();
-    Rcout << "writing raw xml: '" << xml << "'\n";
+    // Rcout << "writing raw xml: '" << xml << "'\n";
     _ss << xml;
-    Rcout << "stream is '" << _ss.str() << "'\n";
+    // Rcout << "stream is '" << _ss.str() << "'\n";
   }
 
   void write_entity(std::string entity, std::string value){
