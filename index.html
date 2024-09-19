@@ -384,20 +384,11 @@ forces the author to manipulate the XML document tree, obscuring the XML structu
 <span>      age <span class="op">=</span> <span class="fl">35</span></span>
 <span>    <span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
-<span><span class="co">#&gt; writing raw xml: '&lt;person id="3"&gt;</span></span>
-<span><span class="co">#&gt;   &lt;name&gt;Jim Doe&lt;/name&gt;</span></span>
-<span><span class="co">#&gt;   &lt;age&gt;35&lt;/age&gt;</span></span>
-<span><span class="co">#&gt; &lt;/person&gt;'</span></span>
-<span><span class="co">#&gt; stream is '&lt;?xml version='1.0' encoding='UTF-8'?&gt;&lt;!--This is an xml comment--&gt;&lt;homeless&gt;&lt;person id="1"&gt;&lt;name&gt;John Doe&lt;/name&gt;&lt;age&gt;30&lt;/age&gt;&lt;address&gt;&lt;street&gt;123 Main St&lt;/street&gt;&lt;city&gt;Anytown&lt;/city&gt;&lt;state&gt;CA&lt;/state&gt;&lt;zip&gt;12345&lt;/zip&gt;&lt;/address&gt;&lt;/person&gt;&lt;person id="2"&gt;&lt;name&gt;Jane Doe&lt;/name&gt;&lt;age&gt;25&lt;/age&gt;&lt;address&gt;&lt;street&gt;321 Main St&lt;/street&gt;&lt;city&gt;Anytown&lt;/city&gt;&lt;state&gt;CA&lt;/state&gt;&lt;zip&gt;54321&lt;/zip&gt;&lt;/address&gt;&lt;/person&gt;&lt;person id="3"&gt;</span></span>
-<span><span class="co">#&gt;   &lt;name&gt;Jim Doe&lt;/name&gt;</span></span>
-<span><span class="co">#&gt;   &lt;age&gt;35&lt;/age&gt;</span></span>
-<span><span class="co">#&gt; &lt;/person&gt;'</span></span>
 <span><span class="va">b</span><span class="op">$</span><span class="fu">end</span><span class="op">(</span><span class="st">"homeless"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># includes a xml prolog and comment</span></span>
 <span><span class="va">b</span></span>
 <span><span class="co">#&gt; {xmlbuilder}</span></span>
-<span><span class="co">#&gt; get_partial_xml: ''</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "&lt;?xml version='1.0' encoding='UTF-8'?&gt;&lt;!--This is an xml comment--&gt;&lt;homeless&gt;&lt;person id=\"1\"&gt;&lt;name&gt;John Doe&lt;/name&gt;&lt;age&gt;30&lt;/age&gt;&lt;address&gt;&lt;street&gt;123 Main St&lt;/street&gt;&lt;city&gt;Anytown&lt;/city&gt;&lt;state&gt;CA&lt;/state&gt;&lt;zip&gt;12345&lt;/zip&gt;&lt;/address&gt;&lt;/person&gt;&lt;person id=\"2\"&gt;&lt;name&gt;Jane Doe&lt;/name&gt;&lt;age&gt;25&lt;/age&gt;&lt;address&gt;&lt;street&gt;321 Main St&lt;/street&gt;&lt;city&gt;Anytown&lt;/city&gt;&lt;state&gt;CA&lt;/state&gt;&lt;zip&gt;54321&lt;/zip&gt;&lt;/address&gt;&lt;/person&gt;&lt;person id=\"3\"&gt;\n  &lt;name&gt;Jim Doe&lt;/name&gt;\n  &lt;age&gt;35&lt;/age&gt;\n&lt;/person&gt;&lt;/homeless&gt;"</span></span>
@@ -442,8 +433,8 @@ forces the author to manipulate the XML document tree, obscuring the XML structu
 <span><span class="co">#&gt; potential integer overflows</span></span>
 <span><span class="co">#&gt; Unit: milliseconds</span></span>
 <span><span class="co">#&gt;       expr        min         lq       mean     median         uq        max</span></span>
-<span><span class="co">#&gt;       xml2 2417.41445 2461.72635 2576.69808 2506.00630 2560.34094 2959.39587</span></span>
-<span><span class="co">#&gt;  xmlwriter   40.11411   40.96679   42.57167   41.21958   44.10046   49.76318</span></span>
+<span><span class="co">#&gt;       xml2 2404.73241 2433.30584 2452.43190 2453.09458 2460.53107 2517.83755</span></span>
+<span><span class="co">#&gt;  xmlwriter   41.27236   41.36388   42.91722   42.04296   44.40751   46.32922</span></span>
 <span><span class="co">#&gt;  neval</span></span>
 <span><span class="co">#&gt;     10</span></span>
 <span><span class="co">#&gt;     10</span></span></code></pre></div>
