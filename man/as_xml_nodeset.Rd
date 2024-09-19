@@ -14,4 +14,10 @@ as_xml_nodeset(x, ...)
 \description{
 Using the \code{xml2} package, this function transforms an \code{xml_fragment} into an \code{xml_nodeset}
 }
-\concept{xml_fragments}
+\seealso{
+Other xml_fragment: 
+\code{\link{add_child_fragment}()},
+\code{\link{data_frag}()},
+\code{\link{frag}()}
+}
+\concept{xml_fragment}

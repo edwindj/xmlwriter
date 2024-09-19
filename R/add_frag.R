@@ -1,51 +1,42 @@
-#' Add a fragment with a tag to an existing xml_fragment
+#' Add a child fragment to an existing xml_fragment
 #'
-#' `append_frag` add a tag with supplied `contents` to an `xml_fragment`. The `tag` argument
-#' is the name of the tag, and `contents` is the contents of the tag, which can be
-#' an xml_fragment, a character string, or a list of xml_fragment or character strings.
-#'
-#' @param x an `xml_fragment`
-#' @param tag character, the name of the tag (single value)
-#' @param contents character, xml_fragment or list of xml_fragment or character strings
-#' @param ... additional attributes to add to the tag
-#' @param .attr a list of additional attributes to add to the tag, override the `...` argument
-#' @return an `xml_fragment` with the new tag added
-#' @family xml_fragment
+#' Add a child fragment to an existing xml_fragment.
+#' The child fragment can be a named `frag` element in which case the name
+#' is used as the tag name, an unnamed element in which case the element
+#' is added as a text node. This functionality is equivalent with the `/` operator.
 #' @export
-append_frag <- function(x, tag, contents, ..., .attr = list(...)){
+#' @param x an [xml_fragment()] object
+#' @inheritParams xml_fragment
+#' @param .frag an xml_fragment to add as a child, overrides the ... argument
+#' @family xml_fragment
+add_child_fragment <- function(x, ..., .frag = frag(...)){
   stopifnot(inherits(x, "xml_fragment"))
-  contents <- unclass(contents)
-  if (!is.list(contents)){
-    contents <- contents |>
-      as.character() |>
-      as.list()
+
+  if (length(x) == 0){
+    stop("add_child_fragment requires an existing xml_fragment")
   }
-  attributes(contents) <- c(attributes(contents), .attr)
-  e <- list(contents)
-  names(e) <- tag
-  c(x, e)
+
+  last_node <- x[[length(x)]]
+  a <- attributes(last_node)
+  # this adds a child to the last node
+  last_node <-
+    last_node |>
+    append(.frag) |>
+    unclass()
+  attributes(last_node) <- c(a, attributes(last_node))
+
+  x[[length(x)]] <- last_node
+  x
 }
 
-
-#' Add a child fragment
-#'
-#' Adds a child fragment to an existing xml_fragment
-#' @param x an xml_fragment
-#' @param tag character, the name of the tag
-#' @param contents character, xml_fragment or list of xml_fragment or character strings
-#' @param ... additional attributes to add to the tag
-#' @param .attr a list of additional attributes to add to the tag, overrides the `...` argument
-#' @return an xml_fragment with the new child added
-#' @family xml_fragment
 #' @export
-add_child <- function(x, tag, contents, ..., .attr = list(...)){
-  last_node <- x[[length(x)]]
-  class(last_node) <- "xml_fragment"
-  x[[length(x)]] <-
-    last_node |>
-    append_frag(tag, contents, .attr = .attr) |>
-    unclass()
-  x
+`>.xml_fragment` <- function(e1, e2){
+  add_child_fragment(e1, .frag = e2)
+}
+
+#' @export
+`/.xml_fragment` <- function(e1, e2){
+  add_child_fragment(e1, .frag = e2)
 }
 
 #'@export

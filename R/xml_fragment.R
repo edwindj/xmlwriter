@@ -1,40 +1,26 @@
 #' @rdname xml_fragment
+#' @param .attr a list of attributes to add to the parent of the fragment
 #' @export
 frag <- function(..., .attr = NULL){
   n <- list(...)
   is_list <- sapply(n, is.list)
 
   # turn all none-lists into text nodes
-  n[!is_list] <- lapply(n[!is_list], .text)
-  n[is_list] <- lapply(n[is_list], unclass)
+  if (length(n) > 0){
+    n[!is_list] <- lapply(n[!is_list], .text)
+    n[is_list] <- lapply(n[is_list], unclass)
 
-  # check for unnamed elements
-  no_name <- which(names(n) == "" & is_list)
-  if (length(no_name)) {
-    stop("unnamed elements are not allowed in xml fragments")
+    # check for unnamed elements
+    no_name <- which(names(n) == "" & is_list)
+    if (length(no_name)) {
+      stop("unnamed elements are not allowed in xml fragments")
+    }
   }
 
   .attr <- lapply(.attr, as.character)
   # TODO improve on the attributes, replace names with ".names" etc.
   attributes(n) <- c(attributes(n), .attr)
   unclass(n)
-}
-
-.tags <- frag
-
-#' @rdname xml_fragment
-#' @export
-#' @param row_tag the tag name that is used for each row.
-#' @param df data frame that will be stored as set of xml elements
-.data <- function(df, row_tag = "obs"){
-    m <- as.matrix(df)
-    storage.mode(m) <- "character"
-
-    l <- m |>
-      apply(1, lapply, as.list) |>
-      stats::setNames(rep(row_tag, nrow(df)))
-
-    l
 }
 
 #' Create elegantly an XML fragment
@@ -49,8 +35,9 @@ frag <- function(..., .attr = NULL){
 #' - `.attr` attributes, which is set on current element, or on the `frag` where
 #' it is specified
 #' - unnamed elements, which are added as text nodes.
-#' - `.data` function that can be used to convert a data.frame to an xml fragment,
-#' in which each row is a set of xml elements.
+#' - [data_frag()] function that can be used to convert a data.frame to an xml fragment,
+#' in which each row is a set of xml elements (columns).
+#' - [tag()] function that can be used to create a tag with attributes and (optional) text.
 #'
 #' An `xml_doc` is a special case of an `xml_fragment` that contains exactly one
 #' root element, and errors when this is not the case.
@@ -60,14 +47,13 @@ frag <- function(..., .attr = NULL){
 #' methods are fast using a performant c++ implementation.
 #' @export
 #' @param ... nest named elements and characters to include in the fragment (see example)
-#' @param .attr attributes to be set on the root element
 #' @rdname xml_fragment
 #' @return an `xml_fragment`, list object that can be converted to an `xml2::xml_document`
 #' or `character` string
 #' @example example/xml_fragment.R
 #' @family xml_fragment
-xml_fragment <- function(..., .attr = character()){
-  elems <- frag(..., .attr = as.list(.attr))
+xml_fragment <- function(...){
+  elems <- frag(...)
 
   class(elems) <- "xml_fragment"
   elems
@@ -76,8 +62,8 @@ xml_fragment <- function(..., .attr = character()){
 #' Create an xml_fragment that contains exactly one element
 #' @export
 #' @rdname xml_fragment
-xml_doc <- function(..., .attr = character()){
-  root <- xml_fragment(..., .attr = .attr)
+xml_doc <- function(...){
+  root <- xml_fragment(...)
   if (length(root) != 1) {
     stop("xml_doc must contain exactly one root element", call. = FALSE)
   }
@@ -113,7 +99,7 @@ as_list.xml_fragment <- function(x, ...){
 #' @param x an object created with [xml_fragment()]
 #' @param ... reserved for future use
 #' @export
-#' @family xml_fragments
+#' @family xml_fragment
 as_xml_nodeset <- function(x, ...){
   if (!requireNamespace("xml2", quietly = TRUE)) {
     stop("xml2 is required to convert an xml_fragment to xml_nodeset")
@@ -185,7 +171,11 @@ print.xml_fragment <- function(x, ..., max_characters = 80){
 }
 
 .text <- function(text){
-  list(as.character(text))
+  if (!is.null(text)){
+    list(as.character(text))
+  } else {
+    NULL
+  }
 }
 
 #' @export

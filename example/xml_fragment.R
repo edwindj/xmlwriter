@@ -66,7 +66,7 @@ iris_xml <- xml_doc(
     .attr = c(id = "iris", doi ="10.1111/j.1469-1809.1936.tb02137.x"),
     source = "Fisher, R. A. (1936) The use of multiple measurements in
 taxonomic problems. Annals of Eugenics, 7, Part II, 179–188.",
-    data = .data(iris, row_tag = "obs")
+    data = data_frag(iris, row_tag = "obs")
   )
 )
 

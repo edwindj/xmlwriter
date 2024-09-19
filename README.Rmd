@@ -68,7 +68,7 @@ devtools::install_github("edwindj/xmlwriter")
 
 ## Example
 
-### Using `xml_fragment`, `frag` and `.attr`:
+### Using `xml_fragment`, `tag`, `frag` and `.attr`:
 
 `xml_fragment` is a function that creates an xml fragment using readable R syntax.
 It can be used to create an `character` with valid xml, a `xml2::xml_document` 
@@ -79,12 +79,16 @@ Each argument to `xml_fragment` is either:
 - an unnamed element in which case the element is added as a text node.
 - a `.attr` argument that is used to add attributes to the root element.
 
-`frag` have the same structure as `xml_fragment`, so you can nest them to 
+`tag` is a function that creates an `xml_fragment` element 
+with a given tag name, text, and attributes.
+
+`frag` haas the same structure as `xml_fragment`, so you can nest them in `xml_fragment` 
+and `frag` to 
 create a complex xml document.
+
 The output of `xml_fragment` is a list object that is identical to the output
 of `xml2::as_list`, and can be converted to an 
-`xml2::xml_document` or `character` string, but is much faster.
-
+`xml2::xml_document` or `character` string, but is much faster (see performance)
 
 ```{r fragment}
 library(xmlwriter)
@@ -104,36 +108,36 @@ fragment <- xml_fragment(
 )
 
 print(fragment)
-fragment |> xml2::as_xml_document()
-fragment |> as_xml_nodeset()
+
+fragment <- 
+  tag("person", id = "1") /
+    ( tag("name", "John Doe") +
+      tag("age", 30) +
+      tag("address") /
+        frag(
+          street = "123 Main St",
+          city = "Anytown",
+          state = "CA",
+          zip = 12345
+     )
+  )
 ```
-#### Extend with `append_frag`, `c()` and `+`
-
-`xml_fragment` can be extended with `append_frag`, `c()` and `+` functions.
-
-- `append_frag()` is a function that adds a `frag` to an existing `xml_fragment`, with
-a given tag name. This allow for building up a complex xml document in a bottom up manner
 
 
-- `c()` is a function that combines two `xml_fragment` objects into a single `xml_fragment`
+```{r, eval=FALSE}
+cat(as.character(fragment))
+```
+
+```{r, results='asis', echo=FALSE}
+cat("```XML\n")
+cat(as.character(fragment))
+cat("\n```\n")
+```
+
 
 ```{r}
-library(xmlwriter)
-f <- xml_fragment(node = frag("fragment", .attr = c(id="f")))
-sib <- xml_fragment(node = frag("sibling", .attr = c(id = "sib")))
-child <- xml_fragment("child")
-
-# add a sibling to f
-f + sib
-
-# same as:
-c(f, sib)
-
-sub <- xml_fragment(sub = "subsibling")
-# add a fragment with a supplied tag name
-f |> append_frag("node", sub, id = "sibling") 
-
-f |> add_child("node", child, id = "child")
+fragment |> xml2::as_xml_document()
+fragment |> as_xml_nodeset()
 ```
 
 `xml_fragment` implements the `xml2::write_xml` method
@@ -150,7 +154,7 @@ xml2::write_xml(fragment, "")
 cat("\n```\n")
 ```
 
-`xml_fragment` provides a `.data` function that can be used to convert a data.frame to xml:
+`xml_fragment` provides a `data_frag` function that can be used to convert a data.frame to xml:
 
 ```{r data}
 data <- data.frame(
@@ -159,11 +163,16 @@ data <- data.frame(
   stringsAsFactors = FALSE
 )
 
+# create an xml_fragment from a data.frame
+data_frag(data, row_tag = "person")
+
+# but you can also use it within an xml_fragment
+
 # xml_doc is a xml_fragment that contains a single root element
 doc <- xml_doc(
   homeless = frag(
     .attr = c(year = "1900"),
-    data = .data(data, row_tag = "person")
+    data = data_frag(data, row_tag = "person")
   )
 )
 
@@ -171,6 +180,69 @@ doc
 ```
 Both `xml_doc` as well as `xml_fragment` can be used to create a single root element xml document.
 `xml_doc` is a `xml_fragment` that errors when there is more than one root element.
+
+#### Combine fragments with `+` (or `append`, `c()`) and `/` (or `add_child_fragment`)
+
+`xml_fragment`, `tag`, `frag` and `data_frag` can be combined with:
+
+- the `+` operator, which is equivalent to the `append()` and `c()` function: it
+creates sibling xmlnodes. 
+- the `/` operator, which is equivalent to the `add_child_fragment` function which
+creates a child xmlnodes of the last xmlnode in the xml_fragment.
+
+
+
+```{r}
+library(xmlwriter)
+john <- xml_fragment(
+  person = frag(
+    .attr = c(id="1"),
+    name="John Doe"
+    )
+  )
+jane <- xml_fragment(
+  person = frag(
+    name="Jane Doe",
+    .attr = c(id = "2")
+    )
+  )
+
+# add a sibling to john
+john + jane
+# same as:
+c(john, jane)
+# same as:
+append(john, jane)
+
+jim <- 
+  tag("person", id=3) / (
+    tag("name", "Jim Doe") +
+    tag("age", 25)
+  )
+jim
+
+# same as
+jim <- tag("person", id = 3) |> 
+  add_child_fragment(
+    name = "Jim Doe",
+    age = 25
+  )
+jim
+
+# same as 
+jim <- xml_fragment(
+  person = frag(
+    .attr = c(id = 3),
+    name = "Jim Doe",
+    age = 25
+    )
+  )
+jim
+
+john + jim
+
+```
+
 
 ### Using an `xmlbuilder` object
 
