@@ -370,6 +370,49 @@ results in:
 </person>
 ```
 
+# Generate xml performance:
+
+`xmlwriter` is optimized for generating xml documents and fragments from
+a R `list` structure that is identical to the `xml2::as_list` output.
+
+``` r
+library(microbenchmark)
+
+library(xml2)
+library(xmlwriter)
+
+# read in a sample 600k xml file as a R list str
+doc <- xml2::read_xml("./example/DataGeneric.xml")
+doc_list <- xml2::as_list(doc)
+
+# just copy the list and set an extra attribute class="xml_fragment"
+# making it a xml_fragment object
+doc_fragment <- structure(doc_list, class = "xml_fragment")
+
+# see how long it takes to create an xml document with xml2 and xmlwriter
+
+(m <- microbenchmark(
+  xml2      = xml2::as_xml_document(doc_list),
+  xmlwriter = xml2::as_xml_document(doc_fragment),
+  times     = 10
+))
+#> Warning in microbenchmark(xml2 = xml2::as_xml_document(doc_list), xmlwriter =
+#> xml2::as_xml_document(doc_fragment), : less accurate nanosecond times to avoid
+#> potential integer overflows
+#> Unit: milliseconds
+#>       expr        min         lq       mean     median         uq        max
+#>       xml2 2406.33256 2408.94942 2432.51223 2439.25537 2443.73284 2453.37338
+#>  xmlwriter   39.67422   40.84199   43.04134   41.25402   44.95379   51.60235
+#>  neval
+#>     10
+#>     10
+```
+
+`xmlwriter` is about 56.5 times faster than `xml2` for creating an xml
+document from an R list. Note that `xmlwriter` includes a round trip,
+since `xmlwriter` first generates a `character` vector which is then
+read using `xml2::read_xml()`.
+
 ### Using an `xmlbuilder` object
 
 `xmlbuilder` is an object that allows you to create xml documents in a
@@ -440,42 +483,4 @@ xml2::as_xml_document(b)
 #> [1] <person id="1">\n  <name>John Doe</name>\n  <age>30</age>\n  <address>\n  ...
 #> [2] <person id="2">\n  <name>Jane Doe</name>\n  <age>25</age>\n  <address>\n  ...
 #> [3] <person id="3">\n  <name>Jim Doe</name>\n  <age>35</age>\n</person>
-```
-
-# Performance
-
-`xmlwriter` is optimized for generating xml documents and fragments from
-a R `list` structure that is identical to the `xml2::as_list` output.
-
-``` r
-library(microbenchmark)
-
-library(xml2)
-library(xmlwriter)
-
-# read in a sample 600k xml file as a R list str
-doc <- xml2::read_xml("./example/DataGeneric.xml")
-doc_list <- xml2::as_list(doc)
-
-# just copy the list and set an extra attribute class="xml_fragment"
-# making it a xml_fragment object
-doc_fragment <- structure(doc_list, class = "xml_fragment")
-
-# see how long it takes to create an xml document with xml2 and xmlwriter
-
-microbenchmark(
-  xml2      = xml2::as_xml_document(doc_list),
-  xmlwriter = xml2::as_xml_document(doc_fragment),
-  times     = 10
-)
-#> Warning in microbenchmark(xml2 = xml2::as_xml_document(doc_list), xmlwriter =
-#> xml2::as_xml_document(doc_fragment), : less accurate nanosecond times to avoid
-#> potential integer overflows
-#> Unit: milliseconds
-#>       expr        min         lq       mean     median         uq        max
-#>       xml2 2404.73241 2433.30584 2452.43190 2453.09458 2460.53107 2517.83755
-#>  xmlwriter   41.27236   41.36388   42.91722   42.04296   44.40751   46.32922
-#>  neval
-#>     10
-#>     10
 ```

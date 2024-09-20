@@ -306,6 +306,45 @@ xml2::write_xml(fragment, "")
 cat("\n```\n")
 ```
 
+
+# Generate xml performance:  {#performance}
+
+`xmlwriter` is optimized for generating xml documents and fragments from
+a R `list` structure that is identical to the `xml2::as_list` output.
+
+```{r performance, eval=TRUE}
+library(microbenchmark)
+
+library(xml2)
+library(xmlwriter)
+
+# read in a sample 600k xml file as a R list str
+doc <- xml2::read_xml("./example/DataGeneric.xml")
+doc_list <- xml2::as_list(doc)
+
+# just copy the list and set an extra attribute class="xml_fragment"
+# making it a xml_fragment object
+doc_fragment <- structure(doc_list, class = "xml_fragment")
+
+# see how long it takes to create an xml document with xml2 and xmlwriter
+
+(m <- microbenchmark(
+  xml2      = xml2::as_xml_document(doc_list),
+  xmlwriter = xml2::as_xml_document(doc_fragment),
+  times     = 10
+))
+```
+
+```{r, include=FALSE}
+a <- aggregate(time ~ expr, m, mean)
+faster <- round(a[1,2] / a[2,2],1)
+```
+
+
+`xmlwriter` is about `r faster` times faster than `xml2` for creating an xml document from
+an R list. Note that `xmlwriter` includes a round trip, since `xmlwriter` first generates
+a `character` vector which is then read using `xml2::read_xml()`.
+
 ### Using an `xmlbuilder` object
 
 `xmlbuilder` is an object that allows you to create xml documents in a
@@ -369,33 +408,4 @@ as.character(b)
 
 # only contains the actual nodes
 xml2::as_xml_document(b)
-```
-
-# Performance {#performance}
-
-`xmlwriter` is optimized for generating xml documents and fragments from
-a R `list` structure that is identical to the `xml2::as_list` output.
-
-```{r performance, eval=TRUE}
-library(microbenchmark)
-
-library(xml2)
-library(xmlwriter)
-
-# read in a sample 600k xml file as a R list str
-doc <- xml2::read_xml("./example/DataGeneric.xml")
-doc_list <- xml2::as_list(doc)
-
-# just copy the list and set an extra attribute class="xml_fragment"
-# making it a xml_fragment object
-doc_fragment <- structure(doc_list, class = "xml_fragment")
-
-# see how long it takes to create an xml document with xml2 and xmlwriter
-
-microbenchmark(
-  xml2      = xml2::as_xml_document(doc_list),
-  xmlwriter = xml2::as_xml_document(doc_fragment),
-  times     = 10
-)
-
 ```
