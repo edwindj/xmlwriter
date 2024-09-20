@@ -331,6 +331,44 @@ forces the author to manipulate the XML document tree, obscuring the XML structu
 <span id="cb15-10"><a href="#cb15-10" tabindex="-1"></a>&lt;/<span class="kw">person</span>&gt;</span></code></pre></div>
 </div>
 </div>
+</div>
+</div>
+<div class="section level1">
+<h1 id="generate-xml-performance">Generate xml performance:<a class="anchor" aria-label="anchor" href="#generate-xml-performance"></a>
+</h1>
+<p><code>xmlwriter</code> is optimized for generating xml documents and fragments from a R <code>list</code> structure that is identical to the <code>xml2::as_list</code> output.</p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/joshuaulrich/microbenchmark/" class="external-link">microbenchmark</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://xml2.r-lib.org/" class="external-link">xml2</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://edwindj.github.io/xmlwriter/">xmlwriter</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># read in a sample 600k xml file as a R list str</span></span>
+<span><span class="va">doc</span> <span class="op">&lt;-</span> <span class="fu">xml2</span><span class="fu">::</span><span class="fu"><a href="http://xml2.r-lib.org/reference/read_xml.html" class="external-link">read_xml</a></span><span class="op">(</span><span class="st">"./example/DataGeneric.xml"</span><span class="op">)</span></span>
+<span><span class="va">doc_list</span> <span class="op">&lt;-</span> <span class="fu">xml2</span><span class="fu">::</span><span class="fu">as_list</span><span class="op">(</span><span class="va">doc</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># just copy the list and set an extra attribute class="xml_fragment"</span></span>
+<span><span class="co"># making it a xml_fragment object</span></span>
+<span><span class="va">doc_fragment</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/structure.html" class="external-link">structure</a></span><span class="op">(</span><span class="va">doc_list</span>, class <span class="op">=</span> <span class="st">"xml_fragment"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># see how long it takes to create an xml document with xml2 and xmlwriter</span></span>
+<span></span>
+<span><span class="op">(</span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu">microbenchmark</span><span class="op">(</span></span>
+<span>  xml2      <span class="op">=</span> <span class="fu">xml2</span><span class="fu">::</span><span class="fu"><a href="http://xml2.r-lib.org/reference/as_xml_document.html" class="external-link">as_xml_document</a></span><span class="op">(</span><span class="va">doc_list</span><span class="op">)</span>,</span>
+<span>  xmlwriter <span class="op">=</span> <span class="fu">xml2</span><span class="fu">::</span><span class="fu"><a href="http://xml2.r-lib.org/reference/as_xml_document.html" class="external-link">as_xml_document</a></span><span class="op">(</span><span class="va">doc_fragment</span><span class="op">)</span>,</span>
+<span>  times     <span class="op">=</span> <span class="fl">10</span></span>
+<span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning in microbenchmark(xml2 = xml2::as_xml_document(doc_list), xmlwriter =</span></span>
+<span><span class="co">#&gt; xml2::as_xml_document(doc_fragment), : less accurate nanosecond times to avoid</span></span>
+<span><span class="co">#&gt; potential integer overflows</span></span>
+<span><span class="co">#&gt; Unit: milliseconds</span></span>
+<span><span class="co">#&gt;       expr        min         lq       mean     median         uq        max</span></span>
+<span><span class="co">#&gt;       xml2 2406.33256 2408.94942 2432.51223 2439.25537 2443.73284 2453.37338</span></span>
+<span><span class="co">#&gt;  xmlwriter   39.67422   40.84199   43.04134   41.25402   44.95379   51.60235</span></span>
+<span><span class="co">#&gt;  neval</span></span>
+<span><span class="co">#&gt;     10</span></span>
+<span><span class="co">#&gt;     10</span></span></code></pre></div>
+<p><code>xmlwriter</code> is about 56.5 times faster than <code>xml2</code> for creating an xml document from an R list. Note that <code>xmlwriter</code> includes a round trip, since <code>xmlwriter</code> first generates a <code>character</code> vector which is then read using <code><a href="http://xml2.r-lib.org/reference/read_xml.html" class="external-link">xml2::read_xml()</a></code>.</p>
 <div class="section level3">
 <h3 id="using-an-xmlbuilder-object">Using an <code>xmlbuilder</code> object<a class="anchor" aria-label="anchor" href="#using-an-xmlbuilder-object"></a>
 </h3>
@@ -351,7 +389,7 @@ forces the author to manipulate the XML document tree, obscuring the XML structu
 <li>
 <code>fragment</code> to add a fragment</li>
 </ul>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://edwindj.github.io/xmlwriter/">xmlwriter</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">b</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/xmlbuilder.html">xmlbuilder</a></span><span class="op">(</span>allow_fragments <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
@@ -401,43 +439,6 @@ forces the author to manipulate the XML document tree, obscuring the XML structu
 <span><span class="co">#&gt; [2] &lt;person id="2"&gt;\n  &lt;name&gt;Jane Doe&lt;/name&gt;\n  &lt;age&gt;25&lt;/age&gt;\n  &lt;address&gt;\n  ...</span></span>
 <span><span class="co">#&gt; [3] &lt;person id="3"&gt;\n  &lt;name&gt;Jim Doe&lt;/name&gt;\n  &lt;age&gt;35&lt;/age&gt;\n&lt;/person&gt;</span></span></code></pre></div>
 </div>
-</div>
-</div>
-<div class="section level1">
-<h1 id="performance">Performance<a class="anchor" aria-label="anchor" href="#performance"></a>
-</h1>
-<p><code>xmlwriter</code> is optimized for generating xml documents and fragments from a R <code>list</code> structure that is identical to the <code>xml2::as_list</code> output.</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/joshuaulrich/microbenchmark/" class="external-link">microbenchmark</a></span><span class="op">)</span></span>
-<span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://xml2.r-lib.org/" class="external-link">xml2</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://edwindj.github.io/xmlwriter/">xmlwriter</a></span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># read in a sample 600k xml file as a R list str</span></span>
-<span><span class="va">doc</span> <span class="op">&lt;-</span> <span class="fu">xml2</span><span class="fu">::</span><span class="fu"><a href="http://xml2.r-lib.org/reference/read_xml.html" class="external-link">read_xml</a></span><span class="op">(</span><span class="st">"./example/DataGeneric.xml"</span><span class="op">)</span></span>
-<span><span class="va">doc_list</span> <span class="op">&lt;-</span> <span class="fu">xml2</span><span class="fu">::</span><span class="fu">as_list</span><span class="op">(</span><span class="va">doc</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># just copy the list and set an extra attribute class="xml_fragment"</span></span>
-<span><span class="co"># making it a xml_fragment object</span></span>
-<span><span class="va">doc_fragment</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/structure.html" class="external-link">structure</a></span><span class="op">(</span><span class="va">doc_list</span>, class <span class="op">=</span> <span class="st">"xml_fragment"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># see how long it takes to create an xml document with xml2 and xmlwriter</span></span>
-<span></span>
-<span><span class="fu">microbenchmark</span><span class="op">(</span></span>
-<span>  xml2      <span class="op">=</span> <span class="fu">xml2</span><span class="fu">::</span><span class="fu"><a href="http://xml2.r-lib.org/reference/as_xml_document.html" class="external-link">as_xml_document</a></span><span class="op">(</span><span class="va">doc_list</span><span class="op">)</span>,</span>
-<span>  xmlwriter <span class="op">=</span> <span class="fu">xml2</span><span class="fu">::</span><span class="fu"><a href="http://xml2.r-lib.org/reference/as_xml_document.html" class="external-link">as_xml_document</a></span><span class="op">(</span><span class="va">doc_fragment</span><span class="op">)</span>,</span>
-<span>  times     <span class="op">=</span> <span class="fl">10</span></span>
-<span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning in microbenchmark(xml2 = xml2::as_xml_document(doc_list), xmlwriter =</span></span>
-<span><span class="co">#&gt; xml2::as_xml_document(doc_fragment), : less accurate nanosecond times to avoid</span></span>
-<span><span class="co">#&gt; potential integer overflows</span></span>
-<span><span class="co">#&gt; Unit: milliseconds</span></span>
-<span><span class="co">#&gt;       expr        min         lq       mean     median         uq        max</span></span>
-<span><span class="co">#&gt;       xml2 2404.73241 2433.30584 2452.43190 2453.09458 2460.53107 2517.83755</span></span>
-<span><span class="co">#&gt;  xmlwriter   41.27236   41.36388   42.91722   42.04296   44.40751   46.32922</span></span>
-<span><span class="co">#&gt;  neval</span></span>
-<span><span class="co">#&gt;     10</span></span>
-<span><span class="co">#&gt;     10</span></span></code></pre></div>
 </div>
 
   </main><aside class="col-md-3"><div class="license">
