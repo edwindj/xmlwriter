@@ -4,9 +4,9 @@ Version: 0.1.0.9000
 Authors@R: 
     person("Edwin", "de Jonge", , "edwindjonge@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-6580-4718"))
-Description: Provides two simple and fast interfaces for generating XML
+Description: Provides a fast and elegant interface for generating XML
  fragments and documents. It can be used in companion with R packages 'XML'
- or 'xml2' to generate XML documents. The fast XML generator is built using the
+ or 'xml2' to generate XML documents. The fast XML generation is implemented using the
  'Rcpp' package. 
 License: MIT + file LICENSE
 Encoding: UTF-8

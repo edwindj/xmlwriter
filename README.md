@@ -16,11 +16,9 @@ status](https://www.r-pkg.org/badges/version/xmlwriter)](https://CRAN.R-project.
 **NOTE the api is still in flux, and might change before `xmlwriter` is
 put on CRAN**
 
-`xmlwriter` is an R package that provides a simple interface for
-creating XML documents and fragments from R. It has a simple elegant
-syntax for creating `xml_fragment`s. Furthermore it contains a
-feed-forward API that allows you to write xml in the same order as the
-xml elements appear in an xml document or fragment.
+`xmlwriter` is an R package that provides a fast and simple interface
+for creating XML documents and fragments from R. It has a simple elegant
+syntax for creating `xml_fragment`s.
 
 `xmlwriter`’s XML generation from R lists is fast, implemented in C++
 using [`Rcpp`](https://cran.r-project.org/package=Rcpp). Curious for the
@@ -400,15 +398,15 @@ doc_fragment <- structure(doc_list, class = "xml_fragment")
 #> xml2::as_xml_document(doc_fragment), : less accurate nanosecond times to avoid
 #> potential integer overflows
 #> Unit: milliseconds
-#>       expr        min         lq       mean     median         uq        max
-#>       xml2 2406.33256 2408.94942 2432.51223 2439.25537 2443.73284 2453.37338
-#>  xmlwriter   39.67422   40.84199   43.04134   41.25402   44.95379   51.60235
+#>       expr       min         lq       mean     median        uq        max
+#>       xml2 2426.1299 2428.66177 2463.10193 2464.26582 2483.2119 2519.16919
+#>  xmlwriter   39.6625   41.14112   43.64016   43.56063   45.9628   48.98278
 #>  neval
 #>     10
 #>     10
 ```
 
-`xmlwriter` is about 56.5 times faster than `xml2` for creating an xml
+`xmlwriter` is about 56.4 times faster than `xml2` for creating an xml
 document from an R list. Note that `xmlwriter` includes a round trip,
 since `xmlwriter` first generates a `character` vector which is then
 read using `xml2::read_xml()`.
