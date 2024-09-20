@@ -11,8 +11,8 @@
 <script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Fast and Elegant XML Generation">
-<meta name="description" content="Provides two simple and fast interfaces for generating XML fragments and documents. It can be used in companion with R packages XML or xml2 to generate XML documents. The fast XML generator is built using the Rcpp package.">
-<meta property="og:description" content="Provides two simple and fast interfaces for generating XML fragments and documents. It can be used in companion with R packages XML or xml2 to generate XML documents. The fast XML generator is built using the Rcpp package.">
+<meta name="description" content="Provides a fast and elegant interface for generating XML fragments and documents. It can be used in companion with R packages XML or xml2 to generate XML documents. The fast XML generation is implemented using the Rcpp package.">
+<meta property="og:description" content="Provides a fast and elegant interface for generating XML fragments and documents. It can be used in companion with R packages XML or xml2 to generate XML documents. The fast XML generation is implemented using the Rcpp package.">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -54,7 +54,7 @@
 
 <!-- badges: end -->
 <p><strong>NOTE the api is still in flux, and might change before <code>xmlwriter</code> is put on CRAN</strong></p>
-<p><code>xmlwriter</code> is an R package that provides a simple interface for creating XML documents and fragments from R. It has a simple elegant syntax for creating <code>xml_fragment</code>s. Furthermore it contains a feed-forward API that allows you to write xml in the same order as the xml elements appear in an xml document or fragment.</p>
+<p><code>xmlwriter</code> is an R package that provides a fast and simple interface for creating XML documents and fragments from R. It has a simple elegant syntax for creating <code>xml_fragment</code>s.</p>
 <p><code>xmlwriter</code>’s XML generation from R lists is fast, implemented in C++ using <a href="https://cran.r-project.org/package=Rcpp" class="external-link"><code>Rcpp</code></a>. Curious for the benchmarks? Check the <a href="#performance">performance section</a>.</p>
 <p><code>xmlwriter</code> can be used as a companion to R packages <a href="https://cran.r-project.org/package=XML" class="external-link"><code>XML</code></a> or <a href="https://cran.r-project.org/package=xml2" class="external-link"><code>xml2</code></a> which are both wonderful packages optimized for parsing, querying and manipulating XML documents. Both <code>XML</code> and <code>xml2</code> provide several ways for creating XML documents, but they are not optimized for generating and writing XML.</p>
 <p>Creating XML documents with <code>XML</code> and <code>xml2</code> can be a bit cumbersome, mostly because it<br>
@@ -362,13 +362,13 @@ forces the author to manipulate the XML document tree, obscuring the XML structu
 <span><span class="co">#&gt; xml2::as_xml_document(doc_fragment), : less accurate nanosecond times to avoid</span></span>
 <span><span class="co">#&gt; potential integer overflows</span></span>
 <span><span class="co">#&gt; Unit: milliseconds</span></span>
-<span><span class="co">#&gt;       expr        min         lq       mean     median         uq        max</span></span>
-<span><span class="co">#&gt;       xml2 2406.33256 2408.94942 2432.51223 2439.25537 2443.73284 2453.37338</span></span>
-<span><span class="co">#&gt;  xmlwriter   39.67422   40.84199   43.04134   41.25402   44.95379   51.60235</span></span>
+<span><span class="co">#&gt;       expr       min         lq       mean     median        uq        max</span></span>
+<span><span class="co">#&gt;       xml2 2426.1299 2428.66177 2463.10193 2464.26582 2483.2119 2519.16919</span></span>
+<span><span class="co">#&gt;  xmlwriter   39.6625   41.14112   43.64016   43.56063   45.9628   48.98278</span></span>
 <span><span class="co">#&gt;  neval</span></span>
 <span><span class="co">#&gt;     10</span></span>
 <span><span class="co">#&gt;     10</span></span></code></pre></div>
-<p><code>xmlwriter</code> is about 56.5 times faster than <code>xml2</code> for creating an xml document from an R list. Note that <code>xmlwriter</code> includes a round trip, since <code>xmlwriter</code> first generates a <code>character</code> vector which is then read using <code><a href="http://xml2.r-lib.org/reference/read_xml.html" class="external-link">xml2::read_xml()</a></code>.</p>
+<p><code>xmlwriter</code> is about 56.4 times faster than <code>xml2</code> for creating an xml document from an R list. Note that <code>xmlwriter</code> includes a round trip, since <code>xmlwriter</code> first generates a <code>character</code> vector which is then read using <code><a href="http://xml2.r-lib.org/reference/read_xml.html" class="external-link">xml2::read_xml()</a></code>.</p>
 <div class="section level3">
 <h3 id="using-an-xmlbuilder-object">Using an <code>xmlbuilder</code> object<a class="anchor" aria-label="anchor" href="#using-an-xmlbuilder-object"></a>
 </h3>
