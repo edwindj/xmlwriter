@@ -4,13 +4,15 @@
 \alias{data_frag}
 \title{Create an xml_fragment from a data.frame}
 \usage{
-data_frag(df, row_tags = "row")
+data_frag(df, row_tags = "row", .attr = NULL)
 }
 \arguments{
 \item{df}{data frame that will be stored as set of xml elements}
 
 \item{row_tags}{\code{character} the tag name that is used for each row. Note that
 this can be a single value or a vector of length equal to the number of rows in the data.frame.}
+
+\item{.attr}{optional \code{data.frame} with xml row attributes}
 }
 \value{
 \code{\link[=xml_fragment]{xml_fragment()}} object
@@ -28,7 +30,29 @@ persons <- data.frame(
 df <- data_frag(persons, row_tag = "person")
 print(df)
 
-tag("study", date = "today") / df
+# setting ids on rows
+persons <- data.frame(
+  name = c("John Doe", "Jane Doe"),
+  age = c(30, 25),
+  id = c("p1", "p2"),
+  stringsAsFactors = FALSE
+)
+
+df <- data_frag(
+  persons[1:2],
+  row_tag = "person",
+  .attr = persons[3]
+)
+
+print(df)
+
+# turning it into a document
+doc <- xml_doc("study", id = "1") / frag(
+  source = "homeless db",
+  data = df
+)
+
+cat(as.character(doc))
 }
 \seealso{
 Other xml_fragment: 
