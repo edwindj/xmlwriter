@@ -37,7 +37,7 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">data_frag</span><span class="op">(</span><span class="va">df</span>, row_tags <span class="op">=</span> <span class="st">"row"</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">data_frag</span><span class="op">(</span><span class="va">df</span>, row_tags <span class="op">=</span> <span class="st">"row"</span>, .attr <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -51,6 +51,10 @@
 <dt id="arg-row-tags">row_tags<a class="anchor" aria-label="anchor" href="#arg-row-tags"></a></dt>
 <dd><p><code>character</code> the tag name that is used for each row. Note that
 this can be a single value or a vector of length equal to the number of rows in the data.frame.</p></dd>
+
+
+<dt id="arg--attr">.attr<a class="anchor" aria-label="anchor" href="#arg--attr"></a></dt>
+<dd><p>optional <code>data.frame</code> with xml row attributes</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -87,13 +91,53 @@ this can be a single value or a vector of length equal to the number of rows in 
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;/person&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ...</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu"><a href="tag.html">tag</a></span><span class="op">(</span><span class="st">"study"</span>, date <span class="op">=</span> <span class="st">"today"</span><span class="op">)</span> <span class="op">/</span> <span class="va">df</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> {xml_fragment}</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;study date="today"&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   &lt;person&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;name&gt;John Doe&lt;/name&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;age&gt;30&lt;/age&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   &lt;/... </span>
+<span class="r-in"><span><span class="co"># setting ids on rows</span></span></span>
+<span class="r-in"><span><span class="va">persons</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"John Doe"</span>, <span class="st">"Jane Doe"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">30</span>, <span class="fl">25</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"p1"</span>, <span class="st">"p2"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  stringsAsFactors <span class="op">=</span> <span class="cn">FALSE</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu">data_frag</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="va">persons</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span>,</span></span>
+<span class="r-in"><span>  row_tag <span class="op">=</span> <span class="st">"person"</span>,</span></span>
+<span class="r-in"><span>  .attr <span class="op">=</span> <span class="va">persons</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> {xml_fragment (2)}</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1]&lt;person id="p1"&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   &lt;name&gt;John Doe&lt;/name&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   &lt;age&gt;30&lt;/age&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;/person&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2]&lt;person id="p2"&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   &lt;name&gt;Jane Doe&lt;/name&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   &lt;age&gt;25&lt;/age&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;/person&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ...</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># turning it into a document</span></span></span>
+<span class="r-in"><span><span class="va">doc</span> <span class="op">&lt;-</span> <span class="fu"><a href="xml_doc.html">xml_doc</a></span><span class="op">(</span><span class="st">"study"</span>, id <span class="op">=</span> <span class="st">"1"</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="frag.html">frag</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  source <span class="op">=</span> <span class="st">"homeless db"</span>,</span></span>
+<span class="r-in"><span>  data <span class="op">=</span> <span class="va">df</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">doc</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;?xml version='1.0' encoding='UTF-8'?&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  &lt;study id="1"&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   &lt;source&gt;homeless db&lt;/source&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   &lt;data&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;person id="p1"&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       &lt;name&gt;John Doe&lt;/name&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       &lt;age&gt;30&lt;/age&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;/person&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;person id="p2"&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       &lt;name&gt;Jane Doe&lt;/name&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       &lt;age&gt;25&lt;/age&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;/person&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   &lt;/data&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;/study&gt;</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
