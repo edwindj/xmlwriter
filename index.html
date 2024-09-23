@@ -22,7 +22,7 @@
 
     <a class="navbar-brand me-2" href="index.html">xmlwriter</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -53,7 +53,6 @@
 <!-- badges: start -->
 
 <!-- badges: end -->
-<p><strong>NOTE the api is still in flux, and might change before <code>xmlwriter</code> is put on CRAN</strong></p>
 <p><code>xmlwriter</code> is an R package that provides a fast and simple interface for creating XML documents and fragments from R. It has a simple elegant syntax for creating <code>xml_fragment</code>s.</p>
 <p><code>xmlwriter</code>’s XML generation from R lists is fast, implemented in C++ using <a href="https://cran.r-project.org/package=Rcpp" class="external-link"><code>Rcpp</code></a>. Curious for the benchmarks? Check the <a href="#performance">performance section</a>.</p>
 <p><code>xmlwriter</code> can be used as a companion to R packages <a href="https://cran.r-project.org/package=XML" class="external-link"><code>XML</code></a> or <a href="https://cran.r-project.org/package=xml2" class="external-link"><code>xml2</code></a> which are both wonderful packages optimized for parsing, querying and manipulating XML documents. Both <code>XML</code> and <code>xml2</code> provide several ways for creating XML documents, but they are not optimized for generating and writing XML.</p>
@@ -68,7 +67,6 @@ forces the author to manipulate the XML document tree, obscuring the XML structu
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p><code>xmlwriter</code> is not yet available on CRAN, feedback is welcome before submitting to CRAN.</p>
 <p>You can install the development version of <code>xmlwriter</code> from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
@@ -375,13 +373,13 @@ forces the author to manipulate the XML document tree, obscuring the XML structu
 <span><span class="co">#&gt; xml2::as_xml_document(doc_fragment), : less accurate nanosecond times to avoid</span></span>
 <span><span class="co">#&gt; potential integer overflows</span></span>
 <span><span class="co">#&gt; Unit: milliseconds</span></span>
-<span><span class="co">#&gt;       expr       min         lq       mean     median         uq        max</span></span>
-<span><span class="co">#&gt;       xml2 2434.9396 2445.91519 2487.77650 2480.54668 2515.47825 2587.96301</span></span>
-<span><span class="co">#&gt;  xmlwriter   41.1606   41.48093   42.63884   42.20776   43.11388   46.96423</span></span>
+<span><span class="co">#&gt;       expr        min         lq       mean     median         uq        max</span></span>
+<span><span class="co">#&gt;       xml2 2408.34033 2432.87612 2464.63448 2440.44683 2471.79890 2665.45711</span></span>
+<span><span class="co">#&gt;  xmlwriter   40.01083   41.64489   43.24207   41.93908   45.62107   49.82726</span></span>
 <span><span class="co">#&gt;  neval</span></span>
 <span><span class="co">#&gt;     10</span></span>
 <span><span class="co">#&gt;     10</span></span></code></pre></div>
-<p><code>xmlwriter</code> is about 58.3 times faster than <code>xml2</code> for creating an xml document from an R list. Note that <code>xmlwriter</code> includes a round trip, since <code>xmlwriter</code> first generates a <code>character</code> vector which is then read using <code><a href="http://xml2.r-lib.org/reference/read_xml.html" class="external-link">xml2::read_xml()</a></code>.</p>
+<p><code>xmlwriter</code> is about 57 times faster than <code>xml2</code> for creating an xml document from an R list. Note that <code>xmlwriter</code> includes a round trip, since <code>xmlwriter</code> first generates a <code>character</code> vector which is then read using <code><a href="http://xml2.r-lib.org/reference/read_xml.html" class="external-link">xml2::read_xml()</a></code>.</p>
 <div class="section level3">
 <h3 id="using-an-xmlbuilder-object">Using an <code>xmlbuilder</code> object<a class="anchor" aria-label="anchor" href="#using-an-xmlbuilder-object"></a>
 </h3>
