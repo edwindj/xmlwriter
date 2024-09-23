@@ -82,18 +82,18 @@ forces the author to manipulate the XML document tree, obscuring the XML structu
 </h3>
 <p><code>xml_fragment</code>s allow to write XML using readable R syntax.</p>
 <p>They can be used to create an <code>character</code> with valid XML, a <code>xml2::xml_document</code> or as a building block for more complex XML documents. An <code>xml_fragment</code> is a list object that is identical to the output of <code>xml2::as_list</code>, and can be converted to a <code>character</code> or an <code>xml2::xml_document</code> object but is much faster (see performance).</p>
-<p><code>tag</code> is a function that creates a simple <code>xml_fragment</code> element with a given tag name, text, and attributes.</p>
+<p><code>tag</code> is a function that creates a simple <code>xml_fragment</code> element with a given tag name, text, and attributes. It allows for creating elements with a tag name conditional on the presence of a value.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://edwindj.github.io/xmlwriter/">xmlwriter</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># a tag is a simple xml_fragment, with text and named attributes</span></span>
+<span><span class="co"># tag creates a simple xml_fragment, with text and named attributes</span></span>
 <span><span class="fu"><a href="reference/tag.html">tag</a></span><span class="op">(</span><span class="st">"person"</span>, <span class="st">"John Doe"</span>, id <span class="op">=</span> <span class="fl">1</span>, state<span class="op">=</span><span class="st">"CA"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; {xml_fragment}</span></span>
 <span><span class="co">#&gt; &lt;person id="1" state="CA"&gt;John Doe&lt;/person&gt;</span></span></code></pre></div>
 <p><code>frag</code> is a function that allows for specifying nested elements and attributes, thus creating a more complex <code>xml_fragment</code>.</p>
 <p>An argument to <code>frag</code> is either:</p>
 <ul>
-<li>a named element in which case the name is used as the tag name. The element can be a value or a nested <code>frag</code>.</li>
+<li>a named element in which case the name is used as the tag name for that element. The element can be a value or a nested <code>frag</code>.</li>
 <li>an unnamed element in which case the element is added as a text node.</li>
 <li>a <code>.attr</code> argument that is used to add attributes to the parent element.</li>
 </ul>
@@ -173,26 +173,21 @@ forces the author to manipulate the XML document tree, obscuring the XML structu
 <p>Or you can use it within an <code>xml_fragment</code>:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># but you can also use it within an xml_fragment</span></span>
-<span><span class="co"># xml_doc is a xml_fragment that contains a single root element</span></span>
-<span><span class="va">doc</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/xml_doc.html">xml_doc</a></span><span class="op">(</span><span class="st">"homeless"</span>, year <span class="op">=</span> <span class="st">"1900"</span><span class="op">)</span> <span class="op">/</span> </span>
-<span>  <span class="fu"><a href="reference/frag.html">frag</a></span><span class="op">(</span></span>
-<span>    data <span class="op">=</span> <span class="fu"><a href="reference/data_frag.html">data_frag</a></span><span class="op">(</span><span class="va">data</span>, row_tag <span class="op">=</span> <span class="st">"person"</span><span class="op">)</span></span>
-<span>  <span class="op">)</span></span>
+<span><span class="va">doc</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/xml_fragment.html">xml_fragment</a></span><span class="op">(</span></span>
+<span>  homeless <span class="op">=</span> <span class="fu"><a href="reference/data_frag.html">data_frag</a></span><span class="op">(</span><span class="va">data</span>, row_tags <span class="op">=</span> <span class="st">"person"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">doc</span></span></code></pre></div>
-<div class="sourceCode" id="cb9"><pre class="sourceCode xml"><code class="sourceCode xml"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">&lt;?xml</span><span class="ot"> version=</span><span class="st">'1.0'</span><span class="ot"> encoding=</span><span class="st">'UTF-8'</span><span class="fu">?&gt;</span></span>
-<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a> &lt;<span class="kw">homeless</span><span class="ot"> year=</span><span class="st">"1900"</span>&gt;</span>
-<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>  &lt;<span class="kw">data</span>&gt;</span>
-<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>    &lt;<span class="kw">person</span>&gt;</span>
-<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>      &lt;<span class="kw">name</span>&gt;John Doe&lt;/<span class="kw">name</span>&gt;</span>
-<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a>      &lt;<span class="kw">age</span>&gt;30&lt;/<span class="kw">age</span>&gt;</span>
-<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a>    &lt;/<span class="kw">person</span>&gt;</span>
-<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a>    &lt;<span class="kw">person</span>&gt;</span>
-<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a>      &lt;<span class="kw">name</span>&gt;Jane Doe&lt;/<span class="kw">name</span>&gt;</span>
-<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a>      &lt;<span class="kw">age</span>&gt;25&lt;/<span class="kw">age</span>&gt;</span>
-<span id="cb9-11"><a href="#cb9-11" tabindex="-1"></a>    &lt;/<span class="kw">person</span>&gt;</span>
-<span id="cb9-12"><a href="#cb9-12" tabindex="-1"></a>  &lt;/<span class="kw">data</span>&gt;</span>
-<span id="cb9-13"><a href="#cb9-13" tabindex="-1"></a>&lt;/<span class="kw">homeless</span>&gt;</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode xml"><code class="sourceCode xml"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>&lt;<span class="kw">homeless</span>&gt;</span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>  &lt;<span class="kw">person</span>&gt;</span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>    &lt;<span class="kw">name</span>&gt;John Doe&lt;/<span class="kw">name</span>&gt;</span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>    &lt;<span class="kw">age</span>&gt;30&lt;/<span class="kw">age</span>&gt;</span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>  &lt;/<span class="kw">person</span>&gt;</span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a>  &lt;<span class="kw">person</span>&gt;</span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a>    &lt;<span class="kw">name</span>&gt;Jane Doe&lt;/<span class="kw">name</span>&gt;</span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a>    &lt;<span class="kw">age</span>&gt;25&lt;/<span class="kw">age</span>&gt;</span>
+<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a>  &lt;/<span class="kw">person</span>&gt;</span>
+<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a>&lt;/<span class="kw">homeless</span>&gt;</span></code></pre></div>
 <div class="section level4">
 <h4 id="combine-fragments-with--append-or-c">Combine fragments with <code>+</code>, <code>append</code> or <code>c()</code>)<a class="anchor" aria-label="anchor" href="#combine-fragments-with--append-or-c"></a>
 </h4>
@@ -267,14 +262,14 @@ forces the author to manipulate the XML document tree, obscuring the XML structu
 </h4>
 <p>Using the <code>tag</code>, <code>frag</code>, <code>+</code> and <code>/</code> functions, one can create complex XML documents in a very flexible manner.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># needlessly complex, but shows flexible construction of XML</span></span>
+<code class="sourceCode R"><span><span class="co"># overly complex, but shows flexible construction of XML</span></span>
 <span><span class="va">fragment</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="fu"><a href="reference/tag.html">tag</a></span><span class="op">(</span><span class="st">"person"</span>, id <span class="op">=</span> <span class="st">"1"</span><span class="op">)</span> <span class="op">/</span> <span class="co"># adds child nodes to person</span></span>
 <span>    <span class="op">(</span> <span class="fu"><a href="reference/frag.html">frag</a></span><span class="op">(</span></span>
 <span>        name <span class="op">=</span> <span class="st">"John Doe"</span>,</span>
 <span>        age <span class="op">=</span> <span class="fl">30</span></span>
 <span>      <span class="op">)</span> <span class="op">+</span>  <span class="co"># add an extra child node to person, with subnodes</span></span>
-<span>      <span class="fu"><a href="reference/tag.html">tag</a></span><span class="op">(</span><span class="st">"address"</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="reference/frag.html">frag</a></span><span class="op">(</span></span>
+<span>      <span class="fu"><a href="reference/tag.html">tag</a></span><span class="op">(</span><span class="st">"address"</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="reference/add_child_fragment.html">add_child_fragment</a></span><span class="op">(</span></span>
 <span>          street <span class="op">=</span> <span class="st">"123 Main St"</span>,</span>
 <span>          city <span class="op">=</span> <span class="st">"Anytown"</span>,</span>
 <span>          state <span class="op">=</span> <span class="st">"CA"</span>,</span>
@@ -283,6 +278,24 @@ forces the author to manipulate the XML document tree, obscuring the XML structu
 <span>    <span class="op">)</span></span>
 <span></span>
 <span><span class="va">fragment</span></span>
+<span><span class="co">#&gt; {xml_fragment}</span></span>
+<span><span class="co">#&gt; &lt;person id="1"&gt;</span></span>
+<span><span class="co">#&gt;   &lt;name&gt;John Doe&lt;/name&gt;</span></span>
+<span><span class="co">#&gt;   &lt;age&gt;30&lt;/age&gt;</span></span>
+<span><span class="co">#&gt;   &lt;address&gt;</span></span>
+<span><span class="co">#&gt;     &lt;street&gt;...</span></span></code></pre></div>
+<p>A cleaner version of the above:</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/tag.html">tag</a></span><span class="op">(</span><span class="st">"person"</span>, id <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="reference/frag.html">frag</a></span><span class="op">(</span></span>
+<span>    name <span class="op">=</span> <span class="st">"John Doe"</span>,</span>
+<span>    age <span class="op">=</span> <span class="fl">30</span>,</span>
+<span>    address <span class="op">=</span> <span class="fu"><a href="reference/frag.html">frag</a></span><span class="op">(</span></span>
+<span>      street <span class="op">=</span> <span class="st">"123 Main St"</span>,</span>
+<span>      city <span class="op">=</span> <span class="st">"Anytown"</span>,</span>
+<span>      state <span class="op">=</span> <span class="st">"CA"</span>,</span>
+<span>      zip <span class="op">=</span> <span class="fl">12345</span></span>
+<span>    <span class="op">)</span></span>
+<span><span class="op">)</span></span>
 <span><span class="co">#&gt; {xml_fragment}</span></span>
 <span><span class="co">#&gt; &lt;person id="1"&gt;</span></span>
 <span><span class="co">#&gt;   &lt;name&gt;John Doe&lt;/name&gt;</span></span>
@@ -305,7 +318,7 @@ forces the author to manipulate the XML document tree, obscuring the XML structu
 <code><a href="http://xml2.r-lib.org/reference/write_xml.html" class="external-link">xml2::write_xml</a></code>, writes the xml to a file or console</li>
 </ul>
 <p>One can also use the <code>as_xml_nodeset</code> function to convert the <code>xml_fragment</code> to a <code>xml2::xml_nodeset</code> object.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fragment</span> <span class="op">|&gt;</span> <span class="fu">xml2</span><span class="fu">::</span><span class="fu"><a href="http://xml2.r-lib.org/reference/as_xml_document.html" class="external-link">as_xml_document</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; {xml_document}</span></span>
 <span><span class="co">#&gt; &lt;person id="1"&gt;</span></span>
@@ -316,28 +329,28 @@ forces the author to manipulate the XML document tree, obscuring the XML structu
 <span><span class="co">#&gt; {xml_nodeset (1)}</span></span>
 <span><span class="co">#&gt; [1] &lt;person id="1"&gt;\n  &lt;name&gt;John Doe&lt;/name&gt;\n  &lt;age&gt;30&lt;/age&gt;\n  &lt;address&gt;\n  ...</span></span></code></pre></div>
 <p><code>xml_fragment</code> implements the <code><a href="http://xml2.r-lib.org/reference/write_xml.html" class="external-link">xml2::write_xml</a></code> method</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">xml2</span><span class="fu">::</span><span class="fu"><a href="http://xml2.r-lib.org/reference/write_xml.html" class="external-link">write_xml</a></span><span class="op">(</span><span class="va">fragment</span>, file<span class="op">=</span><span class="st">""</span><span class="op">)</span> <span class="co"># print to the console</span></span></code></pre></div>
 <p>results in:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode xml"><code class="sourceCode xml"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a>&lt;<span class="kw">person</span><span class="ot"> id=</span><span class="st">"1"</span>&gt;</span>
-<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>  &lt;<span class="kw">name</span>&gt;John Doe&lt;/<span class="kw">name</span>&gt;</span>
-<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a>  &lt;<span class="kw">age</span>&gt;30&lt;/<span class="kw">age</span>&gt;</span>
-<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a>  &lt;<span class="kw">address</span>&gt;</span>
-<span id="cb15-5"><a href="#cb15-5" tabindex="-1"></a>    &lt;<span class="kw">street</span>&gt;123 Main St&lt;/<span class="kw">street</span>&gt;</span>
-<span id="cb15-6"><a href="#cb15-6" tabindex="-1"></a>    &lt;<span class="kw">city</span>&gt;Anytown&lt;/<span class="kw">city</span>&gt;</span>
-<span id="cb15-7"><a href="#cb15-7" tabindex="-1"></a>    &lt;<span class="kw">state</span>&gt;CA&lt;/<span class="kw">state</span>&gt;</span>
-<span id="cb15-8"><a href="#cb15-8" tabindex="-1"></a>    &lt;<span class="kw">zip</span>&gt;12345&lt;/<span class="kw">zip</span>&gt;</span>
-<span id="cb15-9"><a href="#cb15-9" tabindex="-1"></a>  &lt;/<span class="kw">address</span>&gt;</span>
-<span id="cb15-10"><a href="#cb15-10" tabindex="-1"></a>&lt;/<span class="kw">person</span>&gt;</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode xml"><code class="sourceCode xml"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a>&lt;<span class="kw">person</span><span class="ot"> id=</span><span class="st">"1"</span>&gt;</span>
+<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a>  &lt;<span class="kw">name</span>&gt;John Doe&lt;/<span class="kw">name</span>&gt;</span>
+<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a>  &lt;<span class="kw">age</span>&gt;30&lt;/<span class="kw">age</span>&gt;</span>
+<span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a>  &lt;<span class="kw">address</span>&gt;</span>
+<span id="cb16-5"><a href="#cb16-5" tabindex="-1"></a>    &lt;<span class="kw">street</span>&gt;123 Main St&lt;/<span class="kw">street</span>&gt;</span>
+<span id="cb16-6"><a href="#cb16-6" tabindex="-1"></a>    &lt;<span class="kw">city</span>&gt;Anytown&lt;/<span class="kw">city</span>&gt;</span>
+<span id="cb16-7"><a href="#cb16-7" tabindex="-1"></a>    &lt;<span class="kw">state</span>&gt;CA&lt;/<span class="kw">state</span>&gt;</span>
+<span id="cb16-8"><a href="#cb16-8" tabindex="-1"></a>    &lt;<span class="kw">zip</span>&gt;12345&lt;/<span class="kw">zip</span>&gt;</span>
+<span id="cb16-9"><a href="#cb16-9" tabindex="-1"></a>  &lt;/<span class="kw">address</span>&gt;</span>
+<span id="cb16-10"><a href="#cb16-10" tabindex="-1"></a>&lt;/<span class="kw">person</span>&gt;</span></code></pre></div>
 </div>
 </div>
 </div>
 </div>
 <div class="section level1">
-<h1 id="generate-xml-performance">Generate xml performance:<a class="anchor" aria-label="anchor" href="#generate-xml-performance"></a>
+<h1 id="performance-of-xml-generation">Performance of xml generation:<a class="anchor" aria-label="anchor" href="#performance-of-xml-generation"></a>
 </h1>
 <p><code>xmlwriter</code> is optimized for generating xml documents and fragments from a R <code>list</code> structure that is identical to the <code>xml2::as_list</code> output.</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/joshuaulrich/microbenchmark/" class="external-link">microbenchmark</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://xml2.r-lib.org/" class="external-link">xml2</a></span><span class="op">)</span></span>
@@ -362,13 +375,13 @@ forces the author to manipulate the XML document tree, obscuring the XML structu
 <span><span class="co">#&gt; xml2::as_xml_document(doc_fragment), : less accurate nanosecond times to avoid</span></span>
 <span><span class="co">#&gt; potential integer overflows</span></span>
 <span><span class="co">#&gt; Unit: milliseconds</span></span>
-<span><span class="co">#&gt;       expr       min         lq       mean     median        uq        max</span></span>
-<span><span class="co">#&gt;       xml2 2426.1299 2428.66177 2463.10193 2464.26582 2483.2119 2519.16919</span></span>
-<span><span class="co">#&gt;  xmlwriter   39.6625   41.14112   43.64016   43.56063   45.9628   48.98278</span></span>
+<span><span class="co">#&gt;       expr       min         lq       mean     median         uq        max</span></span>
+<span><span class="co">#&gt;       xml2 2434.9396 2445.91519 2487.77650 2480.54668 2515.47825 2587.96301</span></span>
+<span><span class="co">#&gt;  xmlwriter   41.1606   41.48093   42.63884   42.20776   43.11388   46.96423</span></span>
 <span><span class="co">#&gt;  neval</span></span>
 <span><span class="co">#&gt;     10</span></span>
 <span><span class="co">#&gt;     10</span></span></code></pre></div>
-<p><code>xmlwriter</code> is about 56.4 times faster than <code>xml2</code> for creating an xml document from an R list. Note that <code>xmlwriter</code> includes a round trip, since <code>xmlwriter</code> first generates a <code>character</code> vector which is then read using <code><a href="http://xml2.r-lib.org/reference/read_xml.html" class="external-link">xml2::read_xml()</a></code>.</p>
+<p><code>xmlwriter</code> is about 58.3 times faster than <code>xml2</code> for creating an xml document from an R list. Note that <code>xmlwriter</code> includes a round trip, since <code>xmlwriter</code> first generates a <code>character</code> vector which is then read using <code><a href="http://xml2.r-lib.org/reference/read_xml.html" class="external-link">xml2::read_xml()</a></code>.</p>
 <div class="section level3">
 <h3 id="using-an-xmlbuilder-object">Using an <code>xmlbuilder</code> object<a class="anchor" aria-label="anchor" href="#using-an-xmlbuilder-object"></a>
 </h3>
@@ -389,7 +402,7 @@ forces the author to manipulate the XML document tree, obscuring the XML structu
 <li>
 <code>fragment</code> to add a fragment</li>
 </ul>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://edwindj.github.io/xmlwriter/">xmlwriter</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">b</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/xmlbuilder.html">xmlbuilder</a></span><span class="op">(</span>allow_fragments <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
