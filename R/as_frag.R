@@ -6,6 +6,7 @@
 #' list turn into tags, and values into text nodes.
 #' @param x named list that will be transformed into a fragment
 #' @param ... optional attributes to be set on the parent of the fragment
+#' @param .attr a list of attributes to add to the parent of the fragment, overrides the `...` argument
 #' @return [xml_fragment()] object as if specified with [frag()].
 #' @export
 #' @family xml_fragment

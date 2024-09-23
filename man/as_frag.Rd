@@ -10,6 +10,8 @@ as_frag(x, ..., .attr = list(...))
 \item{x}{named list that will be transformed into a fragment}
 
 \item{...}{optional attributes to be set on the parent of the fragment}
+
+\item{.attr}{a list of attributes to add to the parent of the fragment, overrides the \code{...} argument}
 }
 \value{
 \code{\link[=xml_fragment]{xml_fragment()}} object as if specified with \code{\link[=frag]{frag()}}.

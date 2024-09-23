@@ -28,9 +28,6 @@ status](https://www.r-pkg.org/badges/version/xmlwriter)](https://CRAN.R-project.
 
 <!-- badges: end -->
 
-**NOTE the api is still in flux, and might change before `xmlwriter` is
-put on CRAN**
-
 `xmlwriter` is an R package that provides a fast and simple interface for
 creating XML documents and fragments from R. It has a simple elegant
 syntax for creating `xml_fragment`s. 
@@ -70,9 +67,6 @@ It has two different ways to create XML documents:
     etc.
 
 ## Installation
-
-`xmlwriter` is not yet available on CRAN, feedback is welcome before
-submitting to CRAN.
 
 You can install the development version of `xmlwriter` from
 [GitHub](https://github.com/) with:
@@ -318,7 +312,7 @@ cat("\n```\n")
 ```
 
 
-# Performance of xml generation:  {#performance}
+# Performance of xml generation:{#performance}
 
 `xmlwriter` is optimized for generating xml documents and fragments from
 a R `list` structure that is identical to the `xml2::as_list` output.
