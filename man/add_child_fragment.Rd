@@ -21,6 +21,8 @@ is added as a text node. This functionality is equivalent with the \code{/} oper
 }
 \seealso{
 Other xml_fragment: 
+\code{\link{as.character.xml_fragment}()},
+\code{\link{as_frag}()},
 \code{\link{as_xml_nodeset}()},
 \code{\link{data_frag}()},
 \code{\link{frag}()},

@@ -79,12 +79,13 @@ output of `xml2::as_list`, and can be converted to a `character` or an
 `xml2::xml_document` object but is much faster (see performance).
 
 `tag` is a function that creates a simple `xml_fragment` element with a
-given tag name, text, and attributes.
+given tag name, text, and attributes. It allows for creating elements
+with a tag name conditional on the presence of a value.
 
 ``` r
 library(xmlwriter)
 
-# a tag is a simple xml_fragment, with text and named attributes
+# tag creates a simple xml_fragment, with text and named attributes
 tag("person", "John Doe", id = 1, state="CA")
 #> {xml_fragment}
 #> <person id="1" state="CA">John Doe</person>
@@ -95,8 +96,8 @@ attributes, thus creating a more complex `xml_fragment`.
 
 An argument to `frag` is either:
 
-- a named element in which case the name is used as the tag name. The
-  element can be a value or a nested `frag`.
+- a named element in which case the name is used as the tag name for
+  that element. The element can be a value or a nested `frag`.
 - an unnamed element in which case the element is added as a text node.
 - a `.attr` argument that is used to add attributes to the parent
   element.
@@ -192,28 +193,23 @@ Or you can use it within an `xml_fragment`:
 
 ``` r
 # but you can also use it within an xml_fragment
-# xml_doc is a xml_fragment that contains a single root element
-doc <- xml_doc("homeless", year = "1900") / 
-  frag(
-    data = data_frag(data, row_tag = "person")
-  )
+doc <- xml_fragment(
+  homeless = data_frag(data, row_tags = "person")
+)
 
 doc
 ```
 
 ``` xml
-<?xml version='1.0' encoding='UTF-8'?>
- <homeless year="1900">
-  <data>
-    <person>
-      <name>John Doe</name>
-      <age>30</age>
-    </person>
-    <person>
-      <name>Jane Doe</name>
-      <age>25</age>
-    </person>
-  </data>
+<homeless>
+  <person>
+    <name>John Doe</name>
+    <age>30</age>
+  </person>
+  <person>
+    <name>Jane Doe</name>
+    <age>25</age>
+  </person>
 </homeless>
 ```
 
@@ -295,14 +291,14 @@ Using the `tag`, `frag`, `+` and `/` functions, one can create complex
 XML documents in a very flexible manner.
 
 ``` r
-# needlessly complex, but shows flexible construction of XML
+# overly complex, but shows flexible construction of XML
 fragment <- 
   tag("person", id = "1") / # adds child nodes to person
     ( frag(
         name = "John Doe",
         age = 30
       ) +  # add an extra child node to person, with subnodes
-      tag("address") / frag(
+      tag("address") |> add_child_fragment(
           street = "123 Main St",
           city = "Anytown",
           state = "CA",
@@ -311,6 +307,27 @@ fragment <-
     )
 
 fragment
+#> {xml_fragment}
+#> <person id="1">
+#>   <name>John Doe</name>
+#>   <age>30</age>
+#>   <address>
+#>     <street>...
+```
+
+A cleaner version of the above:
+
+``` r
+tag("person", id = 1) / frag(
+    name = "John Doe",
+    age = 30,
+    address = frag(
+      street = "123 Main St",
+      city = "Anytown",
+      state = "CA",
+      zip = 12345
+    )
+)
 #> {xml_fragment}
 #> <person id="1">
 #>   <name>John Doe</name>
@@ -368,7 +385,7 @@ results in:
 </person>
 ```
 
-# Generate xml performance:
+# Performance of xml generation:
 
 `xmlwriter` is optimized for generating xml documents and fragments from
 a R `list` structure that is identical to the `xml2::as_list` output.
@@ -398,15 +415,15 @@ doc_fragment <- structure(doc_list, class = "xml_fragment")
 #> xml2::as_xml_document(doc_fragment), : less accurate nanosecond times to avoid
 #> potential integer overflows
 #> Unit: milliseconds
-#>       expr       min         lq       mean     median        uq        max
-#>       xml2 2426.1299 2428.66177 2463.10193 2464.26582 2483.2119 2519.16919
-#>  xmlwriter   39.6625   41.14112   43.64016   43.56063   45.9628   48.98278
+#>       expr       min         lq       mean     median         uq        max
+#>       xml2 2434.9396 2445.91519 2487.77650 2480.54668 2515.47825 2587.96301
+#>  xmlwriter   41.1606   41.48093   42.63884   42.20776   43.11388   46.96423
 #>  neval
 #>     10
 #>     10
 ```
 
-`xmlwriter` is about 56.4 times faster than `xml2` for creating an xml
+`xmlwriter` is about 58.3 times faster than `xml2` for creating an xml
 document from an R list. Note that `xmlwriter` includes a round trip,
 since `xmlwriter` first generates a `character` vector which is then
 read using `xml2::read_xml()`.

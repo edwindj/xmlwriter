@@ -17,8 +17,15 @@ Using the \code{xml2} package, this function transforms an \code{xml_fragment} i
 \seealso{
 Other xml_fragment: 
 \code{\link{add_child_fragment}()},
+\code{\link{as.character.xml_fragment}()},
+\code{\link{as_frag}()},
 \code{\link{data_frag}()},
 \code{\link{frag}()},
 \code{\link{xml_fragment}()}
+
+Other xml2: 
+\code{\link{list_as_xml_document}()},
+\code{\link{list_as_xml_string}()}
 }
+\concept{xml2}
 \concept{xml_fragment}

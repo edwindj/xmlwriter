@@ -95,12 +95,13 @@ output of `xml2::as_list`, and can be converted to a `character` or an
 `xml2::xml_document` object but is much faster (see performance).
 
 `tag` is a function that creates a simple `xml_fragment` element with a
-given tag name, text, and attributes.
+given tag name, text, and attributes. It allows for creating elements with
+a tag name conditional on the presence of a value.
 
 ```{r}
 library(xmlwriter)
 
-# a tag is a simple xml_fragment, with text and named attributes
+# tag creates a simple xml_fragment, with text and named attributes
 tag("person", "John Doe", id = 1, state="CA")
 ```
 
@@ -109,8 +110,8 @@ attributes, thus creating a more complex `xml_fragment`.
 
 An argument to `frag` is either:
 
--   a named element in which case the name is used as the tag name. The
-    element can be a value or a nested `frag`.
+-   a named element in which case the name is used as the tag name for that 
+  element. The element can be a value or a nested `frag`.
 -   an unnamed element in which case the element is added as a text
     node.
 -   a `.attr` argument that is used to add attributes to the parent
@@ -184,11 +185,9 @@ Or you can use it within an `xml_fragment`:
 
 ```{r, results='hide'}
 # but you can also use it within an xml_fragment
-# xml_doc is a xml_fragment that contains a single root element
-doc <- xml_doc("homeless", year = "1900") / 
-  frag(
-    data = data_frag(data, row_tag = "person")
-  )
+doc <- xml_fragment(
+  homeless = data_frag(data, row_tags = "person")
+)
 
 doc
 ```
@@ -251,14 +250,14 @@ Using the `tag`, `frag`, `+` and `/` functions, one can create complex
 XML documents in a very flexible manner.
 
 ```{r}
-# needlessly complex, but shows flexible construction of XML
+# overly complex, but shows flexible construction of XML
 fragment <- 
   tag("person", id = "1") / # adds child nodes to person
     ( frag(
         name = "John Doe",
         age = 30
       ) +  # add an extra child node to person, with subnodes
-      tag("address") / frag(
+      tag("address") |> add_child_fragment(
           street = "123 Main St",
           city = "Anytown",
           state = "CA",
@@ -268,6 +267,20 @@ fragment <-
 
 fragment
 ```
+A cleaner version of the above:
+```{r}
+tag("person", id = 1) / frag(
+    name = "John Doe",
+    age = 30,
+    address = frag(
+      street = "123 Main St",
+      city = "Anytown",
+      state = "CA",
+      zip = 12345
+    )
+)
+```
+
 
 #### `xml2` compatibility
 
@@ -305,7 +318,7 @@ cat("\n```\n")
 ```
 
 
-# Generate xml performance:  {#performance}
+# Performance of xml generation:  {#performance}
 
 `xmlwriter` is optimized for generating xml documents and fragments from
 a R `list` structure that is identical to the `xml2::as_list` output.

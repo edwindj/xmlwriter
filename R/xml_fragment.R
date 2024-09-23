@@ -75,6 +75,7 @@ as_list.xml_fragment <- function(x, ...){
 #' @param ... reserved for future use
 #' @export
 #' @family xml_fragment
+#' @family xml2
 as_xml_nodeset <- function(x, ...){
   if (!requireNamespace("xml2", quietly = TRUE)) {
     stop("xml2 is required to convert an xml_fragment to xml_nodeset")
@@ -94,6 +95,7 @@ as_xml_nodeset <- function(x, ...){
 #' @inheritParams base::as.character.default
 #' @rdname as.character.xml_fragment
 #' @export
+#' @family xml_fragment
 as.character.xml_fragment <- function(x, ...){
   x |>
     list_as_xml_string()

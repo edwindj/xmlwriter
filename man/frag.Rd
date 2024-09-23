@@ -91,6 +91,8 @@ if (require("xml2")){
 \seealso{
 Other xml_fragment: 
 \code{\link{add_child_fragment}()},
+\code{\link{as.character.xml_fragment}()},
+\code{\link{as_frag}()},
 \code{\link{as_xml_nodeset}()},
 \code{\link{data_frag}()},
 \code{\link{xml_fragment}()}

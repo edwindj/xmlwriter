@@ -63,6 +63,7 @@ list_as_xml_string(data)
 }
 \seealso{
 Other xml2: 
+\code{\link{as_xml_nodeset}()},
 \code{\link{list_as_xml_string}()}
 }
 \concept{xml2}

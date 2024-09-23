@@ -21,3 +21,13 @@ To suppress the prolog string either remove set \code{use_prolog = FALSE}.}
 This function turns an \code{xml_fragment} into a character string, using
 a performant c++ implementation.
 }
+\seealso{
+Other xml_fragment: 
+\code{\link{add_child_fragment}()},
+\code{\link{as_frag}()},
+\code{\link{as_xml_nodeset}()},
+\code{\link{data_frag}()},
+\code{\link{frag}()},
+\code{\link{xml_fragment}()}
+}
+\concept{xml_fragment}
