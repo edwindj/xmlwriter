@@ -1,6 +1,6 @@
 Package: xmlwriter
 Title: Fast and Elegant XML Generation
-Version: 0.1.1
+Version: 0.1.1.9000
 Authors@R: 
     person("Edwin", "de Jonge", , "edwindjonge@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-6580-4718"))
@@ -18,3 +18,4 @@ Imports:
 Suggests: 
     xml2, tinytest
 URL: https://edwindj.github.io/xmlwriter/
+BugReports: https://github.com/edwindj/xmlwriter/issues
