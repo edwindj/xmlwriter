@@ -5,6 +5,7 @@
 #' @inheritParams xml_fragment
 #' @export
 #' @param .attr a list of attributes to add to the parent of the fragment
+#' @return an [xml_fragment()] object
 #' @example example/xml_fragment.R
 #' @family xml_fragment
 frag <- function(..., .attr = NULL){

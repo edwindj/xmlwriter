@@ -11,6 +11,9 @@ as_xml_nodeset(x, ...)
 
 \item{...}{reserved for future use}
 }
+\value{
+an \code{xml2::xml_nodeset} object
+}
 \description{
 Using the \code{xml2} package, this function transforms an \code{xml_fragment} into an \code{xml_nodeset}
 }

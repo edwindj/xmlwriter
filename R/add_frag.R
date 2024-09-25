@@ -8,6 +8,7 @@
 #' @param x an [xml_fragment()] object
 #' @inheritParams xml_fragment
 #' @param .frag an xml_fragment to add as a child, overrides the ... argument
+#' @return the original [xml_fragment()] with the child added.
 #' @family xml_fragment
 add_child_fragment <- function(x, ..., .frag = frag(...)){
   stopifnot(inherits(x, "xml_fragment"))

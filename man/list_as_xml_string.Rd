@@ -11,6 +11,9 @@ list_as_xml_string(x, ...)
 
 \item{...}{reserved for future use}
 }
+\value{
+a character string with the xml representation of the list
+}
 \description{
 \code{list_to_xml_string} is fast and efficient way to convert a specific list to an xml string.
 The preferred interface is to use \code{\link[=xml_fragment]{xml_fragment()}} and \code{\link[=xml_doc]{xml_doc()}} to create xml fragments.

@@ -73,6 +73,7 @@ as_list.xml_fragment <- function(x, ...){
 #' Using the `xml2` package, this function transforms an `xml_fragment` into an `xml_nodeset`
 #' @param x an object created with [xml_fragment()]
 #' @param ... reserved for future use
+#' @return an `xml2::xml_nodeset` object
 #' @export
 #' @family xml_fragment
 #' @family xml2
@@ -94,6 +95,7 @@ as_xml_nodeset <- function(x, ...){
 #' a performant c++ implementation.
 #' @inheritParams base::as.character.default
 #' @rdname as.character.xml_fragment
+#' @return a `character` with the xml representation of the fragment.
 #' @export
 #' @family xml_fragment
 as.character.xml_fragment <- function(x, ...){

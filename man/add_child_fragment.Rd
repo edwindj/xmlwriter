@@ -13,6 +13,9 @@ add_child_fragment(x, ..., .frag = frag(...))
 
 \item{.frag}{an xml_fragment to add as a child, overrides the ... argument}
 }
+\value{
+the original \code{\link[=xml_fragment]{xml_fragment()}} with the child added.
+}
 \description{
 Add a child fragment to an existing xml_fragment.
 The child fragment can be a named \code{frag} element in which case the name

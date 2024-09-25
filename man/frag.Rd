@@ -11,6 +11,9 @@ frag(..., .attr = NULL)
 
 \item{.attr}{a list of attributes to add to the parent of the fragment}
 }
+\value{
+an \code{\link[=xml_fragment]{xml_fragment()}} object
+}
 \description{
 Create a \code{frag} xml_fragment, that allows for multiple elements and nested
 \code{frag}s.

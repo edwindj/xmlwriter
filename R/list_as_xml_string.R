@@ -16,6 +16,7 @@
 #' @family xml2
 #' @param x a list as returned by [xml2::as_list()]
 #' @param ... reserved for future use
+#' @return a character string with the xml representation of the list
 #' @example example/list_to_xml_string.R
 #' @export
 list_as_xml_string <- function(x, ...){
