@@ -41,10 +41,10 @@ that mimics how XML is written in a text editor.
 
 It has two different ways to create XML documents:
 
-- a light weight R syntax using `xml_fragment`, `tag`, `frag` and
-  `data_frag`, creating an `xml_fragment`, that can be easily translated
-  into a `character` or `xml2::xml_document` object, or be used as a
-  flexible building block for generating a larger XML document.
+- a light weight R syntax using `tag`, `frag`, `+`, `/` and `data_frag`,
+  creating an `xml_fragment`, that can be easily translated into a
+  `character` or `xml2::xml_document` object, or be used as a flexible
+  building block for generating a larger XML document.
 - an `xmlbuilder` object that allows you to create XML documents in a
   feed-forward manner, with `start` and `end` methods, giving you more
   control on the XML document structure, including XML comment, prolog
@@ -52,7 +52,8 @@ It has two different ways to create XML documents:
 
 ## Installation
 
-You can install the development version of `xmlwriter` from
+You can install the development version of `xmlwriter` from:w
+
 [GitHub](https://github.com/) with:
 
 ``` r
@@ -62,19 +63,22 @@ devtools::install_github("edwindj/xmlwriter")
 
 ## Example
 
-### Using `xml_fragment`, `tag`, `frag` and `.attr`:
+### Using `tag`, `frag`, `+`, `/` and `data_frag`:
 
-`xml_fragment`s allow to write XML using readable R syntax.
+`xml_fragment`s allow to write XML using readable R syntax. `tag` and
+`frag` are function that create XML elements that can be combined using
+`+` and `/` operators resulting in an `xml_fragment`.
 
-They can be used to create an `character` with valid XML, a
+`xml_fragment`s can be used to create an `character` with valid XML, a
 `xml2::xml_document` or as a building block for more complex XML
 documents. An `xml_fragment` is a list object that is identical to the
 output of `xml2::as_list`, and can be converted to a `character` or an
-`xml2::xml_document` object but is much faster (see performance).
+`xml2::xml_document` object but `xmlwriter` provides a much faster
+implementation (see performance).
 
 `tag` is a function that creates a simple `xml_fragment` element with a
 given tag name, text, and attributes. It allows for creating elements
-with a tag name conditional on the presence of a value.
+with a tag name using a character, which gives flexibility.
 
 ``` r
 library(xmlwriter)
@@ -409,15 +413,15 @@ doc_fragment <- structure(doc_list, class = "xml_fragment")
 #> xml2::as_xml_document(doc_fragment), : less accurate nanosecond times to avoid
 #> potential integer overflows
 #> Unit: milliseconds
-#>       expr        min         lq       mean     median         uq        max
-#>       xml2 2408.34033 2432.87612 2464.63448 2440.44683 2471.79890 2665.45711
-#>  xmlwriter   40.01083   41.64489   43.24207   41.93908   45.62107   49.82726
+#>       expr        min        lq       mean     median         uq        max
+#>       xml2 2399.64796 2447.8843 2473.02250 2459.12949 2519.27686 2559.83217
+#>  xmlwriter   39.46873   40.6877   42.48128   41.46744   44.61841   46.35956
 #>  neval
 #>     10
 #>     10
 ```
 
-`xmlwriter` is about 57 times faster than `xml2` for creating an xml
+`xmlwriter` is about 58.2 times faster than `xml2` for creating an xml
 document from an R list. Note that `xmlwriter` includes a round trip,
 since `xmlwriter` first generates a `character` vector which is then
 read using `xml2::read_xml()`.

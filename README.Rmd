@@ -56,7 +56,7 @@ that mimics how XML is written in a text editor.
 
 It has two different ways to create XML documents:
 
--   a light weight R syntax using `xml_fragment`, `tag`, `frag` and
+-   a light weight R syntax using `tag`, `frag`, `+`, `/` and
     `data_frag`, creating an `xml_fragment`, that can be easily
     translated into a `character` or `xml2::xml_document` object, or be
     used as a flexible building block for generating a larger XML
@@ -68,7 +68,8 @@ It has two different ways to create XML documents:
 
 ## Installation
 
-You can install the development version of `xmlwriter` from
+You can install the development version of `xmlwriter` from:w
+
 [GitHub](https://github.com/) with:
 
 ``` r
@@ -78,19 +79,22 @@ devtools::install_github("edwindj/xmlwriter")
 
 ## Example
 
-### Using `xml_fragment`, `tag`, `frag` and `.attr`:
+### Using `tag`, `frag`, `+`, `/` and `data_frag`:
 
 `xml_fragment`s allow to write XML using readable R syntax.
+`tag` and `frag` are function that create XML elements that can be combined
+using `+` and `/` operators resulting in an `xml_fragment`.
 
-They can be used to create an `character` with valid XML, a
+`xml_fragment`s can be used to create an `character` with valid XML, a
 `xml2::xml_document` or as a building block for more complex XML
 documents. An `xml_fragment` is a list object that is identical to the
 output of `xml2::as_list`, and can be converted to a `character` or an
-`xml2::xml_document` object but is much faster (see performance).
+`xml2::xml_document` object but `xmlwriter` provides a much faster 
+implementation (see performance).
 
 `tag` is a function that creates a simple `xml_fragment` element with a
 given tag name, text, and attributes. It allows for creating elements with
-a tag name conditional on the presence of a value.
+a tag name using a character, which gives flexibility.
 
 ```{r}
 library(xmlwriter)
