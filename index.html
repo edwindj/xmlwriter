@@ -377,12 +377,12 @@ forces the author to manipulate the XML document tree, obscuring the XML structu
 <span><span class="co">#&gt; potential integer overflows</span></span>
 <span><span class="co">#&gt; Unit: milliseconds</span></span>
 <span><span class="co">#&gt;       expr        min         lq       mean     median         uq        max</span></span>
-<span><span class="co">#&gt;       xml2 2391.36534 2426.89730 2461.61230 2462.27425 2489.94320 2564.70383</span></span>
-<span><span class="co">#&gt;  xmlwriter   78.94948   80.17603   82.59374   83.90369   84.07103   85.11452</span></span>
+<span><span class="co">#&gt;       xml2 2411.94661 2485.98527 2502.36746 2502.66009 2543.34082 2577.72892</span></span>
+<span><span class="co">#&gt;  xmlwriter   40.14056   42.52118   45.55624   46.70408   46.99941   50.51356</span></span>
 <span><span class="co">#&gt;  neval</span></span>
 <span><span class="co">#&gt;     10</span></span>
 <span><span class="co">#&gt;     10</span></span></code></pre></div>
-<p><code>xmlwriter</code> is about 29.8 times faster than <code>xml2</code> for creating an xml document from an R list. Note that <code>xmlwriter</code> includes a round trip, since <code>xmlwriter</code> first generates a <code>character</code> vector which is then read using <code><a href="http://xml2.r-lib.org/reference/read_xml.html" class="external-link">xml2::read_xml()</a></code>.</p>
+<p><code>xmlwriter</code> is about 54.9 times faster than <code>xml2</code> for creating an xml document from an R list. Note that <code>xmlwriter</code> includes a round trip, since <code>xmlwriter</code> first generates a <code>character</code> vector which is then read using <code><a href="http://xml2.r-lib.org/reference/read_xml.html" class="external-link">xml2::read_xml()</a></code>.</p>
 <div class="section level3">
 <h3 id="using-an-xmlbuilder-object">Using an <code>xmlbuilder</code> object<a class="anchor" aria-label="anchor" href="#using-an-xmlbuilder-object"></a>
 </h3>
