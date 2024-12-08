@@ -20,7 +20,7 @@ the original \code{\link[=xml_fragment]{xml_fragment()}} with the child added.
 Add a child fragment to an existing xml_fragment.
 The child fragment can be a named \code{frag} element in which case the name
 is used as the tag name, an unnamed element in which case the element
-is added as a text node. This functionality is equivalent with the \code{/} operator.
+is added as a text node. This functionality is equivalent with the \code{/} and \code{>} operator.
 }
 \seealso{
 Other xml_fragment: 

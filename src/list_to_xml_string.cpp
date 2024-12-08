@@ -50,6 +50,25 @@ void write_text_node(std::stringstream& ss, List node){
   write_encode(ss, as<std::string>(node(0)));
 }
 
+void write_childnode(std::stringstream& ss, std::string tag, List xml, string indent);
+
+// this a fix for "wrong" list structures that might be created by the user
+void write_fix_extra_list(std::stringstream& ss, List xml, string indent = ""){
+  //Rcout << "tag: <" << tag << ">" << endl;
+
+  if (indent != ""){
+    ss << "\n" << indent;
+  }
+
+  for (uint i = 0; i < xml.size(); i++){
+    List child = xml[i];
+    if (child.size() == 0){
+      continue;
+    }
+    write_childnode(ss, "fix", child, indent);
+  }
+}
+
 void write_childnode(std::stringstream& ss, std::string tag, List xml, string indent = ""){
   //Rcout << "tag: <" << tag << ">" << endl;
 

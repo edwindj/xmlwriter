@@ -63,7 +63,7 @@ if (require("xml2")){
 
 # you can create a function to generate an xml fragment:
 person_frag <- function(name, age, id){
-  tag("person", id = id) / frag(
+  tag("person", id = id) > frag(
     name = name,
     age  = age,
     address = frag(
@@ -74,7 +74,7 @@ person_frag <- function(name, age, id){
 }
 
 # xml_doc is a xml_fragment with the restriction of having one root element
-doc2 <- xml_doc("study") / (
+doc2 <- xml_doc("study") > (
   person_frag("John Doe", 30, "p1") +
   person_frag("Jane Doe", 25, "p2")
 )

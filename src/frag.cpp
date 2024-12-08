@@ -8,14 +8,14 @@ List rcpp_frag(List elements, List attr){
 
   if (elements.size() > 0){
     if (!elements.hasAttribute("names")){
-      for (int i = 0; i < elements.size(); i++){
+      for (uint i = 0; i < elements.size(); i++){
         if (elements[i] != R_NilValue){
           out.push_back(as<CharacterVector>(elements[i]));
         }
       }
     } else {
       auto nms = as<std::vector<std::string>>(elements.names());
-      for (int i = 0; i < elements.size(); i++){
+      for (uint i = 0; i < elements.size(); i++){
         if (is<List>(elements[i])){
           List l = elements[i];
           // remove class attribute (since it is not necessary for xml_fragment)

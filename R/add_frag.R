@@ -3,7 +3,7 @@
 #' Add a child fragment to an existing xml_fragment.
 #' The child fragment can be a named `frag` element in which case the name
 #' is used as the tag name, an unnamed element in which case the element
-#' is added as a text node. This functionality is equivalent with the `/` operator.
+#' is added as a text node. This functionality is equivalent with the `/` and `>` operator.
 #' @export
 #' @param x an [xml_fragment()] object
 #' @inheritParams xml_fragment

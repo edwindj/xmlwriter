@@ -5,17 +5,17 @@
 \alias{as.character.xml_doc}
 \title{Turn an xml_fragment into a character}
 \usage{
-\method{as.character}{xml_fragment}(x, ...)
+\method{as.character}{xml_fragment}(x, use_prolog = FALSE, ...)
 
 \method{as.character}{xml_doc}(x, use_prolog = TRUE, ...)
 }
 \arguments{
 \item{x}{object to be coerced or tested.}
 
-\item{...}{further arguments passed to or from other methods.}
-
 \item{use_prolog}{if \code{TRUE} the xml prolog with be included.
 To suppress the prolog string either remove set \code{use_prolog = FALSE}.}
+
+\item{...}{further arguments passed to or from other methods.}
 }
 \value{
 a \code{character} with the xml representation of the fragment.

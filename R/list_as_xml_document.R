@@ -13,7 +13,7 @@
 #' @return an `xml2::xml_document`
 #' @example example/list_to_xml_string.R
 #' @export
-list_as_xml_document <- function(x, ...){
+list_as_xml_document <- function(x,...){
   if (!requireNamespace("xml2", quietly = TRUE)) {
     stop("xml2 is required to use this function")
   }

@@ -15,10 +15,18 @@
 #'
 #' @family xml2
 #' @param x a list as returned by [xml2::as_list()]
+#' @param use_prolog logical, should the xml declaration be included in the output?
 #' @param ... reserved for future use
 #' @return a character string with the xml representation of the list
 #' @example example/list_to_xml_string.R
 #' @export
-list_as_xml_string <- function(x, ...){
-  rcpp_list_to_xml_string(x)
+list_as_xml_string <- function(x, use_prolog = FALSE, ...){
+  if (use_prolog) {
+    paste(
+      "<?xml version='1.0' encoding='UTF-8'?>\n",
+      rcpp_list_to_xml_string(x)
+    )
+  } else {
+    rcpp_list_to_xml_string(x)
+  }
 }

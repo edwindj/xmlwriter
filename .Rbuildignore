@@ -1,3 +1,5 @@
+^renv$
+^renv\.lock$
 ^xmlwriter\.Rproj$
 ^\.Rproj\.user$
 ^example$

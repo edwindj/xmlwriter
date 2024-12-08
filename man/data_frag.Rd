@@ -41,13 +41,14 @@ persons <- data.frame(
 df <- data_frag(
   persons[1:2],
   row_tag = "person",
-  .attr = persons[3]
+  .attr = persons[,3]
 )
 
 print(df)
 
 # turning it into a document
-doc <- xml_doc("study", id = "1") / frag(
+doc <-
+  xml_doc("study", id = "1") / frag(
   source = "homeless db",
   data = df
 )

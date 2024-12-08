@@ -98,9 +98,9 @@ as_xml_nodeset <- function(x, ...){
 #' @return a `character` with the xml representation of the fragment.
 #' @export
 #' @family xml_fragment
-as.character.xml_fragment <- function(x, ...){
+as.character.xml_fragment <- function(x, use_prolog = FALSE, ...){
   x |>
-    list_as_xml_string()
+    list_as_xml_string(use_prolog = use_prolog)
 }
 
 #' @export
@@ -108,14 +108,7 @@ as.character.xml_fragment <- function(x, ...){
 #' @param use_prolog if `TRUE` the xml prolog with be included.
 #' To suppress the prolog string either remove set `use_prolog = FALSE`.
 as.character.xml_doc <- function(x, use_prolog=TRUE,...){
-  if (use_prolog) {
-    paste(
-      "<?xml version='1.0' encoding='UTF-8'?>\n",
-      list_as_xml_string(x)
-    )
-  } else {
-    list_as_xml_string(x)
-  }
+  list_as_xml_string(x, use_prolog = use_prolog)
 }
 
 shorten_character <- function(x, max_characters = 120){
@@ -127,7 +120,7 @@ shorten_character <- function(x, max_characters = 120){
 }
 
 #' @export
-print.xml_fragment <- function(x, ..., max_characters = 80){
+print.xml_fragment <- function(x,..., max_characters = 80){
   s <- as.character(x)
 
   if (length(s) > 1){

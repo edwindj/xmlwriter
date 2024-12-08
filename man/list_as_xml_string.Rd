@@ -4,10 +4,12 @@
 \alias{list_as_xml_string}
 \title{Convert a list to an xml string}
 \usage{
-list_as_xml_string(x, ...)
+list_as_xml_string(x, use_prolog = FALSE, ...)
 }
 \arguments{
 \item{x}{a list as returned by \code{\link[xml2:as_list]{xml2::as_list()}}}
+
+\item{use_prolog}{logical, should the xml declaration be included in the output?}
 
 \item{...}{reserved for future use}
 }
