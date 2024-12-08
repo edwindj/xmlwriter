@@ -414,14 +414,14 @@ doc_fragment <- structure(doc_list, class = "xml_fragment")
 #> potential integer overflows
 #> Unit: milliseconds
 #>       expr        min         lq       mean     median         uq        max
-#>       xml2 2391.36534 2426.89730 2461.61230 2462.27425 2489.94320 2564.70383
-#>  xmlwriter   78.94948   80.17603   82.59374   83.90369   84.07103   85.11452
+#>       xml2 2411.94661 2485.98527 2502.36746 2502.66009 2543.34082 2577.72892
+#>  xmlwriter   40.14056   42.52118   45.55624   46.70408   46.99941   50.51356
 #>  neval
 #>     10
 #>     10
 ```
 
-`xmlwriter` is about 29.8 times faster than `xml2` for creating an xml
+`xmlwriter` is about 54.9 times faster than `xml2` for creating an xml
 document from an R list. Note that `xmlwriter` includes a round trip,
 since `xmlwriter` first generates a `character` vector which is then
 read using `xml2::read_xml()`.
