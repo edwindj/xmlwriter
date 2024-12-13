@@ -127,60 +127,28 @@ frag(
 #> </person>
 ```
 
-The `xml_fragment` function is a restricted version of `frag` that does
-not allow `.attr` on its top level.
-
-``` r
-# xml_fragment is more strict version of a frag
-fragment <- xml_fragment(
-  person = frag(
-    .attr = c(id = 1, state="CA"),
-    name = "John Doe",
-    age = 30,
-    address = frag(
-      street = "123 Main St",
-      city = "Anytown",
-      state = "CA",
-      zip = 12345
-    )
-  )
-)
-```
-
-``` r
-cat(as.character(fragment))
-```
-
-``` xml
-<person id="1" state="CA">
-  <name>John Doe</name>
-  <age>30</age>
-  <address>
-    <street>123 Main St</street>
-    <city>Anytown</city>
-    <state>CA</state>
-    <zip>12345</zip>
-  </address>
-</person>
-```
-
 `data_frag` is function that converts a data.frame to an `xml_fragment`:
 
 ``` r
 data <- data.frame(
+  id = c("p1", "p2"),
   name = c("John Doe", "Jane Doe"),
   age = c(30, 25),
   stringsAsFactors = FALSE
 )
 
 # create an xml_fragment from a data.frame
-data_frag(data, row_tag = "person")
+data_frag(
+  .attr = data[c("id")],
+  data[c("name", "age")],
+  row_tag = "person"
+)
 #> {xml_fragment (2)}
-#> [1]<person>
+#> [1]<person id="p1">
 #>   <name>John Doe</name>
 #>   <age>30</age>
 #> </person>
-#> [2]<person>
+#> [2]<person id="p2">
 #>   <name>Jane Doe</name>
 #>   <age>25</age>
 #> </person>
@@ -192,7 +160,11 @@ Or you can use it within an `xml_fragment`:
 ``` r
 # but you can also use it within an xml_fragment
 doc <- xml_fragment(
-  homeless = data_frag(data, row_tags = "person")
+  homeless = data_frag(
+    .attr = data[c("id")],
+    data[c("name", "age")],
+    row_tag = "person"
+  )
 )
 
 doc
@@ -200,11 +172,11 @@ doc
 
 ``` xml
 <homeless>
-  <person>
+  <person id="p1">
     <name>John Doe</name>
     <age>30</age>
   </person>
-  <person>
+  <person id="p2">
     <name>Jane Doe</name>
     <age>25</age>
   </person>
@@ -413,15 +385,15 @@ doc_fragment <- structure(doc_list, class = "xml_fragment")
 #> xml2::as_xml_document(doc_fragment), : less accurate nanosecond times to avoid
 #> potential integer overflows
 #> Unit: milliseconds
-#>       expr        min         lq       mean     median         uq        max
-#>       xml2 2411.94661 2485.98527 2502.36746 2502.66009 2543.34082 2577.72892
-#>  xmlwriter   40.14056   42.52118   45.55624   46.70408   46.99941   50.51356
+#>       expr        min         lq       mean    median         uq        max
+#>       xml2 2403.61996 2430.22547 2458.59214 2453.5764 2462.63728 2591.06093
+#>  xmlwriter   39.91612   41.27281   43.43863   42.7238   44.96974   49.10336
 #>  neval
 #>     10
 #>     10
 ```
 
-`xmlwriter` is about 54.9 times faster than `xml2` for creating an xml
+`xmlwriter` is about 56.6 times faster than `xml2` for creating an xml
 document from an R list. Note that `xmlwriter` includes a round trip,
 since `xmlwriter` first generates a `character` vector which is then
 read using `xml2::read_xml()`.

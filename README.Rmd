@@ -133,50 +133,22 @@ frag(
 )
 ```
 
-The `xml_fragment` function is a restricted version of `frag` that does
-not allow `.attr` on its top level.
-
-```{r}
-# xml_fragment is more strict version of a frag
-fragment <- xml_fragment(
-  person = frag(
-    .attr = c(id = 1, state="CA"),
-    name = "John Doe",
-    age = 30,
-    address = frag(
-      street = "123 Main St",
-      city = "Anytown",
-      state = "CA",
-      zip = 12345
-    )
-  )
-)
-
-```
-
-```{r, eval=FALSE}
-cat(as.character(fragment))
-```
-
-```{r, results='asis', echo=FALSE}
-cat("```XML\n")
-cat(as.character(fragment))
-cat("\n```\n")
-```
-
 `data_frag` is function that converts a data.frame to an `xml_fragment`:
 
 ```{r data}
 data <- data.frame(
+  id = c("p1", "p2"),
   name = c("John Doe", "Jane Doe"),
   age = c(30, 25),
   stringsAsFactors = FALSE
 )
 
 # create an xml_fragment from a data.frame
-data_frag(data, row_tag = "person")
-
-
+data_frag(
+  .attr = data[c("id")],
+  data[c("name", "age")],
+  row_tag = "person"
+)
 ```
 
 Or you can use it within an `xml_fragment`:
@@ -184,7 +156,11 @@ Or you can use it within an `xml_fragment`:
 ```{r, results='hide'}
 # but you can also use it within an xml_fragment
 doc <- xml_fragment(
-  homeless = data_frag(data, row_tags = "person")
+  homeless = data_frag(
+    .attr = data[c("id")],
+    data[c("name", "age")],
+    row_tag = "person"
+  )
 )
 
 doc
