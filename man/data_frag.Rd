@@ -39,9 +39,9 @@ persons <- data.frame(
 )
 
 df <- data_frag(
-  persons[1:2],
+  persons[c("name", "age")],
   row_tag = "person",
-  .attr = persons[,3]
+  .attr = persons[c("id")]
 )
 
 print(df)
