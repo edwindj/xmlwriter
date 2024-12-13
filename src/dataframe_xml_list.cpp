@@ -13,9 +13,9 @@ List dataframe_xml_list(DataFrame df, std::string row_tag) {
   //   cdf[name] = wrap<CharacterVector>(df[name]);
   // }
 
-  for (uint i = 0; i < df.nrow(); i++) {
+  for (auto i = 0; i < df.nrow(); i++) {
     List row = List::create();
-    for (uint j = 0; j < df.ncol(); j++) {
+    for (auto j = 0; j < df.ncol(); j++) {
       CharacterVector v = df[j];
       List value = List::create(CharacterVector::create(v[i]));
       row.push_back(value, names[j]);

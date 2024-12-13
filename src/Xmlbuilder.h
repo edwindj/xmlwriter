@@ -34,7 +34,7 @@ public:
 
     _ss << "\n";
 
-    for (uint i = 0; i < stack.size(); i++){
+    for (auto i = 0; i < stack.size(); i++){
       _ss << "  ";
     }
   }
@@ -101,7 +101,7 @@ public:
 
   inline void write_encoded(std::string text){
     std::string out;
-    for (uint i = 0; i < text.size(); i++){
+    for (auto i = 0; i < text.size(); i++){
       char c = text[i];
       if (c == '<'){
         _ss << "&lt;";
@@ -134,7 +134,7 @@ public:
       return;
     }
 
-    for (uint i = 0; i < att.length(); i++){
+    for (auto i = 0; i < att.length(); i++){
       auto name = as<std::string>(nms[i]);
       if (name == "names"){
         continue;
@@ -218,7 +218,7 @@ public:
         int i = 0;
         for (auto tag : stack){
           missing_tags += "\n";
-          for (uint j = 0; j < i; j++){
+          for (auto j = 0; j < i; j++){
             missing_tags += " ";
           }
           missing_tags += "<" + tag + ">...";

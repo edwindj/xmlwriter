@@ -60,7 +60,7 @@ void write_fix_extra_list(std::stringstream& ss, List xml, string indent = ""){
     ss << "\n" << indent;
   }
 
-  for (uint i = 0; i < xml.size(); i++){
+  for (auto i = 0; i < xml.size(); i++){
     List child = xml[i];
     if (child.size() == 0){
       continue;

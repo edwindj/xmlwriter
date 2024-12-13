@@ -106,9 +106,9 @@ void xmlbuilder_write_dataframe( List& xb, DataFrame df
   // assume they are valid tagnames...
   auto ncol = df.cols();
   auto tags = as<std::vector<std::string>>(df.names());
-  for (uint i = 0; i < df.nrow(); i++){
+  for (auto i = 0; i < df.nrow(); i++){
     ptr->start_element(row_tag);
-    for (uint j = 0; j < ncol; j++){
+    for (auto j = 0; j < ncol; j++){
       // this is inefficient, but it is a proof of concept
       CharacterVector clmn = df[j];
       List att = List::create();
